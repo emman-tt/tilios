@@ -1,6 +1,7 @@
 import axios from 'axios'
+const API_URL = import.meta.env.VITE_PORT_URL
 export const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: API_URL,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
