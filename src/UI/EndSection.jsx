@@ -6,7 +6,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 gsap.registerPlugin(ScrollTrigger, SplitText)
-export default function Endsection ({ headerText }) {
+export default function Endsection ({ headerText, closeSideBar,sidebarBg }) {
   const EndRef = useRef(null)
   const BiographyRef = useRef(null)
   const footerRef = useRef(null)
@@ -25,11 +25,7 @@ export default function Endsection ({ headerText }) {
           trigger: EndRef.current,
           start: 'top top',
           end: isMobile ? '+=40%' : '+=20%',
-          scrub: 1,
-          pin: !isMobile,
-          pinSpacing: !isMobile,
-          // pin: !isMobile,
-          // pinSpacing: !isMobile,
+          scrub: 1,   
           pin: true,
           pinSpacing: true,
           // markers: true,
@@ -83,7 +79,7 @@ export default function Endsection ({ headerText }) {
           ease: 'circ.inOut',
           duration: 2,
           stagger: {
-            amount: isMobile ? 10 :30,
+            amount: isMobile ? 10 : 30,
             from: 'end'
           }
         },
@@ -114,12 +110,22 @@ export default function Endsection ({ headerText }) {
         },
         0
       )
+      tl.to(
+        sidebarBg.current,
+        {
+         backgroundColor:"black",
+          duration: 0.5,
+          ease: 'power2.out'
+        },
+        0
+      )
     },
     { scope: BiographyRef }
   )
 
   return (
     <section
+      onClick={() => closeSideBar()}
       ref={EndRef}
       className='relative w-full h-screen bg-amber-300 mt-20 md:mt-100 overflow-hidden'
     >

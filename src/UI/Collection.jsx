@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Collectiion } from '../../utils/collection'
 import { useProductContext } from '../context/product'
 
-export default function Collection () {
+export default function Collection ({closeSideBar}) {
   const { state, changeCategory } = useProductContext()
   const [active, isActive] = useState(false)
   const [search, setSearch] = useState('- SEARCH')
@@ -21,7 +21,7 @@ export default function Collection () {
   }
 
   return (
-    <section className='py-8'>
+    <section   onClick={() => closeSideBar()} className='py-8'>
       <nav className='flex flex-col lg:flex-row justify-between w-full px-6 md:px-12 items-start lg:items-center gap-8 lg:gap-0'>
         <h2 className='w-full lg:w-[15%] font-mono font-semibold text-sm md:text-base'>
           A WIDE RANGE OF OPTIONS FOR YOUR HOME

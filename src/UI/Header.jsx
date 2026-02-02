@@ -1,8 +1,8 @@
 import { Volleyball, Menu, X } from 'lucide-react'
 import { useState } from 'react'
 
-export default function Header ({ headerText }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+export default function Header ({ headerText,isMenuOpen,setIsMenuOpen, sidebarBg }) {
+
 
   return (
     <section
@@ -39,7 +39,7 @@ export default function Header ({ headerText }) {
             Cart(0)
           </li>
           <li className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'>
-          Sign up
+            Sign up
           </li>
         </ul>
 
@@ -54,12 +54,12 @@ export default function Header ({ headerText }) {
         </div>
       </nav>
 
-      <div
+      <div ref={sidebarBg}
         className={`fixed inset-0 bg-[#fefaf6] z-40 transform ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          isMenuOpen ? 'translate-x-40' : 'translate-x-full'
         } transition-transform duration-300 ease-in-out md:hidden flex flex-col p-10 pt-24 gap-8`}
       >
-        <ul className='flex flex-col gap-6 text-2xl font-bold'>
+        <ul className='flex flex-col gap-6 text-xl font-mono font-semibold'>
           <li
             onClick={() => setIsMenuOpen(false)}
             className='cursor-pointer hover:italic'

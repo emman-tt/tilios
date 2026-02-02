@@ -4,7 +4,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import SplitText from 'gsap/SplitText'
 import bg7 from '../assets/img/bg7.jpg'
-export default function Hero ({ containerRef, headerText }) {
+export default function Hero ({
+  containerRef,
+  headerText,
+  closeSideBar,
+  sidebarBg
+}) {
   gsap.registerPlugin(ScrollTrigger, SplitText)
 
   const nextPanel = useRef(null)
@@ -155,12 +160,23 @@ export default function Hero ({ containerRef, headerText }) {
         duration: 0.3,
         color: 'white'
       })
+      gsap.to(sidebarBg.current, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: window.innerWidth < 768 ? 500 : 1000,
+          end: 10000,
+          toggleActions: 'play reverse play reverse'
+        },
+        duration: 0.3,
+        backgroundColor: 'black'
+      })
     },
     { scope: containerRef }
   )
 
   return (
     <main
+      onClick={() => closeSideBar()}
       ref={containerRef}
       className='relative w-full min-h-300  overflow-hidden'
     >
@@ -171,10 +187,10 @@ export default function Hero ({ containerRef, headerText }) {
         <div className='text-lg md:text-2xl font-semibold md:pr-10 lg:pr-0 lg:w-[30%] w-full md:w-auto'>
           INSPIRED TILING SOLUTIONS
         </div>
-        <div className='font-sans w-full md:w-[80%] lg:w-[50%] font-semibold text-[3.5em] md:text-[4em]  leading-tight'>
+        <div className='font-sans w-full md:w-[80%] lg:w-[50%] font-semibold lg:pr-10 lg:text-8xl text-[3.5em] md:text-[4em]  leading-tight'>
           Your home, your reflection.
         </div>
-        <div className='w-full md:w-[45%] lg:w-[30%] xl:w-[20%] text-base md:text-sm font-semibold'>
+        <div className='w-full md:w-[45%] lg:w-[30%] xl:w-[20%] text-base lg:text-lg md:text-sm font-semibold'>
           The goal was to create a minimalistic yet sophisticated website with
           the ability to view tiles in the interior for users or download them
           and view them in your project for interior designers.

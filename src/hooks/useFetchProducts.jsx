@@ -8,12 +8,6 @@ export function useFetchProducts () {
   console.log(category)
 
   useEffect(() => {
-    // let mounted = true
-
-    // if (state.products.length > 0) {
-    //   return
-    // }
-
     const fetchData = async () => {
       try {
         const response = await api.get('/products', {
@@ -22,7 +16,7 @@ export function useFetchProducts () {
             limit: 12
           }
         })
-        // if (!mounted) return
+
         const products = response.data.products
         fetchProducts(products)
       } catch (error) {

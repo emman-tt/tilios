@@ -5,7 +5,13 @@ import SplitText from 'gsap/SplitText'
 import { useRef } from 'react'
 import { Volleyball } from 'lucide-react'
 
-export default function Information ({ containerRef, headerText, tilioRef }) {
+export default function Information ({
+  containerRef,
+  headerText,
+  tilioRef,
+  closeSideBar,
+  sidebarBg
+}) {
   const infoBox = useRef(null)
   const firstRef = useRef(null)
   const secondRef = useRef(null)
@@ -48,6 +54,17 @@ export default function Information ({ containerRef, headerText, tilioRef }) {
         duration: 0.3,
         color: 'black'
       })
+      gsap.to(sidebarBg.current, {
+        scrollTrigger: {
+          trigger: infoBox.current,
+          start: 'top top',
+
+          toggleActions: 'play reverse play reverse'
+        },
+
+        duration: 0.3,
+        backgroundColor: 'white'
+      })
       gsap.from(secondText.lines, {
         y: 200,
         opacity: 0,
@@ -68,12 +85,13 @@ export default function Information ({ containerRef, headerText, tilioRef }) {
 
   return (
     <section
+      onClick={() => closeSideBar()}
       ref={infoBox}
       className='min-h-screen pt-20 md:pt-40 lg:pt-100 flex flex-col justify-center items-center gap-20 md:gap-40 lg:gap-60 pb-20 md:pb-40 lg:pb-100 px-6 md:px-12'
     >
       <h2
         ref={firstRef}
-        className='first-text text-4xl max-sm:pt-40 md:text-6xl lg:text-7xl max-sm:text-3xl w-full md:w-[70%] lg:w-[40%] font-bold font-sans text-center leading-tight'
+        className='first-text text-4xl max-sm:pt-40 md:text-6xl lg:text-7xl max-sm:text-3xl w-full md:w-[70%] lg:w-[40%] font-bold font-sans text-center leading-tight max-sm:font-semibold max-sm:px-0'
       >
         Whole Catalog Of Tiles
       </h2>
