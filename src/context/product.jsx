@@ -25,6 +25,7 @@ function reducer (state, action) {
       }
     case 'error':
       return {
+        ...state,
         products: [],
         status: 'error'
       }
