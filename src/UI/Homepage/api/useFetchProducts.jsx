@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { useProductContext } from '../context/product'
-import { api } from '../api/axios'
+import { useProductContext } from '../../../context/product'
+import { api } from '../../../api/axios'
 
 export function useFetchProducts () {
   const { state, fetchProducts, fetchProductsError } = useProductContext()

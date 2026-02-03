@@ -6,7 +6,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 gsap.registerPlugin(ScrollTrigger, SplitText)
-export default function Endsection ({ headerText, closeSideBar,sidebarBg }) {
+export default function Endsection ({ headerText, closeSideBar, sidebarBg }) {
   const EndRef = useRef(null)
   const BiographyRef = useRef(null)
   const footerRef = useRef(null)
@@ -25,7 +25,7 @@ export default function Endsection ({ headerText, closeSideBar,sidebarBg }) {
           trigger: EndRef.current,
           start: 'top top',
           end: isMobile ? '+=40%' : '+=20%',
-          scrub: 1,   
+          scrub: 1,
           pin: true,
           pinSpacing: true,
           // markers: true,
@@ -113,7 +113,7 @@ export default function Endsection ({ headerText, closeSideBar,sidebarBg }) {
       tl.to(
         sidebarBg.current,
         {
-         backgroundColor:"black",
+          backgroundColor: 'black',
           duration: 0.5,
           ease: 'power2.out'
         },

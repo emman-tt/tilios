@@ -1,11 +1,11 @@
-import Header from '../UI/Header'
-import Hero from '../UI/Hero'
-import Information from '../UI/Information'
+import Header from '../UI/Homepage/Header'
+import Hero from '../UI/Homepage/Hero'
+import Information from '../UI/Homepage/Information'
 import { useRef, useState } from 'react'
-import Collection from '../UI/Collection'
-import Shop from '../UI/Shop'
+import Collection from '../UI/Homepage/Collection'
+import Shop from '../UI/Homepage/Shop'
 
-import Endsection from '../UI/EndSection'
+import Endsection from '../UI/Homepage/EndSection'
 export default function HomePage () {
   const containeRef = useRef(null)
   const headerText = useRef(null)

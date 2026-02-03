@@ -1,9 +1,13 @@
 import { Volleyball, Menu, X } from 'lucide-react'
-import { useState } from 'react'
+import { useNavigate, NavLink } from 'react-router-dom'
 
-export default function Header ({ headerText,isMenuOpen,setIsMenuOpen, sidebarBg }) {
-
-
+export default function Header ({
+  headerText,
+  isMenuOpen,
+  setIsMenuOpen,
+  sidebarBg
+}) {
+  const navigate = useNavigate()
   return (
     <section
       ref={headerText}
@@ -38,8 +42,11 @@ export default function Header ({ headerText,isMenuOpen,setIsMenuOpen, sidebarBg
           <li className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'>
             Cart(0)
           </li>
-          <li className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'>
-            Sign up
+          <li
+            onClick={() => {navigate('/auth')}}
+            className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'
+          >
+            Login
           </li>
         </ul>
 
@@ -54,7 +61,8 @@ export default function Header ({ headerText,isMenuOpen,setIsMenuOpen, sidebarBg
         </div>
       </nav>
 
-      <div ref={sidebarBg}
+      <div
+        ref={sidebarBg}
         className={`fixed inset-0 bg-[#fefaf6] z-40 transform ${
           isMenuOpen ? 'translate-x-40' : 'translate-x-full'
         } transition-transform duration-300 ease-in-out md:hidden flex flex-col p-10 pt-24 gap-8`}

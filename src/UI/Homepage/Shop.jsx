@@ -1,16 +1,17 @@
-import { ProductItem } from '../components/product'
-import { useFetchProducts } from '../hooks/useFetchProducts'
-import { useProductContext } from '../context/product'
-import styles from '../assets/css/product.module.css'
+import { ProductItem } from '../../components/product'
+import { useFetchProducts } from './api/useFetchProducts'
+import { useProductContext } from '../../context/product'
+import styles from '../../assets/css/product.module.css'
 import { useRef } from 'react'
-export default function Shop ({ tilioRef,closeSideBar }) {
+export default function Shop ({ tilioRef, closeSideBar }) {
   const { state } = useProductContext()
   const { products, status } = state
 
   const shopContainer = useRef(null)
   useFetchProducts()
   return (
-    <main   onClick={() => closeSideBar()}
+    <main
+      onClick={() => closeSideBar()}
       ref={shopContainer}
       className='grid pt-10 md:pt-30 grid-cols-1 md:grid-cols-2  lg:grid-cols-4 max-sm:h-[600vh] md:h-[230vh] lg:h-[150vh] px-6 md:px-12 lg:pl-40 xl:pl-100 xl:pr-40 border-gray-500'
     >

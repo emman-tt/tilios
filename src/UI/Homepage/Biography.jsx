@@ -1,4 +1,4 @@
-import team from '../assets/img/team.jpg'
+import team from '../../assets/img/team.jpg'
 
 import { MoveRight } from 'lucide-react'
 

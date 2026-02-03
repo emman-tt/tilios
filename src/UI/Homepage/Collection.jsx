@@ -1,9 +1,9 @@
 import { Dot } from 'lucide-react'
 import { useState } from 'react'
 import { Collectiion } from '../../utils/collection'
-import { useProductContext } from '../context/product'
+import { useProductContext } from '../../context/product'
 
-export default function Collection ({closeSideBar}) {
+export default function Collection ({ closeSideBar }) {
   const { state, changeCategory } = useProductContext()
   const [active, isActive] = useState(false)
   const [search, setSearch] = useState('- SEARCH')
@@ -21,7 +21,7 @@ export default function Collection ({closeSideBar}) {
   }
 
   return (
-    <section   onClick={() => closeSideBar()} className='py-8'>
+    <section onClick={() => closeSideBar()} className='py-8'>
       <nav className='flex flex-col lg:flex-row justify-between w-full px-6 md:px-12 items-start lg:items-center gap-8 lg:gap-0'>
         <h2 className='w-full lg:w-[15%] font-mono font-semibold text-sm md:text-base'>
           A WIDE RANGE OF OPTIONS FOR YOUR HOME
@@ -61,11 +61,11 @@ export default function Collection ({closeSideBar}) {
 
           <ul className='flex justify-start md:justify-center gap-4 md:gap-8 w-full md:w-auto lg:w-[35%]'>
             <li className='flex justify-center items-center text-sm md:text-base'>
-              <Dot size={24} className='md:size-[35px]' />
+              <Dot size={24} className='md:size-8.75' />
               Appearance
             </li>
             <li className='flex justify-center items-center text-sm md:text-base'>
-              <Dot size={24} className='md:size-[35px]' />
+              <Dot size={24} className='md:size-8.75' />
               Collection
             </li>
           </ul>

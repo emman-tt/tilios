@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import SplitText from 'gsap/SplitText'
-import bg7 from '../assets/img/bg7.jpg'
+import bg7 from '../../assets/img/bg7.jpg'
 export default function Hero ({
   containerRef,
   headerText,
