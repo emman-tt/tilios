@@ -1,13 +1,21 @@
 import { useReducer } from 'react'
 import { useContext, createContext } from 'react'
+import { api } from '../api/axios'
+import useToken from '../hooks/useToken'
+import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 const initialState = {
   email: '',
   password: '',
   username: '',
   showError: false,
-  error: ''
+  error: '',
+  authType: 'user',
+  status: 'ready'
 }
 const AuthContext = createContext()
+
+const { getToken, saveToken } = useToken()
 
 function reducer (state, action) {
   switch (action.type) {
@@ -37,6 +45,17 @@ function reducer (state, action) {
         error: action.payload,
         showError: true
       }
+    case 'changeAuthType':
+      return {
+        ...state,
+        authType: action.payload
+      }
+
+    case 'changeStatus':
+      return {
+        ...state,
+        status: action.payload
+      }
 
     default:
       throw new Error('Unrecognized actions')
@@ -45,7 +64,247 @@ function reducer (state, action) {
 
 export function AuthProvider ({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { email, password, showError, error, username } = state
+  const navigate = useNavigate()
+  const {
+    email,
+    password,
+    authType,
+    showError,
+    error,
+    username,
+    token,
+    status
+  } = state
+  let hasErrors = false
+
+  function changeAuthType (input) {
+    dispatch({
+      type: 'changeAuthType',
+      payload: input
+    })
+    showLoader()
+  }
+
+  function showLoader () {
+    dispatch({ type: 'changeStatus', payload: 'loading' })
+    setTimeout(() => {
+      dispatch({
+        type: 'changeStatus',
+        action: 'ready'
+      })
+    }, 1000)
+  }
+
+  const registerAdmin = async () => {
+    try {
+      if (hasErrors) {
+        return
+      }
+      toast.dismiss()
+      const response = await api.post(`/admin-register`, {
+        email: email,
+        password: password,
+        username: username
+      })
+
+      const data = await response.data
+
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+
+      toast.success('Admin account successfully created!', {
+        description: 'Please login with your credentials...'
+      })
+      navigate('/auth')
+      // changeAuthType('admin')
+    } catch (error) {
+      const errorData = error?.response?.data
+      console.log(errorData)
+
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+
+      if (error.response.status === 400) {
+        toast.error('Signup Failed', {
+          description: errorData.message
+        })
+        return navigate('/auth')
+      }
+
+      // if (errorData.status === 'failed') {
+      //   return toast.error('Signup Failed', {
+      //     description: errorData.message
+      //   })
+      // }
+
+      if (error.request) {
+        return toast.error('Server error', {
+          description: 'No response received. Server might be down.'
+        })
+      }
+
+      console.log(error)
+    }
+  }
+
+  const loginAdmin = async () => {
+    try {
+      if (hasErrors) {
+        console.log('missing fields')
+        return
+      }
+      toast.dismiss()
+
+      dispatch({ type: 'changeStatus', payload: 'loading' })
+
+      const response = await api.post(`/admin-login`, {
+        email: email,
+        password: password
+      })
+
+      const data = await response.data
+      const accessToken = data.accessToken
+      saveToken(accessToken)
+
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+
+      toast.success('Welcome back , Admin!', {
+        description: 'Redirecting to your Dashboard...'
+      })
+    } catch (error) {
+      console.log(error)
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+      toast.error('Login Failed', {
+        description: 'Login credentials are incorrect'
+      })
+    }
+  }
+
+  const registerUser = async () => {
+    try {
+      if (hasErrors) {
+        return
+      }
+      toast.dismiss()
+      dispatch({ type: 'changeStatus', payload: 'loading' })
+
+      const response = await api.post(`/register`, {
+        email: email,
+        password: password,
+        username: username
+      })
+
+      const data = await response.data
+
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+
+      toast.success('Account successfully created!', {
+        description: 'Please login with your credentials...'
+      })
+
+      navigate('/auth')
+    } catch (error) {
+      const errorData = error?.response?.data
+      console.log(errorData)
+
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+
+      if (error.response.status === 400) {
+        toast.error('Signup Failed', {
+          description: errorData.message
+        })
+        return navigate('/auth')
+      }
+
+      // if (errorData.status === 'failed') {
+      //   return toast.error('Signup Failed', {
+      //     description: errorData.message
+      //   })
+      // }
+
+      if (error.request) {
+        return toast.error('Server error', {
+          description: 'No response received. Server might be down.'
+        })
+      }
+
+      console.log(error)
+    }
+  }
+
+  const loginUser = async () => {
+    try {
+      if (hasErrors) {
+        console.log('missing fields')
+        return
+      }
+      toast.dismiss()
+
+      dispatch({ type: 'changeStatus', payload: 'loading' })
+
+      const response = await api.post(`/login`, {
+        email: email,
+        password: password
+      })
+
+      const data = await response.data
+      const accessToken = data.accessToken
+
+      saveToken(accessToken)
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+
+      toast.success('Welcome back!', {
+        description: 'Redirecting to your homepage...'
+      })
+
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+      setTimeout(() => {
+        dispatch({
+          type: 'changeStatus',
+          action: 'ready'
+        })
+      }, 1000)
+      toast.error('Login Failed', {
+        description: 'Login credentials are incorrect'
+      })
+    }
+  }
+
   const fillEmail = input => {
     dispatch({ type: 'setEmail', payload: input })
   }
@@ -62,6 +321,7 @@ export function AuthProvider ({ children }) {
     const formattedName = username.toLowerCase().trim()
     const formattedPassword = password.toLowerCase().trim()
     if (formattedEmail.length < 1) {
+      hasErrors = true
       return dispatch({ type: 'setError', payload: 'Email is required' })
     }
 
@@ -70,6 +330,7 @@ export function AuthProvider ({ children }) {
       formattedEmail.includes('mail') == false ||
       formattedEmail.includes('.com') == false
     ) {
+      hasErrors = true
       return dispatch({
         type: 'setError',
         payload: "Email must include '@mail.com'"
@@ -77,10 +338,12 @@ export function AuthProvider ({ children }) {
     }
 
     if (formattedName.length < 1 && authType === 'signup') {
+      hasErrors = true
       return dispatch({ type: 'setError', payload: 'Username is required' })
     }
 
     if (formattedPassword.length < 8) {
+      hasErrors = true
       return dispatch({
         type: 'setError',
         payload: 'Password must be at least 8 characters'
@@ -93,6 +356,7 @@ export function AuthProvider ({ children }) {
     }
 
     if (!checks.hasLetters || !checks.hasNumber || !checks.hasSymbol) {
+      hasErrors = true
       return dispatch({
         type: 'setError',
         payload:
@@ -112,7 +376,14 @@ export function AuthProvider ({ children }) {
         username,
         fillEmail,
         fillPassword,
-        fillUsername
+        fillUsername,
+        changeAuthType,
+        registerUser,
+        loginUser,
+        authType,
+        status,
+        loginAdmin,
+        registerAdmin
       }}
     >
       {children}

@@ -32,9 +32,6 @@ export default function Header ({
             <div className='hover:font-semibold hover:italic transition-all'>
               Collection
             </div>
-            <div className='hover:font-semibold hover:italic transition-all'>
-              3d Model
-            </div>
           </li>
           <li className='cursor-pointer hover:font-bold hover:italic transition-all'>
             Contact
@@ -43,7 +40,9 @@ export default function Header ({
             Cart(0)
           </li>
           <li
-            onClick={() => {navigate('/auth')}}
+            onClick={() => {
+              navigate('/auth')
+            }}
             className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'
           >
             Login

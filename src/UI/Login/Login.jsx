@@ -1,8 +1,10 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, lazy } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
+const Loader = lazy(() => import('./Loader'))
+
 export default function Login () {
   const [showPassword, setShowPassword] = useState(true)
 
@@ -13,7 +15,11 @@ export default function Login () {
     setErrorMessage,
     password,
     fillEmail,
-    fillPassword
+    fillPassword,
+    loginUser,
+    authType,
+    loginAdmin,
+    status
   } = useAuth()
   const logIn = useRef(null)
   useGSAP(() => {
@@ -27,6 +33,11 @@ export default function Login () {
 
   function Submit () {
     setErrorMessage('login')
+
+    if (authType === 'admin') {
+      return loginAdmin()
+    }
+    loginUser()
   }
 
   return (
@@ -34,8 +45,9 @@ export default function Login () {
       ref={logIn}
       className=' w-120 h-max bg-[#ffffff] rounded-4xl shadow-2xl flex flex-col p-10'
     >
+      {status === 'loading' && <Loader />}
       <h2 className='flex justify-center text-2xl font-bold font-sans'>
-        User Login
+        {authType === 'admin' ? 'Admin' : 'User'} Login
       </h2>
       <p className='flex justify-center text-center font-normal text-md mt-2'>
         Hey Enter your login details to get sign in to your account
@@ -136,12 +148,12 @@ export default function Login () {
       </section>
 
       <p className='text-sm mt-5 flex justify-center gap-3 '>
-        Dont have an account ?{' '}
+        Dont have an account ?
         <NavLink
           to={'signup'}
           className='font-bold hover:underline cursor-pointer'
         >
-          Sign up
+          {authType === 'admin' ? 'Admin' : ''} Sign up
         </NavLink>
       </p>
     </section>

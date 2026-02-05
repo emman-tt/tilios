@@ -1,7 +1,9 @@
 import { Volleyball } from 'lucide-react'
 import { Globe } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../../context/auth'
 export default function Header () {
+  const { changeAuthType, authType } = useAuth()
   return (
     <section className='flex w-full justify-between px-20 pt-6 '>
       <NavLink
@@ -21,9 +23,15 @@ export default function Header () {
         <NavLink to={'signup'} className='cursor-pointer'>
           Sign Up
         </NavLink>
-        <button className='bg-[#fdc886] rounded-xl text-black font-semibold p-3 cursor-pointer'>
-          Request Demo
-        </button>
+        <NavLink
+          to={'/auth'}
+          onClick={() => {
+            changeAuthType(authType === 'admin' ? 'user' : 'admin')
+          }}
+          className='bg-[#fdc886] rounded-xl text-black font-semibold p-3 cursor-pointer'
+        >
+          {authType === 'admin' ? 'User login' : 'Admin Access'}
+        </NavLink>
       </div>
     </section>
   )

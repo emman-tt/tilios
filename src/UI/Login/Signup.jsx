@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, lazy } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
-
+const Loader = lazy(() => import('./Loader'))
 export default function SignUp () {
   const [showPassword, setShowPassword] = useState(true)
   const [errorType, setErrorType] = useState('')
@@ -17,7 +17,11 @@ export default function SignUp () {
     username,
     fillEmail,
     fillPassword,
-    fillUsername
+    fillUsername,
+    registerUser,
+    authType,
+    registerAdmin,
+    status
   } = useAuth()
   useGSAP(() => {
     gsap.from(signUp.current, {
@@ -28,8 +32,13 @@ export default function SignUp () {
     })
   })
 
-    function Submit () {
+  function Submit () {
     setErrorMessage('signup')
+
+    if (authType === 'admin') {
+      return registerAdmin()
+    }
+    registerUser()
   }
 
   return (
@@ -37,8 +46,9 @@ export default function SignUp () {
       ref={signUp}
       className=' w-120 h-150 bg-[#ffffff] rounded-4xl shadow-2xl flex flex-col p-10'
     >
+      {status === 'loading' && <Loader />}
       <h2 className='flex justify-center text-2xl font-bold font-sans'>
-        User Signup
+        {authType === 'admin' ? 'Admin' : 'User'} Signup
       </h2>
       <p className='flex justify-center text-center font-medium text-md mt-2'>
         Hey enter your details to create a new account
@@ -84,12 +94,15 @@ export default function SignUp () {
           </div>
         </section>
       </div>
-      <button    onClick={() => {
+      <button
+        onClick={() => {
           Submit()
-        }} className='bg-[#fdc886] cursor-pointer rounded-2xl mt-4 py-3 text-md font-semibold'>
+        }}
+        className='bg-[#fdc886] cursor-pointer rounded-2xl mt-4 py-3 text-md font-semibold'
+      >
         Sign Up
       </button>
-          {showError && (
+      {showError && (
         <p className='text-red-500 text-sm font-semibold pt-3'>{error}</p>
       )}
       <p className='flex justify-center mt-5 text-xs'> -Or Sign Up With- </p>
@@ -142,7 +155,7 @@ export default function SignUp () {
           to={'/auth'}
           className='font-bold hover:underline cursor-pointer'
         >
-          Log in
+          {authType === 'admin' ? 'Admin' : ''} Log in
         </NavLink>
       </p>
     </section>
