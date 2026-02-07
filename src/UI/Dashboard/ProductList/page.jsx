@@ -1,7 +1,11 @@
-import { ChevronDown, ChevronLeft, ChevronRight, XIcon } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { ListFilterIcon } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { lazy, useMemo, useState } from 'react'
 import { Collectiion } from '../../../utils/collection'
+import { useProductList } from '../../../context/productlist'
+import { ProductEditor } from './ProductEditor'
+import Pagination from './Pagination'
+import { NavLink } from 'react-router-dom'
 export default function ProductList () {
   const rows = useMemo(
     () =>
@@ -11,22 +15,49 @@ export default function ProductList () {
         price: 45,
         status: 'Shipped',
         category: 'ceramic',
-        quantity: 1270,
-        sales: 70
+        stock: 170,
+        discount: 3,
+        sales: 70,
+        image:
+          'https://res.cloudinary.com/drpnhajh9/image/upload/v1769962856/products/nynioinue0foa8pzly1k.webp'
       })),
     []
   )
 
-  const [entries, setEntries] = useState(10)
-  const [entriesBox, showEntriesBox] = useState(false)
   const [categoryBox, showCategoryBox] = useState(false)
   const [category, setCategory] = useState(Collectiion)
   const [currentCategory, setCurrentCategory] = useState(category[0].value)
 
+  const { state, editorMode, closeEditor } = useProductList()
+  const { showEditor, products } = state
+
+  if (products.length > 1) {
+    return (
+      <section className='w-full h-full flex justify-center gap-8 flex-col items-center'>
+        <div>
+          <img
+            width='100'
+            height='100'
+            src='https://img.icons8.com/external-outline-andi-nur-abdillah/64/external-Empty-empty-state-(outline)-outline-andi-nur-abdillah.png'
+            alt='external-Empty-empty-state-(outline)-outline-andi-nur-abdillah'
+          />
+        </div>
+        <p className='text-xl font-semibold font-mono'> No product Found </p>
+        <NavLink
+          to={'/dashboard/addproduct'}
+          className='p-3 cursor-pointer px-10 rounded-2xl bg-black text-white'
+        >
+          Add new
+        </NavLink>
+      </section>
+    )
+  }
+
   return (
     <section className='p-6 pr-10 relative h-full '>
-      {/* Sidebar */}
-      <ProductEditor />
+      {/*Editor Sidebar */}
+      {showEditor && <ProductEditor />}
+
       <div className='flex justify-end items-center gap-3 mb-4'>
         <div className='flex gap-7 items-center'>
           <section className='flex gap-3 items-center'>
@@ -36,7 +67,7 @@ export default function ProductList () {
             <p>Filter</p>
           </section>
           <section>
-            <p className=' text-sm   relative rounded-2xl  border  border-gray-500'>
+            <div className=' text-sm   relative rounded-2xl  border  border-gray-500'>
               <div
                 onClick={() => showCategoryBox(true)}
                 className='p-2 px-2 gap-5 flex cursor-pointer hover:bg-gray-50 rounded-2xl justify-between items-center'
@@ -63,7 +94,7 @@ export default function ProductList () {
                     ))}
                 </div>
               )}
-            </p>
+            </div>
           </section>
 
           <input
@@ -104,27 +135,49 @@ export default function ProductList () {
               <td colSpan='7 px-4'></td>
             </tr>
           </thead>
-          <tbody>
-            {rows.map((r, idx) => (
+          <tbody className='font-semibold text-sm'>
+            {rows.map((item, idx) => (
               <tr key={idx}>
-                <td className='px-4 py-4 border-b  border-[#f7f7f7] '>
-                  {r.name}
+                <td className='px-4 py-4 border-b  flex gap-3 items-center  border-[#f7f7f7] '>
+                  <div className='h-10 w-10  '>
+                    <img
+                      src={item.image}
+                      alt=''
+                      className='rounded-lg w-full h-full object-cover'
+                    />{' '}
+                  </div>
+
+                  <span>{item.name}</span>
                 </td>
-                <td className='px-4 py-4 border-b border-[#f7f7f7]'>{r.id}</td>
-                <td className='px-4 py-4 border-b border-[#f7f7f7] '>
-                  {r.price}
+                <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7]'>
+                  {item.id}
+                </td>
+                <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7] '>
+                  {item.price}
+                </td>
+                <td className='px-4 py-4 pl-7 border-b border-[#f7f7f7]'>
+                  {item.stock}
+                </td>
+                <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7]'>
+                  {item.sales}
+                </td>
+                <td className='px-4 py-4  border-b border-[#f7f7f7]'>
+                  {item.category}
                 </td>
                 <td className='px-4 py-4 border-b border-[#f7f7f7]'>
-                  {r.quantity}
-                </td>
-                <td className='px-4 py-4 border-b border-[#f7f7f7]'>
-                  {r.sales}
-                </td>
-                <td className='px-4 py-4 border-b border-[#f7f7f7]'>
-                  {r.category}
-                </td>
-                <td className='px-4 py-4 border-b border-[#f7f7f7]'>
-                  <button className='bg-white border border-[#c9bfae]  px-3 py-1 rounded-md'>
+                  <button
+                    onClick={() => {
+                      editorMode({
+                        name: item.name,
+                        price: item.price,
+                        stock: item.stock,
+                        category: item.category,
+                        discount: item.discount,
+                        image: item.image
+                      })
+                    }}
+                    className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae]  px-3 py-1 rounded-md'
+                  >
                     View Details
                   </button>
                 </td>
@@ -133,73 +186,7 @@ export default function ProductList () {
           </tbody>
         </table>
       </div>
-
-      <div className='flex gap-10 justify-end items-center mt-8'>
-        <section className='flex gap-4 items-center '>
-          Showing
-          <div className=' relative cursor-pointer  rounded-md border border-[#e6dfd6] bg-white'>
-            <span
-              className='w-full px-6 py-3 font-semibold '
-              onClick={() => showEntriesBox(true)}
-            >
-              {entries}
-            </span>
-            {entriesBox && (
-              <div className='absolute -top-25 right-0 rounded-2xl gap-1  px-8 py-7 shadow-2xl  items-center text-white bg-black flex flex-col'>
-                <div
-                  onClick={() => {
-                    setEntries(5)
-                    showEntriesBox(false)
-                  }}
-                >
-                  5
-                </div>
-                <div
-                  onClick={() => {
-                    setEntries(10), showEntriesBox(false)
-                  }}
-                >
-                  10
-                </div>
-                <div
-                  onClick={() => {
-                    setEntries(15), showEntriesBox(false)
-                  }}
-                >
-                  15
-                </div>
-              </div>
-            )}
-          </div>
-          Entries
-        </section>
-
-        <section className='flex gap-3'>
-          <button className='w-9 h-9 rounded-full border border-[#efeadf] bg-white  hover:bg-[#f6efe6]'>
-            <ChevronLeft />
-          </button>
-          <button className='w-9 h-9 rounded-full border border-[#d6c8b2] bg-[#f6efe6] '>
-            1
-          </button>
-          <button className='w-9 h-9 rounded-full border border-[#efeadf] bg-white  hover:bg-[#f6efe6]'>
-            2
-          </button>
-          <button className='w-9 h-9 rounded-full border border-[#efeadf] bg-white  hover:bg-[#f6efe6]'>
-            3
-          </button>
-          <button className='w-9 h-9 rounded-full border border-[#efeadf] bg-white  hover:bg-[#f6efe6]'>
-            <ChevronRight />
-          </button>
-        </section>
-      </div>
+      <Pagination />
     </section>
-  )
-}
-
-export const ProductEditor = ({ className }) => {
-  return (
-    <section
-      className={`w-170 shadow-2xl h-full absolute right-0 bg-white z-32 top-0 bottom-0 ${className}`}
-    ></section>
   )
 }

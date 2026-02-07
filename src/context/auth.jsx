@@ -15,8 +15,6 @@ const initialState = {
 }
 const AuthContext = createContext()
 
-const { getToken, saveToken } = useToken()
-
 function reducer (state, action) {
   switch (action.type) {
     case 'setEmail':
@@ -65,6 +63,7 @@ function reducer (state, action) {
 export function AuthProvider ({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const navigate = useNavigate()
+  const { getToken, saveToken } = useToken()
   const {
     email,
     password,
@@ -90,7 +89,7 @@ export function AuthProvider ({ children }) {
     setTimeout(() => {
       dispatch({
         type: 'changeStatus',
-        action: 'ready'
+        payload: 'ready'
       })
     }, 1000)
   }
@@ -112,7 +111,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
 
@@ -128,7 +127,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
 
@@ -138,12 +137,6 @@ export function AuthProvider ({ children }) {
         })
         return navigate('/auth')
       }
-
-      // if (errorData.status === 'failed') {
-      //   return toast.error('Signup Failed', {
-      //     description: errorData.message
-      //   })
-      // }
 
       if (error.request) {
         return toast.error('Server error', {
@@ -177,7 +170,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
 
@@ -189,7 +182,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
       toast.error('Login Failed', {
@@ -217,7 +210,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
 
@@ -233,7 +226,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
 
@@ -243,12 +236,6 @@ export function AuthProvider ({ children }) {
         })
         return navigate('/auth')
       }
-
-      // if (errorData.status === 'failed') {
-      //   return toast.error('Signup Failed', {
-      //     description: errorData.message
-      //   })
-      // }
 
       if (error.request) {
         return toast.error('Server error', {
@@ -282,7 +269,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
 
@@ -296,7 +283,7 @@ export function AuthProvider ({ children }) {
       setTimeout(() => {
         dispatch({
           type: 'changeStatus',
-          action: 'ready'
+          payload: 'ready'
         })
       }, 1000)
       toast.error('Login Failed', {
@@ -327,13 +314,12 @@ export function AuthProvider ({ children }) {
 
     if (
       formattedEmail.includes('@') == false ||
-      formattedEmail.includes('mail') == false ||
-      formattedEmail.includes('.com') == false
+      formattedEmail.includes('.') == false
     ) {
       hasErrors = true
       return dispatch({
         type: 'setError',
-        payload: "Email must include '@mail.com'"
+        payload: "Email must include '@ and .'"
       })
     }
 

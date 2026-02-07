@@ -1,6 +1,7 @@
 import Logo from '../components/logo'
 import Sidebar from '../UI/Dashboard/Sidebar/Sidebar'
 import { Outlet } from 'react-router-dom'
+
 export default function Dashboard () {
   return (
     <section>

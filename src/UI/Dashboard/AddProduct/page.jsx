@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 
 export default function AddProduct () {
-  const [selectedFile, setSelectedFile] = useState({})
+  const [selectedFile, setSelectedFile] = useState('')
   const [fileName, setFileName] = useState('')
   const [isSelected, setIsSelected] = useState(false)
 
