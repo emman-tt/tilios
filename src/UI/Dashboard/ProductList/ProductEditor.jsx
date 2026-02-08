@@ -36,8 +36,11 @@ export const ProductEditor = ({ className }) => {
     <section
       className={`w-170 shadow-2xl  h-full flex flex-col p-5 absolute right-0 bg-white z-32 top-0 bottom-0 ${className}`}
     >
-      <p className='flex justify-center cursor-pointer items-center  w-13 h-13 align-middle rounded-full bg-[#f7f6f9] '>
-        <XIcon onClick={() => closeEditor()} />
+      <p
+        onClick={() => closeEditor()}
+        className='flex justify-center cursor-pointer items-center  w-13 h-13 align-middle rounded-full bg-[#f7f6f9] '
+      >
+        <XIcon />
       </p>
 
       <p className='text-3xl font-semibold mt-8'>Edit Product</p>
@@ -116,7 +119,7 @@ export const ProductEditor = ({ className }) => {
       </section>
 
       <div className='mt-5'>
-        <p className='text-md font-semibold pl-2 mb-2'>Discount(if any)</p>
+        <p className='text-md font-semibold pl-2 mb-2'>Discount(if any) %</p>
         <input
           onChange={e => {
             onChangeInput('discount', e.target.value)

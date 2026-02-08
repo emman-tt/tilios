@@ -1,8 +1,9 @@
 import { Volleyball } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
 export default function Logo ({ classname }) {
   return (
-    <section className={classname}>
+    <NavLink to={'/'} className={classname}>
       Tilios <Volleyball size={20} />
-    </section>
+    </NavLink>
   )
 }

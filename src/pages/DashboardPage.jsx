@@ -9,7 +9,7 @@ export default function Dashboard () {
         <Sidebar className={'h-full w-60 pl-3 pr-2'} />
         <main className='flex flex-col w-full h-full'>
           <header className=' flex w-full items-center h-15 border-b border-gray-200 justify-between px-10 pt-0'>
-            <Logo
+            <Logo 
               classname={`flex gap-7 align-middle items-center text-lg font-semibold`}
             />
 

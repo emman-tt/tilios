@@ -9,7 +9,10 @@ const inititalState = {
   image: '',
   entries: 0,
   showEditor: false,
-  products: []
+  productList: [],
+  status: 'loading',
+  totalPages: 0,
+  currentPage: 1
 }
 
 function reducer (state, action) {
@@ -32,8 +35,23 @@ function reducer (state, action) {
     case 'setProducts':
       return {
         ...state,
-        products: action.payload
+        status: 'active',
+        productList: action.payload
       }
+
+    case 'setPagination':
+      return {
+        ...state,
+        totalPages: action.payload.totalPages,
+        currentPage: action.payload.currentPage
+      }
+
+    case 'setStatus':
+      return {
+        ...state,
+        status: action.payload
+      }
+
     default:
       throw new Error('Unknown actions')
   }
@@ -45,7 +63,6 @@ export const ProductListProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, inititalState)
 
   const editorMode = data => {
-    console.log(data)
     dispatch({ type: 'editor', payload: data })
   }
 
@@ -62,6 +79,13 @@ export const ProductListProvider = ({ children }) => {
     })
   }
 
+  const changeStatus = input => {
+    dispatch({
+      type: 'setStatus',
+      payload: input
+    })
+  }
+
   const onChangeInput = (fieldType, input) => {
     dispatch({
       type: 'setField',
@@ -70,9 +94,27 @@ export const ProductListProvider = ({ children }) => {
     })
   }
 
+  const paginate = (totalPages, currentPage) => {
+    dispatch({
+      type: 'setPagination',
+      payload: {
+        totalPages: totalPages,
+        currentPage: currentPage
+      }
+    })
+  }
+
   return (
     <ProductListContext.Provider
-      value={{ state, onChangeInput, setProducts, editorMode, closeEditor }}
+      value={{
+        state,
+        onChangeInput,
+        paginate,
+        setProducts,
+        editorMode,
+        closeEditor,
+        changeStatus
+      }}
     >
       {children}
     </ProductListContext.Provider>

@@ -177,6 +177,7 @@ export function AuthProvider ({ children }) {
       toast.success('Welcome back , Admin!', {
         description: 'Redirecting to your Dashboard...'
       })
+      navigate('/dashboard')
     } catch (error) {
       console.log(error)
       setTimeout(() => {

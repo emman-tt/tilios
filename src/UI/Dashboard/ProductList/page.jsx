@@ -1,54 +1,30 @@
 import { ChevronDown } from 'lucide-react'
 import { ListFilterIcon } from 'lucide-react'
-import { lazy, useMemo, useState } from 'react'
+import { lazy, useEffect, useMemo, useState } from 'react'
 import { Collectiion } from '../../../utils/collection'
-import { useProductList } from '../../../context/productlist'
 import { ProductEditor } from './ProductEditor'
 import Pagination from './Pagination'
 import { NavLink } from 'react-router-dom'
+import { useFetch } from './api/useFetch'
+import { useProductList } from '../../../context/productlist'
+import { NotFound } from './not-found'
+import Loader from '../../Login/Loader'
 export default function ProductList () {
-  const rows = useMemo(
-    () =>
-      Array.from({ length: 10 }).map((_, i) => ({
-        id: 1234 + i,
-        name: 'Yellow Chair',
-        price: 45,
-        status: 'Shipped',
-        category: 'ceramic',
-        stock: 170,
-        discount: 3,
-        sales: 70,
-        image:
-          'https://res.cloudinary.com/drpnhajh9/image/upload/v1769962856/products/nynioinue0foa8pzly1k.webp'
-      })),
-    []
-  )
-
   const [categoryBox, showCategoryBox] = useState(false)
   const [category, setCategory] = useState(Collectiion)
   const [currentCategory, setCurrentCategory] = useState(category[0].value)
-
   const { state, editorMode, closeEditor } = useProductList()
-  const { showEditor, products } = state
+  const { showEditor, productList, status } = state
+  const { fetchProducts } = useFetch()
 
-  if (products.length > 1) {
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  if (status === 'loading') {
     return (
-      <section className='w-full h-full flex justify-center gap-8 flex-col items-center'>
-        <div>
-          <img
-            width='100'
-            height='100'
-            src='https://img.icons8.com/external-outline-andi-nur-abdillah/64/external-Empty-empty-state-(outline)-outline-andi-nur-abdillah.png'
-            alt='external-Empty-empty-state-(outline)-outline-andi-nur-abdillah'
-          />
-        </div>
-        <p className='text-xl font-semibold font-mono'> No product Found </p>
-        <NavLink
-          to={'/dashboard/addproduct'}
-          className='p-3 cursor-pointer px-10 rounded-2xl bg-black text-white'
-        >
-          Add new
-        </NavLink>
+      <section className='flex relative justify-center items-center h-full w-full'>
+        <Loader />
       </section>
     )
   }
@@ -136,53 +112,67 @@ export default function ProductList () {
             </tr>
           </thead>
           <tbody className='font-semibold text-sm'>
-            {rows.map((item, idx) => (
-              <tr key={idx}>
-                <td className='px-4 py-4 border-b  flex gap-3 items-center  border-[#f7f7f7] '>
-                  <div className='h-10 w-10  '>
-                    <img
-                      src={item.image}
-                      alt=''
-                      className='rounded-lg w-full h-full object-cover'
-                    />{' '}
+            {productList.length === 0 || !productList ? (
+              <tr>
+                <td colSpan='7'>
+                  <div className='w-full h-full flex justify-center pb-40 pt-20 '>
+                    <NotFound />
                   </div>
-
-                  <span>{item.name}</span>
-                </td>
-                <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7]'>
-                  {item.id}
-                </td>
-                <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7] '>
-                  {item.price}
-                </td>
-                <td className='px-4 py-4 pl-7 border-b border-[#f7f7f7]'>
-                  {item.stock}
-                </td>
-                <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7]'>
-                  {item.sales}
-                </td>
-                <td className='px-4 py-4  border-b border-[#f7f7f7]'>
-                  {item.category}
-                </td>
-                <td className='px-4 py-4 border-b border-[#f7f7f7]'>
-                  <button
-                    onClick={() => {
-                      editorMode({
-                        name: item.name,
-                        price: item.price,
-                        stock: item.stock,
-                        category: item.category,
-                        discount: item.discount,
-                        image: item.image
-                      })
-                    }}
-                    className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae]  px-3 py-1 rounded-md'
-                  >
-                    View Details
-                  </button>
                 </td>
               </tr>
-            ))}
+            ) : (
+              productList.map((item, idx) => (
+                <tr key={idx}>
+                  <td className='px-4 py-4 border-b  flex gap-3 items-center  border-[#f7f7f7] '>
+                    <div className='h-10 w-10  '>
+                      <img
+                        src={item.image}
+                        alt=''
+                        className='rounded-lg w-full h-full object-cover'
+                      />
+                    </div>
+
+                    <span>{item.name}</span>
+                  </td>
+                  <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7]'>
+                    {item.id}
+                  </td>
+                  <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7] '>
+                    {item.amount}
+                  </td>
+                  <td className='px-4 py-4 pl-7 border-b border-[#f7f7f7]'>
+                    {item.stock}
+                  </td>
+                  <td className='px-4 py-4 pl-7  border-b border-[#f7f7f7]'>
+                    {item.saleProducts.sold_units}
+                  </td>
+                  <td className='px-4 py-4  border-b border-[#f7f7f7]'>
+                    {category
+                      .find(cat => cat.id === item.categoryId)
+                      .value.toLocaleLowerCase()}
+                  </td>
+                  <td className='px-4 py-4 border-b border-[#f7f7f7]'>
+                    <button
+                      onClick={() => {
+                        editorMode({
+                          name: item.name,
+                          price: item.amount,
+                          stock: item.stock,
+                          category: category
+                            .find(cat => cat.id === item.categoryId)
+                            .value.toLocaleLowerCase(),
+                          discount: item.discount,
+                          image: item.image
+                        })
+                      }}
+                      className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae]  px-3 py-1 rounded-md'
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
