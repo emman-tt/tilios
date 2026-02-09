@@ -1,18 +1,24 @@
 import { createContext, useContext, useReducer } from 'react'
+import { api } from '../api/axios'
 
 const inititalState = {
   name: '',
   price: 0,
   stock: 0,
-  category: '',
+  serverCategory: 0,
   discount: 0,
   image: '',
-  entries: 0,
+  productId: 0,
+  limit: 10,
+  page: 1,
   showEditor: false,
   productList: [],
   status: 'loading',
   totalPages: 0,
-  currentPage: 1
+  currentPage: 1,
+  categoryValue: '',
+  category: 0,
+  showDeleteModal: false
 }
 
 function reducer (state, action) {
@@ -52,6 +58,19 @@ function reducer (state, action) {
         status: action.payload
       }
 
+    case 'setParams':
+      return {
+        ...state,
+        [action.name]: action.payload
+      }
+
+    case 'deleteMode':
+      return {
+        ...state,
+        showDeleteModal: action.payload,
+        productId: action.product
+      }
+
     default:
       throw new Error('Unknown actions')
   }
@@ -61,9 +80,26 @@ const ProductListContext = createContext()
 
 export const ProductListProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, inititalState)
-
+  const {
+    name,
+    price,
+    stock,
+    image,
+    category,
+    discount,
+    productId,
+    serverCategory
+  } = state
   const editorMode = data => {
     dispatch({ type: 'editor', payload: data })
+  }
+
+  const deleteMode = (boolean, id) => {
+    dispatch({
+      type: 'deleteMode',
+      payload: boolean,
+      product: id
+    })
   }
 
   const closeEditor = data => {
@@ -104,6 +140,38 @@ export const ProductListProvider = ({ children }) => {
     })
   }
 
+  const setParams = (name, input) => {
+    dispatch({
+      type: 'setParams',
+      name: name,
+      payload: input
+    })
+  }
+
+  async function updateProduct () {
+    try {
+      await api.put(`/admin/update-product/${productId}`, {
+        name: name,
+        stock: stock,
+        discount: discount,
+        price: price,
+        category: serverCategory,
+        image: image
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function deleteProduct () {
+    try {
+      await api.delete(`/admin/delete-product/${productId}`)
+      deleteMode(false, 0)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <ProductListContext.Provider
       value={{
@@ -113,7 +181,11 @@ export const ProductListProvider = ({ children }) => {
         setProducts,
         editorMode,
         closeEditor,
-        changeStatus
+        changeStatus,
+        setParams,
+        updateProduct,
+        deleteMode,
+        deleteProduct
       }}
     >
       {children}

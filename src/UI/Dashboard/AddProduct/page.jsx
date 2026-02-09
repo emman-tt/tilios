@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react'
-
+import { useAddProduct } from '../../../context/add-product'
+import { toast } from 'sonner'
 export default function AddProduct () {
   const [selectedFile, setSelectedFile] = useState('')
   const [fileName, setFileName] = useState('')
   const [isSelected, setIsSelected] = useState(false)
+  const { state, handleInput,addProduct } = useAddProduct()
+  const { title, category, image, stock, discount, price } = state
 
   const fileInputRef = useRef(null)
 
@@ -22,7 +25,16 @@ export default function AddProduct () {
       const imageUrl = URL.createObjectURL(file)
       console.log(imageUrl)
       setSelectedFile(imageUrl)
+      handleInput('image', imageUrl)
     }
+  }
+
+  function validateFieldsAndSubmit () {
+    if (category < 1 || stock < 1 || !image.trim() || !title.trim() || !price) {
+      return toast.error('Some required fields are missing')
+    }
+    console.log('called')
+    addProduct()
   }
 
   return (
@@ -34,6 +46,8 @@ export default function AddProduct () {
           <div>
             <p className='text-lg font-semibold pl-3'>Title</p>
             <input
+              value={title}
+              onChange={e => handleInput('title', e.target.value)}
               type='text'
               className='border hover:outline-none w-full mt-1 p-2 border-gray-500 rounded-lg'
               name=''
@@ -43,20 +57,24 @@ export default function AddProduct () {
           <div>
             <p className='text-lg font-semibold pl-3'>Category</p>
             <select
-              name=''
-              id=''
+              value={category}
+              onChange={e => {
+                handleInput('category', e.target.value)
+              }}
               className='w-full mt-1 p-2 border-gray-500 rounded-lg border '
             >
-              <option value=''>Ceramic</option>
-              <option value=''>Porcelain</option>
-              <option value=''>Stone</option>
-              <option value=''>Glass</option>
+              <option value={1}>Ceramic</option>
+              <option value={2}>Porcelain</option>
+              <option value={3}>Stone</option>
+              <option value={4}>Glass</option>
             </select>
           </div>
 
           <div>
             <p className='text-lg font-semibold pl-3'>Price(per ft)</p>
             <input
+              value={price}
+              onChange={e => handleInput('price', e.target.value)}
               type='number'
               name=''
               className='border hover:outline-none w-full mt-1 p-2 border-gray-500 rounded-lg'
@@ -67,6 +85,10 @@ export default function AddProduct () {
           <div>
             <p className='text-lg font-semibold pl-3'>Stock</p>
             <input
+              value={stock}
+              onChange={e => {
+                handleInput('stock', e.target.value)
+              }}
               type='number'
               name=''
               className='border hover:outline-none w-full mt-1 p-2 border-gray-500 rounded-lg'
@@ -78,6 +100,8 @@ export default function AddProduct () {
               Discount ( if any in percent %)
             </p>
             <input
+              value={discount}
+              onChange={e => handleInput('discount', e.target.value)}
               type='number'
               name=''
               className='border hover:outline-none w-full mt-1 p-2 border-gray-500 rounded-lg'
@@ -151,7 +175,12 @@ export default function AddProduct () {
               onChange={e => handleFileChange(e)}
             />
           </div>
-          <button className='p-3 px-15 cursor-pointer mt-10 hover:bg-[#fdc886] border rounded-xl  flex  self-center'>
+          <button
+            onClick={() => {
+              validateFieldsAndSubmit()
+            }}
+            className='p-3 px-15 cursor-pointer mt-10 hover:bg-[#fdc886] border rounded-xl  flex  self-center'
+          >
             Publish
           </button>
         </div>

@@ -1,4 +1,7 @@
+import { NavLink } from 'react-router-dom'
 import { AreaChart } from './Charts'
+import { Customers } from './Customers'
+import { QuickActions } from './QuickActions'
 export default function Overview () {
   return (
     <section className=' h-full w-full pt-5 p-10'>
@@ -53,8 +56,8 @@ export default function Overview () {
               Delivered Orders
             </header>
             <div className='flex flex-col h-30  justify-center pl-5'>
-              <p className='text-4xl font-semibold font-mono'>112</p>
-              <p className='text-sm flex gap-2 mt-3 '>19 orders</p>
+              <p className='text-4xl font-semibold font-mono'> 112</p>
+              <p className='text-sm flex gap-2 mt-3 '>Successful orders</p>
             </div>
           </li>
           <li className='grow'>
@@ -81,77 +84,6 @@ export default function Overview () {
         <div className='w-full h-full flex gap-15 flex-col'>
           <QuickActions />
           <Customers />
-        </div>
-      </section>
-    </section>
-  )
-}
-
-export const Customers = ({ className }) => {
-  return (
-    <section className='flex w-full h-full flex-col px-4 grow shadow-lg rounded-xl'>
-      <header className='text-2xl font-semibold'>New customers</header>
-
-      <div className='grid grid-cols-4 grid-rows-3  py-5 gap-y-4'>
-        <p className=' justify-start flex pl-10'>
-          <span className='p-2 rounded-full h-max bg-gray-100'>EM</span>
-        </p>
-        <p>Emmanuel Acquah</p>
-        <p>Today</p>
-        <p>07:16</p>
-
-        <p className=' justify-start flex pl-10'>
-          <span className='p-2 rounded-full h-max bg-gray-100'>ML</span>
-        </p>
-        <p>Manuel llama</p>
-        <p>Today</p>
-        <p>07:16</p>
-
-        <p className=' justify-start flex pl-10'>
-          <span className='p-2 rounded-full h-max bg-gray-100'>PB</span>
-        </p>
-        <p>Playboi Carti</p>
-        <p>Today</p>
-        <p>07:16</p>
-      </div>
-    </section>
-  )
-}
-
-export const QuickActions = ({ className }) => {
-  return (
-    <section
-      className={`flex px-4 grow shadow-lg rounded-xl pb-4 flex-col ${className}`}
-    >
-      <header className='font-semibold text-2xl'>Quick Actions</header>
-      <section className='flex justify-between gap-7 mt-5'>
-        <div className='flex flex-col w-full gap-2'>
-          <p className='flex gap-2 text-lg font-serif pl-5'>
-            <img
-              width='27'
-              height='27'
-              src='https://img.icons8.com/external-flat-icons-inmotus-design/67/external-New-label-flat-icons-inmotus-design.png'
-              alt='external-New-label-flat-icons-inmotus-design'
-            />
-            New items in stock ?
-          </p>
-          <button className='bg-black hover:bg-white border hover:text-black cursor-pointer rounded-xl p-2 text-white'>
-            Add product
-          </button>
-        </div>
-        <div className='flex flex-col w-full gap-2'>
-          <p className='flex gap-2 text-lg font-serif pl-5'>
-            <img
-              width='27'
-              height='27'
-              src='https://img.icons8.com/color-glass/48/receive-cash.png'
-              alt='receive-cash'
-            />
-            Payment Confirmation
-          </p>
-          <button className='bg-white cursor-pointer hover:text-white hover:bg-black rounded-xl p-2 text-black border'>
-            Confirm Payments
-          </button>
         </div>
       </section>
     </section>

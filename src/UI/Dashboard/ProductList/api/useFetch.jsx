@@ -2,24 +2,22 @@ import { api } from '../../../../api/axios'
 import { useProductList } from '../../../../context/productlist'
 import useToken from '../../../../hooks/useToken'
 import { autoRefresh } from '../../../../hooks/autorefresh'
+import { useEffect } from 'react'
 export function useFetch () {
   const { getToken } = useToken()
   const { state, setProducts, paginate, changeStatus } = useProductList()
-  const { category } = state
+  const { category, limit, page } = state
 
-  async function fetchProducts (page = 1) {
+  async function fetchProducts () {
     try {
       changeStatus('loading')
       const accessToken = getToken()
 
       const response = await api.get('/admin/products', {
         params: {
-          //   category: category,
-          limit: 10,
-          page: page
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`
+          category: category,
+          limit: limit || 10,
+          page: page || 1
         }
       })
 
@@ -51,12 +49,16 @@ export function useFetch () {
     }
   }
 
-  async function editProduct () {
-    try {
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // async function editProduct () {
+  //   try {
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  return { fetchProducts, editProduct }
+  useEffect(() => {
+    fetchProducts()
+  }, [page, limit, category])
+
+  return { fetchProducts }
 }

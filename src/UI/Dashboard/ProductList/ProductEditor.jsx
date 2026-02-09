@@ -1,17 +1,35 @@
 import { useState, useRef } from 'react'
 import { XIcon, Plus } from 'lucide-react'
-
+import gsap from 'gsap'
 import { useProductList } from '../../../context/productlist'
-
-export const ProductEditor = ({ className }) => {
+import { useGSAP } from '@gsap/react'
+export const ProductEditor = ({}) => {
   const [selectedFile, setSelectedFile] = useState('')
   const [fileName, setFileName] = useState('')
   const [isSelected, setIsSelected] = useState(false)
   const fileInputRef = useRef(null)
 
-  const { state, editorMode, closeEditor, onChangeInput } = useProductList()
+  const { state, editorMode, closeEditor, onChangeInput, updateProduct } =
+    useProductList()
 
-  const { name, price, stock, category, discount, image, showEditor } = state
+  const { name, price, stock, categoryValue, discount, image, showEditor } =
+    state
+  const editorRef = useRef(null)
+
+  useGSAP(
+    () => {
+      if (!editorRef) {
+        return
+      }
+
+      gsap.from(editorRef.current, {
+        x: 100,
+        ease: '',
+        duration: 0.2
+      })
+    }
+    // { scope: containerRef }
+  )
 
   const handleFileChange = e => {
     const file = e.target.files[0]
@@ -34,7 +52,8 @@ export const ProductEditor = ({ className }) => {
   }
   return (
     <section
-      className={`w-170 shadow-2xl  h-full flex flex-col p-5 absolute right-0 bg-white z-32 top-0 bottom-0 ${className}`}
+      ref={editorRef}
+      className={`w-170 shadow-2xl   h-full flex flex-col p-5 absolute right-0 bg-white z-32 top-0 bottom-0 `}
     >
       <p
         onClick={() => closeEditor()}
@@ -45,7 +64,10 @@ export const ProductEditor = ({ className }) => {
 
       <p className='text-3xl font-semibold mt-8'>Edit Product</p>
 
-      <section className='grid grid-cols-2 gap-y-5 grid-rows-2 mt-5'>
+      <section
+        ref={editorRef}
+        className='grid grid-cols-2 gap-y-5 grid-rows-2 mt-5'
+      >
         <div>
           <p className='text-md font-semibold pl-2 mb-2'>Product Name</p>
           <input
@@ -61,10 +83,10 @@ export const ProductEditor = ({ className }) => {
         <div>
           <p className='text-md font-semibold pl-2 mb-2'>Category</p>
           <input
-            value={category}
+            value={categoryValue}
             type='text'
             onChange={e => {
-              onChangeInput('category', e.target.value)
+              onChangeInput('categoryValue', e.target.value)
             }}
             className='border rounded-xl p-3 px-8'
             placeholder='eg.ceramic'
@@ -132,7 +154,12 @@ export const ProductEditor = ({ className }) => {
       </div>
 
       <section className='flex gap-5 mt-15'>
-        <button className='flex justify-center items-center px-15 py-3 rounded-2xl text-black border hover:bg-black hover:text-white'>
+        <button
+          onClick={() => {
+            updateProduct()
+          }}
+          className='flex justify-center items-center px-15 py-3 rounded-2xl text-black border hover:bg-black hover:text-white'
+        >
           Save
         </button>
         <button

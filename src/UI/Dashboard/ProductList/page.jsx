@@ -1,6 +1,6 @@
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, ChevronUpCircle } from 'lucide-react'
 import { ListFilterIcon } from 'lucide-react'
-import { lazy, useEffect, useMemo, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Collectiion } from '../../../utils/collection'
 import { ProductEditor } from './ProductEditor'
 import Pagination from './Pagination'
@@ -9,17 +9,26 @@ import { useFetch } from './api/useFetch'
 import { useProductList } from '../../../context/productlist'
 import { NotFound } from './not-found'
 import Loader from '../../Login/Loader'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
+import DeleteModal from './DeleteModal'
+
 export default function ProductList () {
   const [categoryBox, showCategoryBox] = useState(false)
-  const [category, setCategory] = useState(Collectiion)
-  const [currentCategory, setCurrentCategory] = useState(category[0].value)
-  const { state, editorMode, closeEditor } = useProductList()
-  const { showEditor, productList, status } = state
+  const [categoryArray, setCategoryArray] = useState(Collectiion)
+  const [currentCategory, setCurrentCategory] = useState(categoryArray[0].value)
+  const {
+    state,
+    editorMode,
+    closeEditor,
+    setParams,
+    deleteMode,
+    deleteProduct
+  } = useProductList()
+  const { showEditor, productList, status, currenPage, showDeleteModal } = state
   const { fetchProducts } = useFetch()
 
-  useEffect(() => {
-    fetchProducts()
-  }, [])
+  const containerRef = useRef(null)
 
   if (status === 'loading') {
     return (
@@ -30,10 +39,11 @@ export default function ProductList () {
   }
 
   return (
-    <section className='p-6 pr-10 relative h-full '>
+    <section ref={containerRef} className='p-6 pr-10 relative h-full '>
       {/*Editor Sidebar */}
       {showEditor && <ProductEditor />}
 
+      {showDeleteModal && <DeleteModal deleteProduct={deleteProduct} deleteMode={deleteMode} />}
       <div className='flex justify-end items-center gap-3 mb-4'>
         <div className='flex gap-7 items-center'>
           <section className='flex gap-3 items-center'>
@@ -45,29 +55,36 @@ export default function ProductList () {
           <section>
             <div className=' text-sm   relative rounded-2xl  border  border-gray-500'>
               <div
-                onClick={() => showCategoryBox(true)}
+                onClick={() => showCategoryBox(e => !e)}
                 className='p-2 px-2 gap-5 flex cursor-pointer hover:bg-gray-50 rounded-2xl justify-between items-center'
               >
                 {currentCategory.toLowerCase() === 'all'
                   ? 'Category'
                   : currentCategory}
-                <span>{<ChevronDown size={15} />}</span>
+                <span>
+                  {categoryBox ? (
+                    <ChevronUpCircle size={15} />
+                  ) : (
+                    <ChevronDown size={15} />
+                  )}
+                </span>
               </div>
               {categoryBox && (
-                <div className='absolute -bottom-40  z-30 right-0 rounded-2xl gap-3  px-8 py-3   items-center text-white bg-black flex flex-col'>
-                  {category
-                    .filter(item => item.id > 0)
-                    .map(item => (
-                      <div
-                        className='cursor-pointer hover:italic'
-                        onClick={() => {
-                          showCategoryBox(false), setCurrentCategory(item.value)
-                        }}
-                        key={item.id}
-                      >
-                        {item.value}
-                      </div>
-                    ))}
+                <div className='absolute -bottom-45  z-30 right-0 rounded-2xl gap-3  px-8 py-3   items-center text-white bg-black flex flex-col'>
+                  {categoryArray.map(item => (
+                    <div
+                      className='cursor-pointer hover:italic'
+                      onClick={() => {
+                        showCategoryBox(false),
+                          setCurrentCategory(item.value),
+                          setParams('category', item.id)
+                        fetchProducts(currenPage, item.id)
+                      }}
+                      key={item.id}
+                    >
+                      {item.value}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -147,27 +164,38 @@ export default function ProductList () {
                     {item.saleProducts.sold_units}
                   </td>
                   <td className='px-4 py-4  border-b border-[#f7f7f7]'>
-                    {category
+                    {categoryArray
                       .find(cat => cat.id === item.categoryId)
                       .value.toLocaleLowerCase()}
                   </td>
-                  <td className='px-4 py-4 border-b border-[#f7f7f7]'>
+                  <td className='px-4 py-4 border-b flex gap-5 border-[#f7f7f7]'>
                     <button
                       onClick={() => {
                         editorMode({
                           name: item.name,
                           price: item.amount,
                           stock: item.stock,
-                          category: category
+                          serverCategory: item.categoryId,
+                          categoryValue: categoryArray
                             .find(cat => cat.id === item.categoryId)
                             .value.toLocaleLowerCase(),
                           discount: item.discount,
-                          image: item.image
+                          image: item.image,
+                          productId: item.id
                         })
                       }}
                       className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae]  px-3 py-1 rounded-md'
                     >
                       View Details
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        deleteMode(true, item.id)
+                      }}
+                      className=' bg-red-300 text-white rounded-xl hover:bg-red-500 cursor-pointer px-4 py-2'
+                    >
+                      delete
                     </button>
                   </td>
                 </tr>

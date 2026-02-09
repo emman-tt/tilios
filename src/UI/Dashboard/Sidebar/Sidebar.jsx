@@ -1,8 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 export default function Sidebar ({ className }) {
   const [selected, setSelected] = useState(1)
   const [sidebar, setSidebar] = useState(sidebarNav)
+  const location = useLocation()
+  useEffect(() => {
+    const path = location.pathname
+    const end = path.split('/')
+    const pathname = end[end.length - 1]
+
+    if (pathname.toLowerCase() === 'dashboard') {
+      return setSelected(1)
+    }
+
+    const route = sidebar.find(
+      item => item.route.toLowerCase() === pathname.toLowerCase()
+    )
+
+    setSelected(route.id)
+  }, [location])
   return (
     <section
       className={` bg-[#f2f8ff] pt-30 flex flex-col gap-5  text-md  font-medium font-sans ${className}`}

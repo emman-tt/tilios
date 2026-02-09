@@ -48,7 +48,7 @@ export const AreaChart = () => {
       {
         smooth: true,
         name: 'Income',
-    
+
         data: [43, 62, 49, 64, 53, 43, 34, 43, 10, 33, 9, 40],
         type: 'line',
         symbol: 'none',
