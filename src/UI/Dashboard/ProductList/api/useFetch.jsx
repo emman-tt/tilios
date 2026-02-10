@@ -1,7 +1,7 @@
 import { api } from '../../../../api/axios'
 import { useProductList } from '../../../../context/productlist'
 import useToken from '../../../../hooks/useToken'
-import { autoRefresh } from '../../../../hooks/autorefresh'
+import { autoRefresh } from '../../../../hooks/autoRefresh'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'

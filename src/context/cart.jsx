@@ -25,7 +25,7 @@ function reducer (state, action) {
 
 export function CartProvider ({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { quantity,cartProducts } = state
+  const { quantity, cartProducts } = state
   const { getToken } = useToken()
 
   const updateQty = operator => {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useProductContext } from '../../../context/product'
 import { api } from '../../../api/axios'
-import { autoRefresh } from '../../../hooks/autorefresh'
+import { autoRefresh } from '../../../hooks/autoRefresh'
 
 export function useFetchProducts () {
   const { state, fetchProducts, fetchProductsError } = useProductContext()
