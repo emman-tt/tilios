@@ -1,5 +1,4 @@
 import EChartsReact from 'echarts-for-react'
-import { DotIcon } from 'lucide-react'
 export const AreaChart = () => {
   const option = {
     tooltip: {
@@ -84,19 +83,22 @@ export const AreaChart = () => {
   }
 
   return (
-    <main className='grow w-full p-0 h-full'>
-      <header className='flex justify-between px-5'>
-        <div className='font-semibold text-xl'>
-          Revenue <span className='text-sm font-light'>(this year)</span>
+    <main className='grow w-full p-0 h-full flex flex-col'>
+      <header className='flex flex-col sm:flex-row justify-between px-2 sm:px-4 md:px-5 gap-2 sm:gap-3'>
+        <div className='font-semibold text-base sm:text-lg md:text-xl'>
+          Revenue{' '}
+          <span className='text-xs sm:text-sm font-light'>(this year)</span>
         </div>
-        <div className='flex gap-5 text-sm '>
-          <p className='flex gap-2  items-center h-full'>
-            <span className='h-2 w-2  rounded-full inline-block bg-[#a6d7ee]'></span>
-            Income
+        <div className='flex gap-2 sm:gap-3 md:gap-5 text-xs sm:text-sm flex-wrap'>
+          <p className='flex gap-1 sm:gap-2 items-center h-full'>
+            <span className='h-2 w-2 rounded-full inline-block bg-[#a6d7ee]'></span>
+            <span className='hidden sm:inline'>Income</span>
+            <span className='sm:hidden'>Inc</span>
           </p>
-          <p className='text-sm flex gap-2 items-center h-full'>
-            <span className='h-2 w-2  rounded-full inline-block bg-[#b16c88]'></span>
-            Expense
+          <p className='text-xs sm:text-sm flex gap-1 sm:gap-2 items-center h-full'>
+            <span className='h-2 w-2 rounded-full inline-block bg-[#b16c88]'></span>
+            <span className='hidden sm:inline'>Expense</span>
+            <span className='sm:hidden'>Exp</span>
           </p>
         </div>
       </header>

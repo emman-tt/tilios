@@ -12,6 +12,7 @@ import ProductList from './UI/Dashboard/ProductList/page'
 import Settings from './UI/Dashboard/Settingss/page'
 import { ProductListProvider } from './context/productlist'
 import { AddProductProvider } from './context/add-product'
+import { OverviewProvider } from './context/overview'
 function App () {
   return (
     <ProductProvider>
@@ -24,26 +25,28 @@ function App () {
           }
         }}
       />
-      <AddProductProvider>
-        <ProductListProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route index path='/' element={<HomePage />} />
-              <Route path='/auth' element={<AuthPage />}>
-                <Route index element={<Login />} />
-                <Route path='signup' element={<SignUp />} />
-              </Route>
+      <OverviewProvider>
+        <AddProductProvider>
+          <ProductListProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route index path='/' element={<HomePage />} />
+                <Route path='/auth' element={<AuthPage />}>
+                  <Route index element={<Login />} />
+                  <Route path='signup' element={<SignUp />} />
+                </Route>
 
-              <Route path='/dashboard' element={<Dashboard />}>
-                <Route index element={<Overview />} />
-                <Route path='addproduct' element={<AddProduct />} />
-                <Route path='productlist' element={<ProductList />} />
-                <Route path='settings' element={<Settings />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </ProductListProvider>
-      </AddProductProvider>
+                <Route path='/dashboard' element={<Dashboard />}>
+                  <Route index element={<Overview />} />
+                  <Route path='addproduct' element={<AddProduct />} />
+                  <Route path='productlist' element={<ProductList />} />
+                  <Route path='settings' element={<Settings />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </ProductListProvider>
+        </AddProductProvider>
+      </OverviewProvider>
     </ProductProvider>
   )
 }

@@ -22,7 +22,7 @@ export default function Sidebar ({ className }) {
   }, [location])
   return (
     <section
-      className={` bg-[#f2f8ff] pt-30 flex flex-col gap-5  text-md  font-medium font-sans ${className}`}
+      className={`bg-[#f2f8ff]  pt-20 sm:pt-30 flex flex-col gap-3 sm:gap-5 text-xs sm:text-sm md:text-md font-medium font-sans ${className}`}
     >
       {sidebar.map(item => (
         <NavLink
@@ -33,10 +33,10 @@ export default function Sidebar ({ className }) {
           }}
           className={`hover:italic cursor-pointer ${
             item.id === selected ? 'border' : ''
-          } p-2 px-6 rounded-2xl flex justify-start gap-4 items-center`}
+          } p-1.5 sm:p-2 px-3 sm:px-6 rounded-2xl flex justify-start gap-3 sm:gap-4 items-center text-sm sm:text-sm md:text-base`}
         >
-          <img src={item.icon} className='h-8 w-8' alt='' />
-          {item.name}
+          <img src={item.icon} className='h-6 sm:h-8 w-6 sm:w-8' alt='' />
+          <span className=' sm:inline'>{item.name}</span>
         </NavLink>
       ))}
     </section>

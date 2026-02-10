@@ -10,20 +10,20 @@ export default function Pagination () {
   const { totalPages, currentPage, category, limit } = state
 
   return (
-    <div className='flex gap-10 justify-end items-center mt-8'>
-      <section className='flex gap-4 items-center '>
-        Showing
-        <div className=' relative cursor-pointer  rounded-md border hover:bg-gray-100 border-[#e6dfd6] bg-white'>
+    <div className='flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-10 justify-between sm:justify-end items-start sm:items-center mt-4 sm:mt-6 md:mt-8 px-3 sm:px-6 md:px-0'>
+      <section className='flex gap-2 sm:gap-4 items-center text-xs sm:text-sm'>
+        <span>Showing</span>
+        <div className='relative cursor-pointer rounded-md border hover:bg-gray-100 border-[#e6dfd6] bg-white'>
           <span
-            className='w-full px-6 py-3 font-semibold '
+            className='block w-full px-3 sm:px-6 py-2 sm:py-3 font-semibold text-xs sm:text-sm'
             onClick={() => showEntriesBox(e => !e)}
           >
             {limit}
           </span>
           {entriesBox && (
-            <div className='absolute -top-20 right-0 rounded-2xl gap-1  px-7 py-4 shadow-2xl  items-center text-white bg-black flex flex-col font-semibold '>
+            <div className='absolute -top-20 right-0 rounded-2xl gap-1 px-4 sm:px-7 py-3 sm:py-4 shadow-2xl items-center text-white bg-black flex flex-col font-semibold text-xs sm:text-sm'>
               <div
-                className='hover:italic'
+                className='hover:italic cursor-pointer'
                 onClick={() => {
                   setEntries(5)
                   showEntriesBox(false)
@@ -33,7 +33,7 @@ export default function Pagination () {
                 5
               </div>
               <div
-                className='hover:italic'
+                className='hover:italic cursor-pointer'
                 onClick={() => {
                   setEntries(10), showEntriesBox(false), setParams('limit', 10)
                 }}
@@ -43,40 +43,31 @@ export default function Pagination () {
             </div>
           )}
         </div>
-        Entries
+        <span>Entries</span>
       </section>
 
-      <section className='flex gap-3 mr-20'>
+      <section className='flex gap-2 sm:gap-3 md:mr-20'>
         <button
           disabled={currentPage == 1}
           onClick={() => {
             setParams('page', currentPage - 1)
           }}
-          className={`w-9 h-9 ${
-            currentPage == 1 ? 'opacity-40' : ''
-          } rounded-full border border-[#efeadf] flex justify-center items-center bg-white  hover:bg-gray-100`}
+          className={`w-8 h-8 sm:w-9 sm:h-9 ${
+            currentPage == 1 ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
+          } rounded-full border border-[#efeadf] flex justify-center items-center bg-white hover:bg-gray-100`}
         >
-          <ChevronLeft />
+          <ChevronLeft size={20} />
         </button>
-        {/* <button className='w-9 h-9 rounded-full border border-[#d6c8b2] bg-[#f6efe6] '>
-          1
-        </button>
-        <button className='w-9 h-9 rounded-full border border-[#efeadf] bg-white  hover:bg-[#f6efe6]'>
-          2
-        </button>
-        <button className='w-9 h-9 rounded-full border border-[#efeadf] bg-white  hover:bg-[#f6efe6]'>
-          3
-        </button> */}
         <button
           disabled={currentPage == totalPages}
           onClick={() => {
             setParams('page', currentPage + 1)
           }}
-          className={`w-9 h-9 ${
-            currentPage == totalPages ? 'opacity-30' : ''
-          } rounded-full border border-[#efeadf] bg-white flex justify-center items-center  hover:bg-gray-100`}
+          className={`w-8 h-8 sm:w-9 sm:h-9 ${
+            currentPage == totalPages ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'
+          } rounded-full border border-[#efeadf] bg-white flex justify-center items-center hover:bg-gray-100`}
         >
-          <ChevronRight size={30} />
+          <ChevronRight size={20} />
         </button>
       </section>
     </div>
