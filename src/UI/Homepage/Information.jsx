@@ -38,8 +38,9 @@ export default function Information ({
           trigger: firstRef.current,
           start: 'top 80%',
           end: 'top 20%',
-          scrub: 1
-          // markers: true
+          scrub: 1,
+          // markers: true,
+          toggleActions: 'play none none none'
         }
       })
 
@@ -76,7 +77,8 @@ export default function Information ({
           trigger: firstRef.current,
           start: 'bottom bottom',
 
-          scrub: 1
+          // scrub: 1,
+          toggleActions: 'play none none none'
         }
       })
     },

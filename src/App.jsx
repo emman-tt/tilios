@@ -13,6 +13,9 @@ import Settings from './UI/Dashboard/Settingss/page'
 import { ProductListProvider } from './context/productlist'
 import { AddProductProvider } from './context/add-product'
 import { OverviewProvider } from './context/overview'
+import CartPage from './pages/CartPage'
+import Cartlist from './UI/Cart/Cartlist/CartList'
+import { CartProvider } from './context/cart'
 function App () {
   return (
     <ProductProvider>
@@ -25,28 +28,37 @@ function App () {
           }
         }}
       />
-      <OverviewProvider>
-        <AddProductProvider>
-          <ProductListProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route index path='/' element={<HomePage />} />
-                <Route path='/auth' element={<AuthPage />}>
-                  <Route index element={<Login />} />
-                  <Route path='signup' element={<SignUp />} />
-                </Route>
+      <CartProvider>
+        <OverviewProvider>
+          <AddProductProvider>
+            <ProductListProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route index path='/' element={<HomePage />} />
+                  <Route path='/auth' element={<AuthPage />}>
+                    <Route index element={<Login />} />
+                    <Route path='signup' element={<SignUp />} />
+                  </Route>
 
-                <Route path='/dashboard' element={<Dashboard />}>
-                  <Route index element={<Overview />} />
-                  <Route path='addproduct' element={<AddProduct />} />
-                  <Route path='productlist' element={<ProductList />} />
-                  <Route path='settings' element={<Settings />} />
-                </Route>
-              </Routes>
-            </BrowserRouter>
-          </ProductListProvider>
-        </AddProductProvider>
-      </OverviewProvider>
+                  <Route path='/dashboard' element={<Dashboard />}>
+                    <Route index element={<Overview />} />
+                    <Route path='addproduct' element={<AddProduct />} />
+                    <Route path='productlist' element={<ProductList />} />
+                    <Route path='settings' element={<Settings />} />
+                  </Route>
+
+                  <Route path='/cart' element={<CartPage />}>
+                    <Route index element={<Navigate to='cartlist' replace />} />
+                    <Route path='cartlist' element={<Cartlist />} />
+                    <Route path='checkout' />
+                    <Route path='order' />
+                  </Route>
+                </Routes>
+              </BrowserRouter>
+            </ProductListProvider>
+          </AddProductProvider>
+        </OverviewProvider>
+      </CartProvider>
     </ProductProvider>
   )
 }

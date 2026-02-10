@@ -15,8 +15,6 @@ api.interceptors.request.use(
   config => {
     const { getToken } = useToken()
     const accessToken = getToken()
-
-    // 2. If token exists, add it to the headers
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
     }

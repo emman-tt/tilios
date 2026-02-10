@@ -13,11 +13,15 @@ export default function Shop ({ tilioRef, closeSideBar }) {
     <main
       onClick={() => closeSideBar()}
       ref={shopContainer}
-      className='grid pt-10 md:pt-30 grid-cols-1 md:grid-cols-2  lg:grid-cols-4 max-sm:h-[600vh] md:h-[230vh] lg:h-[150vh] px-6 md:px-12 lg:pl-40 xl:pl-100 xl:pr-40 border-gray-500'
+      className='grid pt-10 md:pt-30 grid-cols-1 md:grid-cols-2  lg:grid-cols-4 max-sm:h-[600vh] md:h-[230vh] lg:h-auto px-6 md:px-12 lg:pl-40 xl:pl-100 xl:pr-40 border-gray-500 content-start 
+      '
     >
       {status === 'success'
         ? products.map(artifact => (
-            <div key={artifact.id} className='border-r border-b  h-90 '>
+            <div
+              key={artifact.id}
+              className='border-r  border-b cursor-pointer h-90  xl:h-70 2xl:h-90'
+            >
               <ProductItem
                 shopContainer={shopContainer}
                 tilioRef={tilioRef}

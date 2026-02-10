@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useProductContext } from '../../../context/product'
 import { api } from '../../../api/axios'
+import { autoRefresh } from '../../../hooks/autorefresh'
 
 export function useFetchProducts () {
   const { state, fetchProducts, fetchProductsError } = useProductContext()
@@ -21,6 +22,12 @@ export function useFetchProducts () {
         fetchProducts(products)
       } catch (error) {
         console.log(error)
+        //  const status = error.status
+        // if (status === 403) {
+        //   autoRefresh()
+        //   return fetchData()
+        // }
+
         fetchProductsError()
       }
     }

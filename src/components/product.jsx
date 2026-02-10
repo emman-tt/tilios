@@ -4,10 +4,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { ShoppingBag } from 'lucide-react'
-
+import { useCart } from '../context/cart'
 export function ProductItem ({ item, status, tilioRef, shopContainer }) {
   const [isLoaded, setIsLoaded] = useState(status === 'success')
   const eachBox = useRef(null)
+
+  const { addCart } = useCart()
   useGSAP(
     () => {
       gsap.registerPlugin(ScrollTrigger)
@@ -33,14 +35,21 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
   )
 
   return (
-    <section className='relative group flex flex-col w-full px-18 pt-5 max-sm:pb-10  h-full xl:p-10 lg:p-5 md:p-20  justify-between  '>
+    <section
+      onClick={() => {
+        addCart(item.id)
+      }}
+      className='relative group flex flex-col w-full px-18 pt-5 max-sm:pb-10  h-full xl:p-5 2xl:p-10 lg:p-5 md:p-20  justify-between  '
+    >
       <div className='relative'>
         <img
           ref={eachBox}
           src={item.image}
-          className='tiles-image w-full rounded-4xl h-full object-cover'
+          className='tiles-image relative w-full rounded-4xl h-full object-cover'
           alt={item.name}
         />
+
+        <div className='absolute w-11 rounded-tr-4xl h-5 top-0  right-0 rotate-45 bg-red-500'></div>
       </div>
 
       <div className='flex justify-between'>

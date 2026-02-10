@@ -8,6 +8,7 @@ export default function Header ({
   sidebarBg
 }) {
   const navigate = useNavigate()
+
   return (
     <section
       ref={headerText}
@@ -27,9 +28,6 @@ export default function Header ({
           </li>
           <li className='cursor-pointer flex gap-4'>
             <div className='hover:font-semibold hover:italic transition-all'>
-              Product
-            </div>
-            <div className='hover:font-semibold hover:italic transition-all'>
               Collection
             </div>
           </li>
@@ -37,7 +35,7 @@ export default function Header ({
             Contact
           </li>
           <li className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'>
-            Cart(0)
+            <NavLink to={'/cart'}>Cart(0)</NavLink>
           </li>
           <li
             onClick={() => {

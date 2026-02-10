@@ -3,11 +3,13 @@ import { useProductList } from '../../../../context/productlist'
 import useToken from '../../../../hooks/useToken'
 import { autoRefresh } from '../../../../hooks/autorefresh'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 export function useFetch () {
   const { getToken } = useToken()
   const { state, setProducts, paginate, changeStatus } = useProductList()
   const { category, limit, page } = state
-
+  const navigate = useNavigate()
   async function fetchProducts () {
     try {
       changeStatus('loading')
@@ -34,6 +36,8 @@ export function useFetch () {
 
       const statusCode = await response?.status
       if (statusCode === 401) {
+        navigate('/')
+        toast.error('Unauthorized or not an admin')
         return console.log('no token at all hence unauthorized')
       }
 
@@ -42,6 +46,11 @@ export function useFetch () {
         fetchProducts()
 
         return
+      }
+
+      if (statusCode === 405) {
+        toast.error('Session timed out , please log in again')
+        return navigate('/auth')
       }
 
       console.log('server error')
