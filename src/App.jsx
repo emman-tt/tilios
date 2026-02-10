@@ -50,7 +50,7 @@ function App () {
                   <Route path='/cart' element={<CartPage />}>
                     <Route index element={<Navigate to='cartlist' replace />} />
                     <Route path='cartlist' element={<Cartlist />} />
-                    <Route path='checkout' />
+                    <Route path='checkout' element={<Cartlist />} />
                     <Route path='order' />
                   </Route>
                 </Routes>

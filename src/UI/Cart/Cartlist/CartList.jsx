@@ -1,6 +1,8 @@
 import { Minus, Plus, Trash2 } from 'lucide-react'
 import { useCart } from '../../../context/cart'
 import { useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
+import { Collectiion } from '../../../utils/collection'
 export default function Cartlist () {
   const { cartProducts, fetchCart } = useCart()
   console.log(cartProducts)
@@ -23,10 +25,15 @@ export default function Cartlist () {
           <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-1 h-120  '>
             <div className='border w-full border-[#d9d9d9] rounded-[20px] flex px-4  p-5 h-full [scrollbar-width:thin] overflow-y-auto   bg-white flex-col gap-5 '>
               {cartProducts.length === 0 || !cartProducts ? (
-                <section>No products found</section>
+                <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
+                  No products found
+                </section>
               ) : (
                 cartProducts.map(item => (
-                  <section className='flex h-35  justify-between border-b pb-3 border-gray-200 w-full shrink-0'>
+                  <section
+                    key={item.id}
+                    className='flex h-35  justify-between border-b pb-3 border-gray-200 w-full shrink-0'
+                  >
                     <div className='flex gap-5  '>
                       <div className='h-full w-35 bg-gray-200 rounded-2xl'>
                         <img
@@ -36,12 +43,27 @@ export default function Cartlist () {
                         />
                       </div>
                       <header className=' flex flex-col justify-between h-full'>
-                        <div className='text-sm'>
+                        <div className='text-[15px]'>
                           <p className='text-lg font-semibold'>{item.name}</p>
-                          <p>Category: {item.category}</p>
+                          <p>
+                            Category: {'  '}
+                            {Collectiion.find(
+                              cat => cat.id === item.categoryId
+                            ).value.toLocaleLowerCase()}
+                          </p>
+                          <p>Discount: {item.discount}%</p>
                         </div>
 
-                        <p className='font-bold text-lg'>${item.amount}</p>
+                        <div className='font-bold text-lg flex gap-3'>
+                          {parseFloat(item.discount) == 0 && (
+                            <p className=' line-through text-gray-400'>
+                              $
+                              {parseFloat(item.cartProduct.priceAtSale) -
+                                parseFloat(item.amount)}
+                            </p>
+                          )}
+                          ${item.amount}
+                        </div>
                       </header>
                     </div>
 
@@ -100,9 +122,12 @@ export default function Cartlist () {
                 <p className='font-semibold text-lg'>$153</p>
               </li>
 
-              <li className='bg-black cursor-pointer rounded-3xl p-4 text-center w-full text-white'>
+              <NavLink
+                to={'/cart/checkout'}
+                className='bg-black cursor-pointer rounded-3xl p-4 text-center w-full text-white'
+              >
                 Go To Checkout
-              </li>
+              </NavLink>
             </ul>
           </div>
         </section>

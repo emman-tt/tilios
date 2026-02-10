@@ -1,7 +1,7 @@
 import { useContext, useReducer, createContext } from 'react'
 import { api } from '../api/axios'
 import useToken from '../hooks/useToken'
-import { autoRefresh } from '../hooks/autorefresh'
+import { autoRefresh } from '../hooks/autoRefresh'
 import { toast } from 'sonner'
 
 const CartContext = createContext()

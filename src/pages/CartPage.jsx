@@ -1,11 +1,26 @@
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 export default function CartPage () {
-
-    
-
-
+  const location = useLocation()
+  const [section, setSection] = useState(1)
+  useEffect(() => {
+    const path = location.pathname
+    const splitted = path.split('/')
+    console.log(splitted)
+    const pathname = splitted[splitted.length - 1]
+    console.log(pathname)
+    if (pathname === 'cart' || 'cartlist') {
+      return setSection(1)
+    }
+    if (pathname === 'checkout') {
+      return setSection(2)
+    }
+    if (pathname === 'order') {
+      return setSection(3)
+    }
+  }, [])
   return (
     <section className='flex flex-col justify-center items-center'>
       <h2 className='text-4xl font-bold mt-10 pb-10 font-serif'>
@@ -13,25 +28,59 @@ export default function CartPage () {
       </h2>
 
       <ul className='flex gap-10 '>
-        <li className='text-3xl items-center w-70  gap-3 border-b-3 flex pb-3'>
-          <div className='px-4.5 py-2 flex justify-center items-center  rounded-2xl bg-black text-white text-xl'>
+        <li
+          className={`text-3xl items-center w-70  gap-3 border-b-2 flex pb-3`}
+        >
+          <div
+            className={`px-4.5 py-2 flex justify-center items-center  rounded-2xl    ${
+              section === 1 ? 'bg-black' : 'bg-gray-200'
+            }  text-white text-xl`}
+          >
             1
           </div>
-          <p className='text-lg font-semibold '> Shopping Cart</p>
+          <p
+            className={`text-lg font-semibold ${
+              section === 1 ? 'text-black' : 'text-gray-200'
+            } `}
+          >
+            Shopping Cart
+          </p>
         </li>
-        <li className='text-3xl flex gap-3 w-70 items-center  border-b-4 pb-3'>
-          <div className='px-4.5 py-2 rounded-2xl flex justify-center items-center bg-gray-200 text-xl text-white font-semibold'>
+        <li
+          className={`text-3xl  flex gap-3 w-70 items-center  border-b-2 pb-3`}
+        >
+          <div
+            className={`px-4.5 py-2 rounded-2xl flex justify-center items-center    ${
+              section === 2 ? 'bg-black' : 'bg-gray-200'
+            }  text-xl text-white font-semibold`}
+          >
             2
           </div>
-          <p className='text-lg font-semibold  text-gray-200'>
+          <p
+            className={`text-lg font-semibold ${
+              section === 2 ? 'text-black' : 'text-gray-200'
+            }  `}
+          >
             Checkout Details
           </p>
         </li>
-        <li className='text-3xl flex gap-3 w-70 items-center border-b-4 pb-3'>
-          <div className='px-4.5 py-2 flex justify-center items-center rounded-xl bg-gray-200 text-xl text-white font-semibold'>
+        <li className={`text-3xl flex gap-3 w-70 items-center border-b-2 pb-3`}>
+          <div
+            className={`px-4.5 py-2 flex justify-center items-center rounded-xl
+            ${
+              section === 3 ? 'bg-black' : 'bg-gray-200'
+            }     text-xl text-white font-semibold`}
+          >
             3
           </div>
-          <p className='text-lg font-semibold text-gray-200 '>Order Complete</p>
+          <p
+           
+            className={`text-lg  ${
+              section === 3 ? 'text-black' : 'text-gray-200'
+            } font-semibold  `}
+          >
+            Order Complete
+          </p>
         </li>
       </ul>
       <Outlet />
