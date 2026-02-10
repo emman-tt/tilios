@@ -62,7 +62,7 @@ export default function Header ({
         ref={sidebarBg}
         className={`fixed inset-0 bg-[#fefaf6] z-40 transform ${
           isMenuOpen ? 'translate-x-40' : 'translate-x-full'
-        } transition-transform duration-300 ease-in-out md:hidden flex flex-col p-10 pt-24 gap-8`}
+        } transition-transform duration-300 ease-in-out md:hidden flex flex-col p-10 pt-24 gap-8 pl-5`}
       >
         <ul className='flex flex-col gap-6 text-xl font-mono font-semibold'>
           <li
@@ -71,30 +71,27 @@ export default function Header ({
           >
             Search
           </li>
-          <li
-            onClick={() => setIsMenuOpen(false)}
-            className='cursor-pointer hover:italic'
-          >
-            Product
-          </li>
+
           <li
             onClick={() => setIsMenuOpen(false)}
             className='cursor-pointer hover:italic'
           >
             Collection
           </li>
-          <li
-            onClick={() => setIsMenuOpen(false)}
-            className='cursor-pointer hover:italic'
-          >
-            3d Model
-          </li>
+
           <li
             onClick={() => setIsMenuOpen(false)}
             className='cursor-pointer hover:italic'
           >
             Contact
           </li>
+          <NavLink
+            to={'/auth'}
+            onClick={() => setIsMenuOpen(false)}
+            className='   cursor-pointer hover:italic'
+          >
+            Login
+          </NavLink>
         </ul>
       </div>
     </section>

@@ -5,10 +5,10 @@ import { useAuth } from '../../context/auth'
 export default function Header () {
   const { changeAuthType, authType } = useAuth()
   return (
-    <section className='flex w-full justify-between px-20 pt-6 '>
+    <section className='flex w-full justify-between px-5 sm:px-20 pt-6 '>
       <NavLink
         to={'/'}
-        className='text-xl cursor-pointer font-semibold items-center flex gap-3 hover:italic transition-all duration-500'
+        className='text-xl cursor-pointer font-semibold items-center flex gap-3 hover:italic transition-all duration-500 max-sm:text-lg '
       >
         Tilios
         <span>
@@ -16,11 +16,11 @@ export default function Header () {
         </span>
       </NavLink>
 
-      <div className='flex gap-10 items-center'>
-        <NavLink to={'/'}>
+      <div className='flex gap-10   items-center'>
+        <NavLink to={'/'} className={'hidden sm:block'}>
           <Globe className='cursor-pointer' size={25} />
         </NavLink>
-        <NavLink to={'signup'} className='cursor-pointer'>
+        <NavLink to={'signup'} className='hidden sm:block cursor-pointer '>
           Sign Up
         </NavLink>
         <NavLink
@@ -28,7 +28,7 @@ export default function Header () {
           onClick={() => {
             changeAuthType(authType === 'admin' ? 'user' : 'admin')
           }}
-          className='bg-[#fdc886] rounded-xl text-black font-semibold p-3 cursor-pointer'
+          className='bg-[#fdc886] rounded-xl text-black font-semibold  p-3 cursor-pointer'
         >
           {authType === 'admin' ? 'User login' : 'Admin Access'}
         </NavLink>
