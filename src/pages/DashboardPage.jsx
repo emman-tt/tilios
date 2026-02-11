@@ -9,12 +9,12 @@ export default function Dashboard () {
 
   return (
     <section>
-      <section className='flex h-screen'>
+      <section className='flex h-screen '>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className='lg:hidden fixed top-0  md:left-10 z-10 p-2 right-10 mt-0'
+          className='lg:hidden absolute top-0  md:left-10 z-10 p-2 right-10 '
         >
-          {sidebarOpen ? <X size={24} /> : <Menu size={45} />}
+          {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
         <div

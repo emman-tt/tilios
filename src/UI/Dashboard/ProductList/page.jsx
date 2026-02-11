@@ -30,22 +30,15 @@ export default function ProductList () {
 
   const containerRef = useRef(null)
 
-  // if (status === 'loading') {
-  //   return (
-  //     <section className='flex relative justify-center items-center h-full w-full'>
-  //       <Loader />
-  //     </section>
-  //   )
-  // }
-
   return (
     <section
       ref={containerRef}
-      className='p-3 sm:p-6 md:pr-10  h-full overflow-hidden flex flex-col'
+      className='p-2 sm:p-6 md:pr-10  h-full overflow-hidden flex flex-col'
     >
       {/*Editor Sidebar */}
       {showEditor && <ProductEditor />}
 
+      {/* Delete Modal */}
       {showDeleteModal && (
         <DeleteModal deleteProduct={deleteProduct} deleteMode={deleteMode} />
       )}
@@ -104,9 +97,9 @@ export default function ProductList () {
         </div>
       </div>
 
-      <div className='  rounded-4xl overflow-y-hidden p-3 sm:p-6 md:pt-15 lg:p-12  lg:pl-0 lg:pb-5 xl:pl-10  md:pl-2  shadow flex-1 relative   pt-12  lg:pr-0 max-sm:rounded'>
+      <div className='  rounded-4xl overflow-y-hidden p-0 sm:p-6 md:pt-15 lg:p-12  lg:pl-0 lg:pb-5 xl:pl-10  md:pl-2  shadow flex-1 relative   pt-12  lg:pr-0 max-sm:rounded-xl'>
         <div
-          className='absolute   left-0 right-0 z-20 top-0 rounded-2xl bg-[#eef0f2] grid grid-cols-5 sm:grid-cols-7
+          className='absolute   left-0 right-0 z-20 top-0 rounded-t-xl bg-[#eef0f2] grid grid-cols-5 sm:grid-cols-7
          md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0  font-semibold text-xs sm:text-sm '
         >
           <div className='text-left max-sm:pl-12 col-span-2 md:col-span-2 lg:col-span-2 xl:col-span-2 md:pl-10 xl:pl-20 px-2 sm:px-4 py-3 sm:py-4 rounded-l-3xl max-[330px]:pl-0 border-b border-[#efe7db] whitespace-nowrap'>
@@ -118,9 +111,6 @@ export default function ProductList () {
           <div className='text-left px-2 sm:px-4 py-3 sm:py-4 border-b border-[#efe7db] max-sm:hidden whitespace-nowrap'>
             Stock
           </div>
-          {/* <div className='text-left px-2 sm:px-4 py-3 sm:py-4 border-b border-[#efe7db] whitespace-nowrap hidden sm:block md:hidden'>
-            ID
-          </div> */}
           <div className='text-left px-2 sm:px-4 py-3 sm:py-4 border-b border-[#efe7db] whitespace-nowrap hidden md:block'>
             Product ID
           </div>
@@ -173,10 +163,6 @@ export default function ProductList () {
                     {item.stock}
                   </div>
 
-                  {/* <div className='px-2 sm:px-4 py-2 sm:py-4 text-xs sm:text-sm hidden sm:block md:hidden'>
-                    {item.id}
-                  </div> */}
-
                   <div className='px-2 sm:px-4 py-2 sm:py-4 text-xs sm:text-sm hidden md:block'>
                     {item.id}
                   </div>
@@ -208,7 +194,7 @@ export default function ProductList () {
                             productId: item.id
                           })
                         }}
-                        className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae] px-1 sm:px-3 py-1 rounded-md text-xs sm:text-sm max-sm:py-3 whitespace-nowrap'
+                        className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae] px-1 sm:px-3 py-1 rounded-md text-xs sm:text-sm max-sm:py-2 whitespace-nowrap'
                       >
                         View Details
                       </button>
@@ -217,7 +203,7 @@ export default function ProductList () {
                         onClick={() => {
                           deleteMode(true, item.id)
                         }}
-                        className='bg-red-300 text-white rounded-xl hover:bg-red-500 cursor-pointer px-1 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm whitespace-nowrap max-sm:rounded'
+                        className='bg-red-300 max-sm:bg-red-500 text-white rounded-xl hover:bg-red-500 cursor-pointer px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm whitespace-nowrap max-sm:rounded'
                       >
                         Delete
                       </button>

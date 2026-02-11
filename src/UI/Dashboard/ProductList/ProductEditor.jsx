@@ -165,7 +165,7 @@ export const ProductEditor = ({}) => {
         />
       </div>
 
-      <section className='flex gap-3 sm:gap-5 mt-8 sm:mt-15 flex-col sm:flex-row'>
+      <section className='flex gap-3 sm:gap-5 mt-8 sm:mt-15  sm:flex-row'>
         <button
           onClick={() => {
             updateProduct()

@@ -98,7 +98,7 @@ export default function SignUp () {
         onClick={() => {
           Submit()
         }}
-        className='bg-[#fdc886] cursor-pointer rounded-lg sm:rounded-2xl mt-3 sm:mt-4 md:mt-4 py-2 sm:py-3 text-xs sm:text-sm md:text-md font-semibold transition-all hover:bg-[#f5b85d]'
+        className='bg-[#fdc886] cursor-pointer  rounded-lg sm:rounded-2xl mt-3 sm:mt-4 md:mt-4 py-3 sm:py-3 text-xs sm:text-sm md:text-md font-semibold transition-all hover:bg-[#f5b85d]'
       >
         Sign Up
       </button>
@@ -107,9 +107,9 @@ export default function SignUp () {
           {error}
         </p>
       )}
-      <p className='flex justify-center mt-3 sm:mt-4 md:mt-5 text-xs'>
-        {' '}
-        -Or Sign Up With-{' '}
+      <p className='flex justify-center mt-10 sm:mt-4 md:mt-5 text-xs'>
+       
+        -Or Sign Up With-
       </p>
 
       <section className='flex gap-2 sm:gap-3 justify-between mt-3 sm:mt-4'>

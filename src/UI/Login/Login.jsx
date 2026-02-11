@@ -43,7 +43,7 @@ export default function Login () {
   return (
     <section
       ref={logIn}
-      className='w-full sm:w-96 md:w-120 h-max bg-[#ffffff] rounded-2xl sm:rounded-3xl md:rounded-4xl shadow-lg sm:shadow-xl md:shadow-2xl flex flex-col p-5 sm:p-7 md:p-10 mx-4 sm:mx-0'
+      className='w-full sm:w-96 md:w-120 h-max bg-[#ffffff] rounded-2xl sm:rounded-3xl md:rounded-4xl shadow-lg sm:shadow-xl md:shadow-2xl flex flex-col p-5 sm:p-7 md:p-10 mx-4 sm:mx-0 '
     >
       {status === 'loading' && <Loader />}
       <h2 className='flex justify-center text-xl sm:text-2xl md:text-3xl font-bold font-sans'>
@@ -89,23 +89,27 @@ export default function Login () {
         </section>
       </div>
 
-      <p className='flex font-medium text-xs sm:text-sm mt-4 sm:mt-6 cursor-pointer hover:underline'>
+      <p className='flex font-medium  text-xs sm:text-sm mt-4 sm:mt-6 cursor-pointer hover:underline'>
         Have trouble signing in ?
       </p>
       <button
         onClick={() => {
           Submit()
         }}
-        className='bg-[#fdc886] cursor-pointer rounded-lg sm:rounded-2xl mt-3 sm:mt-4 md:mt-4 py-2 sm:py-3 text-xs sm:text-sm md:text-md font-semibold transition-all hover:bg-[#f5b85d]'
+        className='bg-[#fdc886] cursor-pointer rounded-lg sm:rounded-2xl mt-3 sm:mt-4 md:mt-4 py-3 sm:py-3 text-xs sm:text-sm md:text-md font-semibold transition-all hover:bg-[#f5b85d]'
       >
         Sign In
       </button>
       {showError && (
-        <p className='text-red-500 text-xs sm:text-sm font-semibold pt-3'>{error}</p>
+        <p className='text-red-500 text-xs sm:text-sm font-semibold pt-3'>
+          {error}
+        </p>
       )}
-      <p className='flex justify-center mt-3 sm:mt-4 md:mt-5 text-xs'> -Or Sign In With- </p>
+      <p className='flex justify-center mt-10 sm:mt-4 md:mt-5 text-xs'>
+        -Or Sign In With-
+      </p>
 
-      <section className='flex gap-2 sm:gap-3 justify-between mt-3 sm:mt-4'>
+      <section className='flex gap-2  sm:gap-3 justify-between mt-3 sm:mt-4'>
         <button className='border-gray-200 hover:bg-gray-50 cursor-pointer flex gap-2 sm:gap-3 justify-center border grow rounded-lg sm:rounded-xl py-2 sm:py-2.5 md:py-1.5 items-center text-xs sm:text-sm md:text-md font-semibold transition-all'>
           <svg
             xmlns='http://www.w3.org/2000/svg'

@@ -9,8 +9,9 @@ export async function autoRefresh () {
     const msg = data?.message
     const accessToken = data?.accessToken
     saveToken(accessToken)
+    const status = data.status
 
-    console.log(msg)
+    return status
   } catch (error) {
     console.log(error)
   }

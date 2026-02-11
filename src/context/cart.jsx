@@ -3,6 +3,7 @@ import { api } from '../api/axios'
 import useToken from '../hooks/useToken'
 import { autoRefresh } from '../hooks/autoRefresh'
 import { toast } from 'sonner'
+import { navigate } from '../components/navigator'
 
 const CartContext = createContext()
 
@@ -56,7 +57,7 @@ export function CartProvider ({ children }) {
       const status = error.status
       const serverError = error.response.data.message
       if (status === 403) {
-        await autoRefresh()
+        const status = await autoRefresh()
         return fetchCart()
       }
 
@@ -94,8 +95,19 @@ export function CartProvider ({ children }) {
       }
 
       if (status === 403) {
-        await autoRefresh()
-        return addCart(productId)
+        const status = await autoRefresh()
+
+        if (status === 'success') {
+          return addCart(productId)
+        } else {
+          toast.dismiss()
+
+          toast.error('Please sign up', {
+            description: 'Note this is required to use the cart'
+          })
+
+          return (window.location.href = '/auth')
+        }
       }
 
       if (status === 405) {

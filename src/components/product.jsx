@@ -34,6 +34,12 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
     { scope: shopContainer }
   )
 
+  function calculateDiscount (item) {
+    const discountValue = (parseFloat(item.discount) / 100) * item.amount
+    const priceAtSale = item.amount - discountValue
+    return priceAtSale.toFixed(2)
+  }
+
   return (
     <section
       onClick={() => {
@@ -49,16 +55,27 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
           alt={item.name}
         />
 
-        <div className='absolute w-11 rounded-tr-4xl h-5 top-0  right-0 rotate-45 bg-red-500'></div>
+        {item.discount > 0 && (
+          <div className='absolute    -top-3 left-0 rounded-4xl text-white p-1 px-3 font-semibold text-sm  flex justify-center items-center  bg-red-400'>
+            -{item.discount}%
+          </div>
+        )}
       </div>
 
       <div className='flex justify-between'>
         <p className={'font-mono w-[40%]'}>{item.name}</p>
-        <p className={'font-semibold'}>{'$ ' + item.amount}</p>
+        <div className={'font-semibold'}>
+          <p className={item.discount > 0 ? 'line-through text-gray-400' : ''}>
+            {'$ ' + item.amount}
+          </p>
+          {item.discount > 0 && (
+            <p className=' '>$ {calculateDiscount(item)}</p>
+          )}
+        </div>
       </div>
-      <div className='absolute lg:hidden flex  group-hover:flex p-2 text-sm  text-white font-medium gap-3 items-center backdrop-blur-3xl bg-gray-400 shadow-2xl rounded-4xl px-3 right-2 bottom-2 z-10 cursor-pointer lg:bottom-2 xl:bottom-4 lg:right-1 xl:right-5'>
+      {/* <div className='absolute lg:hidden flex  group-hover:flex p-2 text-sm  text-white font-medium gap-3 items-center backdrop-blur-3xl bg-gray-400 shadow-2xl rounded-4xl px-3 right-2 bottom-2 z-10 cursor-pointer lg:bottom-2 xl:bottom-4 lg:right-1 xl:right-5'>
         Add to Cart <ShoppingBag size={15} />
-      </div>
+      </div> */}
     </section>
   )
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { Home } from 'lucide-react'
 export default function Sidebar ({ className }) {
   const [selected, setSelected] = useState(1)
   const [sidebar, setSidebar] = useState(sidebarNav)
@@ -39,6 +40,13 @@ export default function Sidebar ({ className }) {
           <span className=' sm:inline'>{item.name}</span>
         </NavLink>
       ))}
+      <NavLink
+        to={'/'}
+        className='p-1.5 sm:p-2 px-3 sm:px-6 rounded-2xl flex justify-start gap-3 sm:gap-4 items-center text-sm sm:text-sm md:text-base'
+      >
+        <Home className='h-6 sm:h-8 w-6 sm:w-8' />
+        <span className='sm:inline'>Homepage</span>
+      </NavLink>
     </section>
   )
 }

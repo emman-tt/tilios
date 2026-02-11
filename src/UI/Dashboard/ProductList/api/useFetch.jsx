@@ -42,10 +42,12 @@ export function useFetch () {
       }
 
       if (statusCode === 403) {
-        await autoRefresh()
-        fetchProducts()
-
-        return
+        const status = await autoRefresh()
+        if (status === 'success') {
+          return fetchProducts()
+        } else {
+          toast.error('Please sign up')
+        }
       }
 
       if (statusCode === 405) {
