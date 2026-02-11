@@ -275,7 +275,7 @@ export function AuthProvider ({ children }) {
       }, 1000)
 
       toast.success('Welcome back!', {
-        description: 'Redirecting to your homepage...'
+        description: 'Redirecting to  homepage...'
       })
 
       navigate('/')

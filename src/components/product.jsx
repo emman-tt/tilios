@@ -45,9 +45,9 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
       onClick={() => {
         addCart(item.id)
       }}
-      className='relative group flex flex-col w-full px-18 pt-5 max-sm:pb-10  h-full xl:p-5 2xl:p-10 lg:p-5 md:p-20  justify-between  '
+      className='relative group flex  sm:px-18 flex-col w-full px-10 pt-5 max-sm:pb-10  h-full xl:p-5 2xl:p-10 lg:p-5 md:p-20  justify-between  '
     >
-      <div className='relative'>
+      <div className='relative max-sm:px-5'>
         <img
           ref={eachBox}
           src={item.image}
@@ -56,13 +56,13 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
         />
 
         {item.discount > 0 && (
-          <div className='absolute    -top-3 left-0 rounded-4xl text-white p-1 px-3 font-semibold text-sm  flex justify-center items-center  bg-red-400'>
+          <div className='absolute max-sm:left-3 max-sm:rounded-xl max-sm:-top-1  -top-3 left-0 rounded-4xl text-white p-1 px-3 font-semibold text-sm  flex justify-center items-center  bg-red-400'>
             -{item.discount}%
           </div>
         )}
       </div>
 
-      <div className='flex justify-between'>
+      <div className='flex justify-between  mb-10'>
         <p className={'font-mono w-[40%]'}>{item.name}</p>
         <div className={'font-semibold'}>
           <p className={item.discount > 0 ? 'line-through text-gray-400' : ''}>
@@ -73,9 +73,9 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
           )}
         </div>
       </div>
-      {/* <div className='absolute lg:hidden flex  group-hover:flex p-2 text-sm  text-white font-medium gap-3 items-center backdrop-blur-3xl bg-gray-400 shadow-2xl rounded-4xl px-3 right-2 bottom-2 z-10 cursor-pointer lg:bottom-2 xl:bottom-4 lg:right-1 xl:right-5'>
+      <div className='absolute lg:hidden flex   group-hover:flex p-2 text-sm  text-white font-medium gap-3 items-center backdrop-blur-3xl bg-black shadow-2xl rounded-xl  px-3 right-2 bottom-2 z-10 cursor-pointer lg:bottom-2 xl:bottom-4 lg:right-1 xl:right-5'>
         Add to Cart <ShoppingBag size={15} />
-      </div> */}
+      </div>
     </section>
   )
 }

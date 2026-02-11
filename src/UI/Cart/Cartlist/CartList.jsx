@@ -11,9 +11,9 @@ export default function Cartlist () {
   }, [])
   return (
     <section className='mt-6 w-full flex justify-center'>
-      <div className='flex w-[60%] gap-3'>
+      <div className='flex w-[80%] gap-3'>
         <section className='flex flex-col w-[60%] gap-3'>
-          <section className=' rounded-[100px] border-[0.1px] border-black/30 bg-[#f0f0f0]   w-full p-1 '>
+          <section className=' rounded-[100px] border-[0.1px] border-black/30 bg-[#f0f0f0]   w-full p-0.5 '>
             <div className='border w-full border-[#d9d9d9] rounded-[100px] flex justify-between p-1 px-4 items-center bg-white'>
               <div className='font-semibold'>Select All</div>
               <button className='rounded-3xl bg-black flex justify-center items-center text-white py-2 px-7'>
@@ -22,7 +22,7 @@ export default function Cartlist () {
             </div>
           </section>
 
-          <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-1 h-120  '>
+          <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-0.5 h-120  '>
             <div className='border w-full border-[#d9d9d9] rounded-[20px] flex px-4  p-5 h-full [scrollbar-width:thin] overflow-y-auto   bg-white flex-col gap-5 '>
               {cartProducts.length === 0 || !cartProducts ? (
                 <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
@@ -89,7 +89,7 @@ export default function Cartlist () {
           </section>
         </section>
 
-        <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]   grow p-1 h-max '>
+        <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]   grow p-0.5 h-max '>
           <div className='border w-full border-[#d9d9d9] rounded-[20px] flex justify-between p-5  h-full items-center  bg-white'>
             <ul className='flex flex-col gap-2 w-full'>
               <li className='w-full text-2xl font-semibold'>Order Summary</li>

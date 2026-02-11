@@ -69,22 +69,30 @@ export function CartProvider ({ children }) {
     }
   }
   async function addCart (productId) {
-    try {
-      const accessToken = getToken()
+    const accessToken = getToken()
 
-      await api.post(
-        `/cart/${productId}`,
-        {
-          quantity: quantity
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+    const addingToast = toast.success('Adding item to cart ...', {
+      duration: 1000
+    })
+    const apiCall = await api.post(
+      `/cart/${productId}`,
+      {
+        quantity: quantity
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
         }
-      )
+      }
+    )
 
-      return toast.success('Product added successfully')
+    try {
+      if (apiCall) {
+        toast.success('Item added to cart')
+        addingToast.dismiss()
+      }
+
+      return
     } catch (error) {
       console.log(error)
       const status = error.status
@@ -100,13 +108,12 @@ export function CartProvider ({ children }) {
         if (status === 'success') {
           return addCart(productId)
         } else {
-          toast.dismiss()
-
+          window.location.href = '/auth'
           toast.error('Please sign up', {
             description: 'Note this is required to use the cart'
           })
 
-          return (window.location.href = '/auth')
+          return
         }
       }
 

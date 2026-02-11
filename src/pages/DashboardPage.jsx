@@ -12,7 +12,7 @@ export default function Dashboard () {
       <section className='flex h-screen '>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className='lg:hidden absolute top-0  md:left-10 z-10 p-2 right-10 '
+          className='lg:hidden absolute top-2  md:left-10 z-10 p-2 right-7 '
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
