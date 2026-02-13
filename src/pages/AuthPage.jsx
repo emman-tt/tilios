@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import Header from '../UI/Login/Header'
 import { useAuth } from '../context/auth'
 import { AuthProvider } from '../context/auth'
+
 export default function AuthPage () {
   return (
     <AuthProvider>

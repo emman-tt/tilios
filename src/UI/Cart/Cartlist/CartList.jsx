@@ -6,13 +6,24 @@ import { Collectiion } from '../../../utils/collection'
 import { lazy } from 'react'
 // const NotFound = lazy(() => import('./not-found'))
 import { NotFound } from './not-found'
-
+import Loader from '../../../components/Loader'
 export default function Cartlist () {
-  const { cartProducts, fetchCart, updateCart } = useCart()
+  const { cartProducts, fetchCart, deleteCart, updateCart, status } = useCart()
 
   useEffect(() => {
     fetchCart()
   }, [])
+
+  function calculateTotal (item) {
+    const discountValue = (parseFloat(item.discount) / 100) * item.amount
+    const priceAtSale = (item.amount - discountValue).toFixed(2)
+
+    const qty = parseInt(item.cartProduct.quantity)
+
+    const total = qty * priceAtSale
+
+    return total.toFixed(2)
+  }
 
   return (
     <section className='mt-6 w-full flex justify-center'>
@@ -29,11 +40,19 @@ export default function Cartlist () {
 
           <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-0.5 h-120  '>
             <div className='border w-full border-[#d9d9d9] rounded-[20px] flex px-4  p-5 h-full [scrollbar-width:thin] overflow-y-auto   bg-white flex-col gap-5 '>
-              {cartProducts.length === 0 || !cartProducts ? (
-                <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
-                  <NotFound />
+              {status === 'loading' && (
+                <section className='flex relative  justify-center items-center h-120 w-full'>
+                  <Loader />
                 </section>
-              ) : (
+              )}
+              {cartProducts.length === 0 ||
+                (!cartProducts && status !== 'loading' && (
+                  <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
+                    <NotFound />
+                  </section>
+                ))}
+
+              {status !== 'loading' &&
                 cartProducts.map(item => (
                   <section
                     key={item.id}
@@ -48,32 +67,56 @@ export default function Cartlist () {
                         />
                       </div>
                       <header className=' flex flex-col justify-between h-full'>
-                        <div className='text-[15px]'>
-                          <p className='text-lg font-semibold'>{item.name}</p>
-                          <p>
-                            Category: {'  '}
-                            {Collectiion.find(
-                              cat => cat.id === item.categoryId
-                            ).value.toLocaleLowerCase()}
-                          </p>
-                          <p>Discount: {item.discount}%</p>
-                        </div>
-
-                        <div className='font-bold text-lg flex gap-3'>
-                          {parseFloat(item.discount) == 0 && (
-                            <p className=' line-through text-gray-400'>
-                              $
-                              {parseFloat(item.cartProduct.priceAtSale) -
-                                parseFloat(item.amount)}
+                        <section>
+                          <div className='text-[15px]'>
+                            <p className='text-lg font-semibold'>{item.name}</p>
+                            <p>
+                              Category:
+                              <span className='font-semibold pl-3 capitalize'>
+                                {Collectiion.find(
+                                  cat => cat.id === item.categoryId
+                                ).value.toLocaleLowerCase()}
+                              </span>
                             </p>
-                          )}
-                          ${item.amount}
+                            {item.discount > 0 && (
+                              <p className='text-red-500 font-semibold italic text-xs'>
+                                Discount: {item.discount}%
+                              </p>
+                            )}
+                          </div>
+                          <div className='font-semibold text-[13px] flex gap-2'>
+                            <p
+                              className={
+                                item.discount > 0 &&
+                                'line-through text-gray-400'
+                              }
+                            >
+                              ${item.amount}
+                            </p>
+                            <p
+                              className={item.discount > 0 ? 'block' : 'hidden'}
+                            >
+                              ${item.cartProduct.priceAtSale}
+                            </p>
+                            per-ft
+                          </div>
+                        </section>
+
+                        <div className='flex  '>
+                          <p>Total : </p>
+                          <span className=' font-semibold pl-2'>
+                            ${calculateTotal(item)}
+                          </span>
                         </div>
                       </header>
                     </div>
 
                     <div className='h-full items-end justify-between flex flex-row md:flex-col gap-3'>
-                      <p>
+                      <p
+                        onClick={() => {
+                          deleteCart(item.id)
+                        }}
+                      >
                         <Trash2
                           size={20}
                           color='red'
@@ -94,8 +137,7 @@ export default function Cartlist () {
                       </div>
                     </div>
                   </section>
-                ))
-              )}
+                ))}
             </div>
           </section>
         </section>
@@ -105,7 +147,7 @@ export default function Cartlist () {
             <ul className='flex flex-col gap-2 w-full'>
               <li className='w-full text-2xl font-semibold'>Order Summary</li>
               <li className='flex w-full'>
-                <input 
+                <input
                   type='text'
                   className='w-full md:w-[70%] border rounded-3xl border-gray-200 px-4 mr-2'
                   placeholder='Coupon code'

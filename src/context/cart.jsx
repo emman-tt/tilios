@@ -9,7 +9,7 @@ const CartContext = createContext()
 const initialState = {
   quantity: 1,
   cartProducts: [],
-  status: 'start',
+  status: 'loading',
   cartTotal: 0,
   checkoutDetails: {}
 }
@@ -51,6 +51,14 @@ function reducer (state, action) {
         )
       }
 
+    case 'deleteProduct':
+      return {
+        ...state,
+        cartProducts: state.cartProducts.filter(
+          item => item.id !== action.payload
+        )
+      }
+
     case 'saveDetails':
       return {
         ...state,
@@ -64,7 +72,7 @@ function reducer (state, action) {
 
 export function CartProvider ({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { quantity, cartProducts, checkoutDetails, cartTotal } = state
+  const { quantity, cartProducts, status, checkoutDetails, cartTotal } = state
   const { getToken } = useToken()
 
   function SaveCheckoutDetails (input) {
@@ -75,12 +83,20 @@ export function CartProvider ({ children }) {
   }
 
   async function updateCart (type, productId) {
+    const currentItem = cartProducts.find(item => item.id === productId)
+    const currentQty = currentItem.cartProduct.quantity
+
+    const nextQty = type === 'increase' ? currentQty + 1 : currentQty - 1
+
+    if (nextQty === 0) {
+      dispatch({ type: 'deleteProduct', payload: productId })
+
+      return await deleteCart(productId)
+    }
+
     dispatch({
       type: 'setProductQty',
-      payload: {
-        id: productId,
-        amount: type === 'increase' ? 1 : -1
-      }
+      payload: { id: productId, amount: type === 'increase' ? 1 : -1 }
     })
 
     try {
@@ -88,15 +104,17 @@ export function CartProvider ({ children }) {
         type: type,
         productId: productId
       })
-
-      const data = await response.data
     } catch (error) {
+      if (error.status === 404) {
+        fetchCart()
+        return
+      }
+
       dispatch({
         type: 'setProductQty',
         payload: { id: productId, amount: type === 'increase' ? -1 : 1 }
       })
-
-      toast.error('Failed to update cart. Please check your connection.')
+      toast.error('Failed to update cart.')
     }
   }
 
@@ -127,6 +145,11 @@ export function CartProvider ({ children }) {
           payload: 'empty'
         })
       }
+
+      dispatch({
+        type: 'setStatus',
+        payload: 'filled'
+      })
     } catch (error) {
       console.log(error)
       const status = error.status
@@ -158,7 +181,7 @@ export function CartProvider ({ children }) {
   }
   async function addCart (productId) {
     try {
-      const addingToast = toast.success('Adding item to cart ...', {
+      toast.success('Adding item to cart ...', {
         duration: 1000
       })
       const apiCall = await api.post(`/cart/${productId}`, {
@@ -208,6 +231,54 @@ export function CartProvider ({ children }) {
     }
   }
 
+  async function deleteCart (productId) {
+    try {
+      toast.dismiss()
+      dispatch({
+        type: 'deleteProduct',
+        payload: productId
+      })
+      const apiCall = await api.delete(`/cart/${productId}`)
+      if (apiCall) {
+        toast.dismiss()
+        toast.success('Item removed from  cart')
+        // addingToast.dismiss()
+      }
+    } catch (error) {
+      console.log(error)
+      const status = error.status
+      const serverError = error.response.data.message
+      toast.dismiss()
+      if (status === 403) {
+        const status = await autoRefresh()
+
+        if (status === 'success') {
+          return addCart(productId)
+        } else {
+          toast.error('Please sign up', {
+            description: ' required to use the cart',
+            duration: 3000
+          })
+          setTimeout(() => {
+            window.location.href = '/auth'
+          }, 3100)
+
+          return
+        }
+      }
+
+      if (status === 405) {
+        toast.dismiss()
+        toast.error('Session timed out, please log in')
+        setTimeout(() => {
+          window.location.href = '/auth'
+        }, 3100)
+        return
+      }
+      return toast.error(serverError)
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -217,6 +288,8 @@ export function CartProvider ({ children }) {
         updateCart,
         fetchCart,
         addCart,
+        deleteCart,
+        status,
         SaveCheckoutDetails
       }}
     >

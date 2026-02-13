@@ -5,7 +5,7 @@ import { api } from '../../../api/axios'
 export function useFetchProducts () {
   const { state, fetchProducts, fetchProductsError } = useProductContext()
   const { category } = state
-  console.log(category)
+  // console.log(category)
 
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export function useFetchProducts () {
         const products = response.data.products
         fetchProducts(products)
       } catch (error) {
-        console.log(error)
+        // console.log(error)
 
         fetchProductsError()
       }

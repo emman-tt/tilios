@@ -8,9 +8,9 @@ export default function CartPage () {
   useEffect(() => {
     const path = location.pathname
     const splitted = path.split('/')
-    console.log(splitted)
+    // console.log(splitted)
     const pathname = splitted[splitted.length - 1]
-    console.log(pathname)
+    // console.log(pathname)
     if (pathname === 'cart' || pathname === 'cartlist') {
       return setSection(1)
     }

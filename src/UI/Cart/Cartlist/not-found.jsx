@@ -14,7 +14,7 @@ export function NotFound () {
       <p className='text-xl font-semibold font-mono'> No product Found </p>
       <NavLink
         to={'/'}
-        className='p-3 cursor-pointer px-10 rounded-2xl bg-black text-white'
+        className='p-3 cursor-pointer text-sm px-10 rounded-2xl bg-black text-white'
       >
         Add items to cart
       </NavLink>
