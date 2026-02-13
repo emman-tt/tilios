@@ -216,7 +216,8 @@ export function CartProvider ({ children }) {
         checkoutDetails,
         updateCart,
         fetchCart,
-        addCart,SaveCheckoutDetails
+        addCart,
+        SaveCheckoutDetails
       }}
     >
       {children}

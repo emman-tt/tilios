@@ -7,6 +7,7 @@ export function useFetchProducts () {
   const { category } = state
   console.log(category)
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {

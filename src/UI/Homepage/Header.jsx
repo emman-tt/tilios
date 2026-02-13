@@ -51,9 +51,9 @@ export default function Header ({
         </ul>
 
         <div className='md:hidden flex items-center gap-4'>
-          <div className='cursor-pointer font-semibold'>
+          <NavLink to={'/cart'} className='cursor-pointer font-semibold'>
             Cart({cartTotal > 0 ? cartTotal : 0})
-          </div>
+          </NavLink>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className='p-2 hover:bg-gray-100 rounded-full transition-all'
