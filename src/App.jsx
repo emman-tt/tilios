@@ -16,6 +16,8 @@ import { OverviewProvider } from './context/overview'
 import CartPage from './pages/CartPage'
 import Cartlist from './UI/Cart/Cartlist/CartList'
 import { CartProvider } from './context/cart'
+import Checkout from './UI/Cart/Checkout/Checkout'
+import Order from './UI/Cart/Order/Order'
 function App () {
   return (
     <ProductProvider>
@@ -50,8 +52,8 @@ function App () {
                   <Route path='/cart' element={<CartPage />}>
                     <Route index element={<Navigate to='cartlist' replace />} />
                     <Route path='cartlist' element={<Cartlist />} />
-                    <Route path='checkout' element={<Cartlist />} />
-                    <Route path='order' />
+                    <Route path='checkout' element={<Checkout />} />
+                    <Route path='order' element={<Order />} />
                   </Route>
                 </Routes>
               </BrowserRouter>

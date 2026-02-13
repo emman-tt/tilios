@@ -3,13 +3,15 @@ import { api } from '../api/axios'
 import useToken from '../hooks/useToken'
 import { autoRefresh } from '../hooks/autoRefresh'
 import { toast } from 'sonner'
-import { navigate } from '../components/navigator'
 
 const CartContext = createContext()
 
 const initialState = {
   quantity: 1,
-  cartProducts: []
+  cartProducts: [],
+  status: 'start',
+  cartTotal: 0,
+  checkoutDetails: {}
 }
 
 function reducer (state, action) {
@@ -19,6 +21,42 @@ function reducer (state, action) {
         ...state,
         cartProducts: action.payload
       }
+
+    case 'setStatus':
+      return {
+        ...state,
+        status: action.payload
+      }
+
+    case 'setCartTotal':
+      return {
+        ...state,
+        cartTotal: action.payload
+      }
+
+    case 'setProductQty':
+      return {
+        ...state,
+        cartProducts: state.cartProducts.map(item =>
+          item.id === action.payload.id
+            ? {
+                ...item,
+                cartProduct: {
+                  ...item.cartProduct,
+                  quantity:
+                    item.cartProduct.quantity + parseInt(action.payload.amount)
+                }
+              }
+            : item
+        )
+      }
+
+    case 'saveDetails':
+      return {
+        ...state,
+        checkoutDetails: action.payload
+      }
+
     default:
       throw new Error('Unrecognized actions here')
   }
@@ -26,39 +64,89 @@ function reducer (state, action) {
 
 export function CartProvider ({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { quantity, cartProducts } = state
+  const { quantity, cartProducts, checkoutDetails, cartTotal } = state
   const { getToken } = useToken()
 
-  const updateQty = operator => {
+  function SaveCheckoutDetails (input) {
     dispatch({
-      type: 'inputChange',
-      fieldType: fieldType,
+      type: 'saveDetails',
       payload: input
     })
   }
 
+  async function updateCart (type, productId) {
+    dispatch({
+      type: 'setProductQty',
+      payload: {
+        id: productId,
+        amount: type === 'increase' ? 1 : -1
+      }
+    })
+
+    try {
+      const response = await api.put('/cart', {
+        type: type,
+        productId: productId
+      })
+
+      const data = await response.data
+    } catch (error) {
+      dispatch({
+        type: 'setProductQty',
+        payload: { id: productId, amount: type === 'increase' ? -1 : 1 }
+      })
+
+      toast.error('Failed to update cart. Please check your connection.')
+    }
+  }
+
   async function fetchCart () {
     try {
-      const accessToken = getToken()
-
-      const response = await api.get(`/cart`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+      dispatch({
+        type: 'setStatus',
+        payload: 'loading'
       })
+
+      const response = await api.get(`/cart`)
 
       const data = await response.data.products
       dispatch({
         type: 'setProducts',
         payload: data
       })
+
+      const cartTotal = (await response.data.cartTotal) || 0
+      dispatch({
+        type: 'setCartTotal',
+        payload: parseInt(cartTotal)
+      })
+
+      if (data.length === 0 || !data) {
+        dispatch({
+          type: 'setStatus',
+          payload: 'empty'
+        })
+      }
     } catch (error) {
       console.log(error)
       const status = error.status
       const serverError = error.response.data.message
+
+      dispatch({
+        type: 'setStatus',
+        payload: 'empty'
+      })
+
       if (status === 403) {
         const status = await autoRefresh()
-        return fetchCart()
+
+        if (status === 'success') {
+          return fetchCart()
+        } else {
+          return toast.error('Please sign up', {
+            description: 'required for you to use the cart'
+          })
+        }
       }
 
       if (status === 405) {
@@ -69,30 +157,23 @@ export function CartProvider ({ children }) {
     }
   }
   async function addCart (productId) {
-    const accessToken = getToken()
-
-    const addingToast = toast.success('Adding item to cart ...', {
-      duration: 1000
-    })
-    const apiCall = await api.post(
-      `/cart/${productId}`,
-      {
-        quantity: quantity
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      }
-    )
-
     try {
+      const addingToast = toast.success('Adding item to cart ...', {
+        duration: 1000
+      })
+      const apiCall = await api.post(`/cart/${productId}`, {
+        quantity: quantity
+      })
       if (apiCall) {
         toast.success('Item added to cart')
-        addingToast.dismiss()
+        // addingToast.dismiss()
       }
 
-      return
+      const cartTotal = await apiCall.data.cartTotal
+      dispatch({
+        type: 'setCartTotal',
+        payload: parseInt(cartTotal)
+      })
     } catch (error) {
       console.log(error)
       const status = error.status
@@ -108,10 +189,13 @@ export function CartProvider ({ children }) {
         if (status === 'success') {
           return addCart(productId)
         } else {
-          window.location.href = '/auth'
           toast.error('Please sign up', {
-            description: 'Note this is required to use the cart'
+            description: 'Note this is required to use the cart',
+            duration: 3000
           })
+          setTimeout(() => {
+            window.location.href = '/auth'
+          }, 3100)
 
           return
         }
@@ -125,7 +209,16 @@ export function CartProvider ({ children }) {
   }
 
   return (
-    <CartContext.Provider value={{ cartProducts, fetchCart, addCart }}>
+    <CartContext.Provider
+      value={{
+        cartProducts,
+        cartTotal,
+        checkoutDetails,
+        updateCart,
+        fetchCart,
+        addCart,SaveCheckoutDetails
+      }}
+    >
       {children}
     </CartContext.Provider>
   )

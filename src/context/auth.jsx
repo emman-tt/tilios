@@ -100,6 +100,8 @@ export function AuthProvider ({ children }) {
         return
       }
       toast.dismiss()
+      dispatch({ type: 'changeStatus', payload: 'loading' })
+
       const response = await api.post(`/admin-register`, {
         email: email,
         password: password,

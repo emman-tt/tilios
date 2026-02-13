@@ -13,7 +13,7 @@ export default function Shop ({ tilioRef, closeSideBar }) {
     <main
       onClick={() => closeSideBar()}
       ref={shopContainer}
-      className='grid pt-10 md:pt-30 grid-cols-1 md:grid-cols-2  lg:grid-cols-4 max-sm:h-[600vh] md:h-[230vh] lg:h-auto px-6 md:px-12 lg:pl-40 xl:pl-100 xl:pr-40 border-gray-500 content-start 
+      className='grid pt-10 md:pt-30 grid-cols-1 md:grid-cols-2  lg:grid-cols-4 max-sm:h-max md:h-[230vh] lg:h-auto px-6 md:px-12 lg:pl-40 xl:pl-100 xl:pr-40 border-gray-500 content-start 
       '
     >
       {status === 'success'

@@ -1,6 +1,6 @@
 import { Volleyball, Menu, X } from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router-dom'
-
+import { useCart } from '../../context/cart'
 export default function Header ({
   headerText,
   isMenuOpen,
@@ -8,6 +8,7 @@ export default function Header ({
   sidebarBg
 }) {
   const navigate = useNavigate()
+  const { cartTotal } = useCart()
 
   return (
     <section
@@ -35,7 +36,9 @@ export default function Header ({
             Contact
           </li>
           <li className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'>
-            <NavLink to={'/cart'}>Cart(0)</NavLink>
+            <NavLink to={'/cart'}>
+              Cart({cartTotal > 0 ? cartTotal : 0})
+            </NavLink>
           </li>
           <li
             onClick={() => {
@@ -48,7 +51,9 @@ export default function Header ({
         </ul>
 
         <div className='md:hidden flex items-center gap-4'>
-          <div className='cursor-pointer font-semibold'>Cart(0)</div>
+          <div className='cursor-pointer font-semibold'>
+            Cart({cartTotal > 0 ? cartTotal : 0})
+          </div>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className='p-2 hover:bg-gray-100 rounded-full transition-all'

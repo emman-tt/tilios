@@ -1,3 +1,4 @@
+
 import { api } from '../api/axios'
 import useToken from './useToken'
 export async function autoRefresh () {
@@ -11,6 +12,8 @@ export async function autoRefresh () {
     saveToken(accessToken)
     const status = data.status
 
+
+ 
     return status
   } catch (error) {
     console.log(error)

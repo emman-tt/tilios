@@ -3,16 +3,21 @@ import { useCart } from '../../../context/cart'
 import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Collectiion } from '../../../utils/collection'
+import { lazy } from 'react'
+// const NotFound = lazy(() => import('./not-found'))
+import { NotFound } from './not-found'
+
 export default function Cartlist () {
-  const { cartProducts, fetchCart } = useCart()
-  console.log(cartProducts)
+  const { cartProducts, fetchCart, updateCart } = useCart()
+
   useEffect(() => {
     fetchCart()
   }, [])
+
   return (
     <section className='mt-6 w-full flex justify-center'>
-      <div className='flex w-[80%] gap-3'>
-        <section className='flex flex-col w-[60%] gap-3'>
+      <div className='flex flex-col md:flex-row w-full md:w-[80%] gap-3 px-4'>
+        <section className='flex flex-col w-full md:w-[60%] gap-3'>
           <section className=' rounded-[100px] border-[0.1px] border-black/30 bg-[#f0f0f0]   w-full p-0.5 '>
             <div className='border w-full border-[#d9d9d9] rounded-[100px] flex justify-between p-1 px-4 items-center bg-white'>
               <div className='font-semibold'>Select All</div>
@@ -26,19 +31,19 @@ export default function Cartlist () {
             <div className='border w-full border-[#d9d9d9] rounded-[20px] flex px-4  p-5 h-full [scrollbar-width:thin] overflow-y-auto   bg-white flex-col gap-5 '>
               {cartProducts.length === 0 || !cartProducts ? (
                 <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
-                  No products found
+                  <NotFound />
                 </section>
               ) : (
                 cartProducts.map(item => (
                   <section
                     key={item.id}
-                    className='flex h-35  justify-between border-b pb-3 border-gray-200 w-full shrink-0'
+                    className='flex flex-col md:flex-row md:h-35  justify-between border-b pb-3 border-gray-200 w-full shrink-0 gap-3'
                   >
-                    <div className='flex gap-5  '>
-                      <div className='h-full w-35 bg-gray-200 rounded-2xl'>
+                    <div className='flex gap-5 w-full md:w-auto'>
+                      <div className='h-28 w-28 md:h-full md:w-35 bg-gray-200 rounded-2xl overflow-hidden'>
                         <img
                           src={item.image}
-                          className='h-full w-full rounded-2xl'
+                          className='h-full w-full rounded-2xl object-cover'
                           alt={item.name}
                         />
                       </div>
@@ -67,7 +72,7 @@ export default function Cartlist () {
                       </header>
                     </div>
 
-                    <div className='h-full items-end justify-between flex flex-col'>
+                    <div className='h-full items-end justify-between flex flex-row md:flex-col gap-3'>
                       <p>
                         <Trash2
                           size={20}
@@ -77,9 +82,15 @@ export default function Cartlist () {
                       </p>
 
                       <div className='flex gap-3 items-center cursor-pointer bg-gray-100 rounded-3xl p-2'>
-                        <Minus size={20} />
-                        <p>3</p>
-                        <Plus size={20} />
+                        <Minus
+                          size={20}
+                          onClick={() => updateCart('decrease', item.id)}
+                        />
+                        <p>{item.cartProduct.quantity}</p>
+                        <Plus
+                          size={20}
+                          onClick={() => updateCart('increase', item.id)}
+                        />
                       </div>
                     </div>
                   </section>
@@ -89,37 +100,37 @@ export default function Cartlist () {
           </section>
         </section>
 
-        <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]   grow p-0.5 h-max '>
-          <div className='border w-full border-[#d9d9d9] rounded-[20px] flex justify-between p-5  h-full items-center  bg-white'>
+        <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]   w-full md:w-[40%] p-0.5 h-max '>
+          <div className='border w-full border-[#d9d9d9] rounded-[20px] flex flex-col md:flex-row justify-between p-5  h-full items-center  bg-white'>
             <ul className='flex flex-col gap-2 w-full'>
               <li className='w-full text-2xl font-semibold'>Order Summary</li>
               <li className='flex w-full'>
-                <input
+                <input 
                   type='text'
-                  className='w-[70%] border rounded-3xl border-gray-200 px-4'
+                  className='w-full md:w-[70%] border rounded-3xl border-gray-200 px-4 mr-2'
                   placeholder='Coupon code'
                   name=''
                   id=''
                 />
-                <button className='p-3 cursor-pointer text-white rounded-4xl grow bg-black '>
+                <button className='p-3 cursor-pointer text-white rounded-4xl w-full md:w-auto bg-black '>
                   Apply
                 </button>
               </li>
               <li className='w-full flex justify-between'>
                 <p className='text-sm text-gray-500'>Subtotal</p>
-                <p className='font-semibold'>$583</p>
+                <p className='font-semibold'>$0</p>
               </li>
               <li className='w-full flex justify-between'>
-                <p className='text-sm text-gray-500'>Discount (-0.5%)</p>
-                <p className='text-red-500'>- $12</p>
+                <p className='text-sm text-gray-500'>Discount (0%)</p>
+                <p className='text-red-500'>- $0</p>
               </li>
               <li className='w-full flex justify-between border-b border-gray-200 pb-8'>
                 <p className='text-sm text-gray-500'>Delivery Fee</p>
-                <p className='font-semibold'>$15</p>
+                <p className='font-semibold'>$0</p>
               </li>
               <li className='w-full flex justify-between mb-5'>
                 <p className='font-bold text-lg'>Total</p>
-                <p className='font-semibold text-lg'>$153</p>
+                <p className='font-semibold text-lg'>$0</p>
               </li>
 
               <NavLink
