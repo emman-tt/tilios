@@ -1,4 +1,4 @@
-import { useContext, useReducer, createContext } from 'react'
+import { useContext, useReducer, createContext, useEffect } from 'react'
 import { api } from '../api/axios'
 import useToken from '../hooks/useToken'
 import { autoRefresh } from '../hooks/autoRefresh'
@@ -11,7 +11,8 @@ const initialState = {
   cartProducts: [],
   status: 'loading',
   cartTotal: 0,
-  checkoutDetails: {}
+  checkoutDetails: {},
+  orderTotal: 0
 }
 
 function reducer (state, action) {
@@ -32,6 +33,11 @@ function reducer (state, action) {
       return {
         ...state,
         cartTotal: action.payload
+      }
+    case 'setOrderTotal':
+      return {
+        ...state,
+        orderTotal: action.payload
       }
 
     case 'setProductQty':
@@ -72,8 +78,14 @@ function reducer (state, action) {
 
 export function CartProvider ({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { quantity, cartProducts, status, checkoutDetails, cartTotal } = state
-  const { getToken } = useToken()
+  const {
+    quantity,
+    cartProducts,
+    status,
+    orderTotal,
+    checkoutDetails,
+    cartTotal
+  } = state
 
   function SaveCheckoutDetails (input) {
     dispatch({
@@ -90,7 +102,6 @@ export function CartProvider ({ children }) {
 
     if (nextQty === 0) {
       dispatch({ type: 'deleteProduct', payload: productId })
-
       return await deleteCart(productId)
     }
 
@@ -104,6 +115,11 @@ export function CartProvider ({ children }) {
         type: type,
         productId: productId
       })
+
+      dispatch({
+        type: 'setOrderTotal',
+        payload: response.data.orderTotal
+      })
     } catch (error) {
       if (error.status === 404) {
         fetchCart()
@@ -114,8 +130,33 @@ export function CartProvider ({ children }) {
         type: 'setProductQty',
         payload: { id: productId, amount: type === 'increase' ? -1 : 1 }
       })
+
       toast.error('Failed to update cart.')
     }
+  }
+
+  useEffect(() => {
+    if (cartProducts.length === 0 || !cartProducts) {
+      dispatch({
+        type: 'setStatus',
+        payload: 'empty'
+      })
+    }
+  }, [cartProducts])
+
+  function updateOrderTotal () {
+    const total = cartProducts.reduce(
+      (acc, item) => item.cartProduct.total + acc,
+      0
+    )
+    console.log(cartProducts)
+    console.log('total', total)
+
+    const formatted = parseFloat(total).toFixed(2)
+    dispatch({
+      type: 'setOrderTotal',
+      payload: formatted
+    })
   }
 
   async function fetchCart () {
@@ -134,13 +175,20 @@ export function CartProvider ({ children }) {
       })
 
       const cartTotal = (await response.data.cartTotal) || 0
+      const orderTotal = (await response.data.orderTotal) || 0
+
+      dispatch({
+        type: 'setOrderTotal',
+        payload: orderTotal
+      })
+
       dispatch({
         type: 'setCartTotal',
         payload: parseInt(cartTotal)
       })
 
       if (data.length === 0 || !data) {
-        dispatch({
+        return dispatch({
           type: 'setStatus',
           payload: 'empty'
         })
@@ -242,7 +290,10 @@ export function CartProvider ({ children }) {
       if (apiCall) {
         toast.dismiss()
         toast.success('Item removed from  cart')
-        // addingToast.dismiss()
+        dispatch({
+          type: 'setOrderTotal',
+          payload: apiCall.data.orderTotal
+        })
       }
     } catch (error) {
       console.log(error)
@@ -290,6 +341,7 @@ export function CartProvider ({ children }) {
         addCart,
         deleteCart,
         status,
+        orderTotal,
         SaveCheckoutDetails
       }}
     >

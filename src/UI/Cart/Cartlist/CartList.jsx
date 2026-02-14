@@ -8,11 +8,20 @@ import { lazy } from 'react'
 import { NotFound } from './not-found'
 import Loader from '../../../components/Loader'
 export default function Cartlist () {
-  const { cartProducts, fetchCart, deleteCart, updateCart, status } = useCart()
+  const {
+    cartProducts,
+    fetchCart,
+    deleteCart,
+    updateCart,
+     orderTotal,
+    status
+  } = useCart()
 
   useEffect(() => {
     fetchCart()
   }, [])
+
+
 
   function calculateTotal (item) {
     const discountValue = (parseFloat(item.discount) / 100) * item.amount
@@ -21,6 +30,13 @@ export default function Cartlist () {
     const qty = parseInt(item.cartProduct.quantity)
 
     const total = qty * priceAtSale
+
+    // const arr = cartProducts.reduce(
+    //   (acc, item) => item.cartProduct.total + acc,
+    //   0
+    // )
+
+    // orderTotal = parseFloat(arr).toFixed(2) || 0
 
     return total.toFixed(2)
   }
@@ -45,14 +61,13 @@ export default function Cartlist () {
                   <Loader />
                 </section>
               )}
-              {cartProducts.length === 0 ||
-                (!cartProducts && status !== 'loading' && (
-                  <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
-                    <NotFound />
-                  </section>
-                ))}
+              {status === 'empty' && cartProducts.length === 0 && (
+                <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
+                  <NotFound />
+                </section>
+              )}
 
-              {status !== 'loading' &&
+              {status === 'filled' &&
                 cartProducts.map(item => (
                   <section
                     key={item.id}
@@ -154,25 +169,22 @@ export default function Cartlist () {
                   name=''
                   id=''
                 />
-                <button className='p-3 cursor-pointer text-white rounded-4xl w-full md:w-auto bg-black '>
+                <button className='p-3 grow cursor-pointer text-white rounded-4xl w-full md:w-auto bg-black '>
                   Apply
                 </button>
               </li>
               <li className='w-full flex justify-between'>
                 <p className='text-sm text-gray-500'>Subtotal</p>
-                <p className='font-semibold'>$0</p>
+                <p className='font-semibold'>${orderTotal}</p>
               </li>
-              <li className='w-full flex justify-between'>
-                <p className='text-sm text-gray-500'>Discount (0%)</p>
-                <p className='text-red-500'>- $0</p>
-              </li>
+
               <li className='w-full flex justify-between border-b border-gray-200 pb-8'>
-                <p className='text-sm text-gray-500'>Delivery Fee</p>
-                <p className='font-semibold'>$0</p>
+                <p className='text-sm text-gray-500'>Delivery Fee </p>
+                <p className='text-sm'>(decided at checkout)</p>
               </li>
               <li className='w-full flex justify-between mb-5'>
                 <p className='font-bold text-lg'>Total</p>
-                <p className='font-semibold text-lg'>$0</p>
+                <p className='font-semibold text-lg'>${orderTotal}</p>
               </li>
 
               <NavLink

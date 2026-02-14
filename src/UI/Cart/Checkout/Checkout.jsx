@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useCart } from '../../../context/cart'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { api } from '../../../api/axios'
 export default function Checkout () {
   const [details, setDetails] = useState([
     {
@@ -57,9 +58,18 @@ export default function Checkout () {
     console.log(details)
   }, [details])
 
+  async function handlePayments () {
+    try {
+      const response = await api.post('/checkout/session')
+      
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <section
-      onClick={() => validator()}
+ 
       className=' rounded-xl h-155 w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '
     >
       <div className='border gap-5 grid grid-cols-3  border-[#d9d9d9] h-full rounded-xl  p-1 px-4  bg-white'>
@@ -248,7 +258,7 @@ export default function Checkout () {
             </li>
           </ul>
 
-          <button className='mt-8 bg-black rounded-xl flex justify-center items-center self-end justify-self-end p-3 px-7 cursor-pointer text-white'>
+          <button onClick={() => handlePayments()} className='mt-8 bg-black rounded-xl flex justify-center items-center self-end justify-self-end p-3 px-7 cursor-pointer text-white'>
             Pay now
           </button>
         </section>
