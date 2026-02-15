@@ -58,7 +58,7 @@ export default function Checkout () {
     if (!orderTotal) {
       toast.error("No product  in cart to order")
       isValid = false;
-      navigate('/cart')
+    return  navigate('/cart')
     }
 
     SaveCheckoutDetails(details)

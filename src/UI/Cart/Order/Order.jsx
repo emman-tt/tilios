@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Loader from '../../../components/Loader'
 import { api } from '../../../api/axios'
 import { toast } from 'sonner'
+import { NavLink } from 'react-router-dom'
 export default function Order () {
   const [loader, showLoader] = useState(true)
   const [details, setDetails] = useState([])
@@ -16,7 +17,9 @@ export default function Order () {
         const response = await api.get(`/order/status/${sessionId}`)
         const data = response.data
         setDetails([data.details])
-        showLoader(false)
+        setTimeout(() => {
+          showLoader(false)
+        }, 500)
       } catch (error) {
         const status = error.status
         showLoader(false)
@@ -143,6 +146,13 @@ export default function Order () {
                     <p className='text-black'>{item.reference}</p>
                   </div>
                 </section>
+
+                <NavLink
+                  to={'/'}
+                  className='py-4 bg-black text-white mx-30 mt-6 rounded-2xl flex justify-center items-center font-semibold'
+                >
+                  Back to shopping
+                </NavLink>
               </section>
             </>
           ))
