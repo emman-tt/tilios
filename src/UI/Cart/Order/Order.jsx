@@ -1,9 +1,27 @@
-import { useCart } from '../../../context/cart'
+import { useEffect, useState } from 'react'
+import Loader from '../../../components/Loader'
 export default function Order () {
-  const { checkoutDetails } = useCart()
+  const [loader, showLoader] = useState(false)
+
+  useEffect(() => {
+    const sessionId = new URLSearchParams(window.location.search).get(
+      'session_id'
+    )
+
+    api.get(`/order/status/${sessionId}`).then(res => {
+      console.log(res)
+      // setLoading(false);
+      // setStatus(res.data.status);
+    })
+  }, [])
   return (
     <section className=' rounded-xl h-auto w-full md:w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
       <div className='border gap-5 grid grid-cols-1 md:grid-cols-2  border-[#d9d9d9] h-full rounded-xl  p-1 px-4  bg-white'>
+        {!loader && (
+          <section className='flex absolute z-10 inset-0  justify-center items-center h-full w-full'>
+            <Loader />
+          </section>
+        )}
         <section className='justify-center flex flex-col items-center h-full p-6'>
           <h2 className='text-4xl font-bold'>Thank You , Emmanuel!</h2>
           <p className='text-[#4d4d4d] mt-4 font-semibold text-lg'>

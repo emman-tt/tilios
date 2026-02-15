@@ -31,12 +31,7 @@ export default function Cartlist () {
 
     const total = qty * priceAtSale
 
-    // const arr = cartProducts.reduce(
-    //   (acc, item) => item.cartProduct.total + acc,
-    //   0
-    // )
-
-    // orderTotal = parseFloat(arr).toFixed(2) || 0
+  
 
     return total.toFixed(2)
   }

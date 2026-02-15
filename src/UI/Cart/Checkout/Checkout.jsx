@@ -3,6 +3,7 @@ import { useCart } from '../../../context/cart'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { api } from '../../../api/axios'
+import Loader from '../../../components/Loader'
 export default function Checkout () {
   const [details, setDetails] = useState([
     {
@@ -16,9 +17,10 @@ export default function Checkout () {
       addressTwo: ''
     }
   ])
-  const { SaveCheckoutDetails } = useCart()
+  const { SaveCheckoutDetails, cartProducts, orderTotal } = useCart()
   const navigate = useNavigate()
   const [fee, setFee] = useState(0)
+  const [loader, showLoader] = useState(false)
 
   const handleInput = (type, input) => {
     setDetails(prev =>
@@ -32,6 +34,7 @@ export default function Checkout () {
   }
 
   function validator () {
+    let isValid = true
     const each = details.some(
       item =>
         item.addressOne === '' ||
@@ -45,34 +48,60 @@ export default function Checkout () {
     )
 
     if (each) {
-      return toast.error('Some required fields are missing', {
+      toast.error('Some required fields are missing', {
         description: 'Please make sure to fill every field '
       })
+
+      isValid = false
     }
 
-    SaveCheckoutDetails(details[0])
-    navigate('/cart/order')
-  }
+    if (!orderTotal) {
+      toast.error("No product  in cart to order")
+      isValid = false;
+      navigate('/cart')
+    }
 
-  useEffect(() => {
-    console.log(details)
-  }, [details])
+    SaveCheckoutDetails(details)
+
+    return isValid
+  }
 
   async function handlePayments () {
     try {
-      const response = await api.post('/checkout/session')
-      
+      const isValid = validator()
+      if (!isValid) {
+        console.log('invalid input')
+        return
+      }
+      showLoader(true)
+      const data = details[0]
+      const address = `${data.country},${data.city},${data.addressOne},${data.addressTwo},${data.email},${data.number}`
+      const response = await api.post('/order/session', {
+        address: address,
+        details: cartProducts
+      })
+      const url = response.data.url
+      toast.success('Redirecting to payment page....', {
+        duration: 1400
+      })
+      setTimeout(() => {
+        window.location.href = url
+      }, 1000)
     } catch (error) {
-      
+      toast.error(error.data.message)
+      showLoader(false)
+      console.log(error)
     }
   }
 
   return (
-    <section
- 
-      className=' rounded-xl h-155 w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '
-    >
-      <div className='border gap-5 grid grid-cols-3  border-[#d9d9d9] h-full rounded-xl  p-1 px-4  bg-white'>
+    <section className=' rounded-xl h-155 w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
+      <div className='border gap-5 grid grid-cols-3 relative   border-[#d9d9d9] h-full rounded-xl  p-1 px-4  bg-white'>
+        {loader && (
+          <section className='flex absolute z-10 inset-0  justify-center items-center h-full w-full'>
+            <Loader className={''} />
+          </section>
+        )}
         <section className='h-full w-full pt-5  pr-20 '>
           <h2 className='text-xs font-semibold mb-3'>
             Fill the form below to complete your purchase
@@ -207,32 +236,6 @@ export default function Checkout () {
               <p>Paypal</p>
             </div>
           </div>
-
-          {/* <section className='mt-5 pr-20'>
-            <label className='pl-3 font-semibold' htmlFor='name'>
-              Card Number
-            </label>
-            <input
-              type='number'
-              className='border pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
-            />
-            <label className='pl-3 font-semibold' htmlFor='name'>
-              Expiration Date
-            </label>
-            <input
-              type='number'
-              placeholder='eg.07/28'
-              className='border pl-5 rounded-3xl border-gray-500 w-full py-3 mb-3'
-            />
-            <label className='pl-3 font-semibold' htmlFor='name'>
-              CVV
-            </label>
-            <input
-              placeholder='eg.109'
-              type='number'
-              className='border pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
-            />
-          </section> */}
         </section>
         <section className='h-full w-full'>
           <ul className='flex flex-col gap-2 w-full'>
@@ -242,11 +245,11 @@ export default function Checkout () {
 
             <li className='w-full flex justify-between'>
               <p className='text-sm text-gray-500'>Subtotal</p>
-              <p className='font-semibold'>$0</p>
+              <p className='font-semibold'>${orderTotal}</p>
             </li>
             <li className='w-full flex justify-between'>
-              <p className='text-sm text-gray-500'>Discount (0%)</p>
-              <p className='text-red-500'>- $0</p>
+              {/* <p className='text-sm text-gray-500'>Discount (0%)</p>
+              <p className='text-red-500'>- $0</p> */}
             </li>
             <li className='w-full flex justify-between border-b border-gray-200 pb-8'>
               <p className='text-sm text-gray-500'>Delivery Fee</p>
@@ -254,11 +257,14 @@ export default function Checkout () {
             </li>
             <li className='w-full flex justify-between mb-5'>
               <p className='font-bold text-lg'>Total</p>
-              <p className='font-semibold text-lg'>$0</p>
+              <p className='font-semibold text-lg'>${orderTotal}</p>
             </li>
           </ul>
 
-          <button onClick={() => handlePayments()} className='mt-8 bg-black rounded-xl flex justify-center items-center self-end justify-self-end p-3 px-7 cursor-pointer text-white'>
+          <button
+            onClick={() => handlePayments()}
+            className='mt-8 bg-black rounded-xl flex justify-center items-center self-end justify-self-end p-3 px-7 cursor-pointer text-white'
+          >
             Pay now
           </button>
         </section>

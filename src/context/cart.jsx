@@ -12,7 +12,8 @@ const initialState = {
   status: 'loading',
   cartTotal: 0,
   checkoutDetails: {},
-  orderTotal: 0
+  orderTotal: 0,
+  details: []
 }
 
 function reducer (state, action) {

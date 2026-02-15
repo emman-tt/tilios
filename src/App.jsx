@@ -53,7 +53,7 @@ function App () {
                     <Route index element={<Navigate to='cartlist' replace />} />
                     <Route path='cartlist' element={<Cartlist />} />
                     <Route path='checkout' element={<Checkout />} />
-                    <Route path='order' element={<Order />} />
+                    <Route path='success' element={<Order />} />
                   </Route>
                 </Routes>
               </BrowserRouter>
