@@ -3,7 +3,7 @@ import Loader from '../../../components/Loader'
 import { api } from '../../../api/axios'
 import { toast } from 'sonner'
 import { NavLink } from 'react-router-dom'
-export default function Order () {
+export default function Order() {
   const [loader, showLoader] = useState(true)
   const [details, setDetails] = useState([])
 
@@ -12,7 +12,7 @@ export default function Order () {
       'session_id'
     )
 
-    async function fetchOrderDetails () {
+    async function fetchOrderDetails() {
       try {
         const response = await api.get(`/order/status/${sessionId}`)
         const data = response.data
@@ -42,7 +42,7 @@ export default function Order () {
     fetchOrderDetails()
   }, [])
 
-  function extractData (item, type) {
+  function extractData(item, type) {
     const arr = item.split(',')
     if (type === 'email') {
       const email = arr.find(item => item.includes('@'))
@@ -79,13 +79,13 @@ export default function Order () {
                 key={item.id}
                 className='justify-center flex flex-col items-center h-full p-6'
               >
-                <h2 className='text-4xl font-bold'>
+                <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold'>
                   Thank You for the purchase!
                 </h2>
-                <p className='text-[#4d4d4d] mt-4 font-semibold text-lg'>
+                <p className='text-[#4d4d4d] mt-4 font-semibold text-base md:text-lg'>
                   We've received your order and will ship in 5-7 business days
                 </p>
-                <p className='text-[#4d4d4d] text-center text-lg font-semibold'>
+                <p className='text-[#4d4d4d] text-center text-base md:text-lg font-semibold'>
                   Your order number is {item.reference}
                 </p>
 
@@ -97,10 +97,10 @@ export default function Order () {
                     {item.product_details.map(each => (
                       <li
                         key={each.product_id}
-                        className='w-full shrink-0 flex h-30 p-4 items-center  justify-between'
+                        className='w-full shrink-0 flex flex-col sm:flex-row h-auto sm:h-30 p-3 sm:p-4 items-start sm:items-center  justify-between gap-3 sm:gap-0'
                       >
-                        <div className='flex h-full items-center gap-6'>
-                          <div className='  h-full w-30'>
+                        <div className='flex h-full items-center gap-3 sm:gap-6'>
+                          <div className='  h-20 w-20 sm:h-full sm:w-30'>
                             <img
                               src={each.product_image}
                               className='w-full rounded-3xl h-full object-cover'
@@ -118,7 +118,7 @@ export default function Order () {
 
               <section className='flex flex-col pt-5'>
                 <section className='h-[50%] border rounded-4xl shadow w-full'></section>
-                <section className='px-10  mt-5 gap-3'>
+                <section className='px-4 sm:px-6 md:px-10  mt-5 gap-3'>
                   <div className='flex justify-between w-full'>
                     <p className='text-sm font-semibold'>Name :</p>
                     <p className='text-black'>{item.user.name}</p>
@@ -149,7 +149,7 @@ export default function Order () {
 
                 <NavLink
                   to={'/'}
-                  className='py-4 bg-black text-white mx-30 mt-6 rounded-2xl flex justify-center items-center font-semibold'
+                  className='py-4 bg-black text-white mx-4 sm:mx-10 md:mx-30 mt-6 rounded-2xl flex justify-center items-center font-semibold'
                 >
                   Back to shopping
                 </NavLink>

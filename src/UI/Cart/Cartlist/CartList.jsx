@@ -7,13 +7,13 @@ import { lazy } from 'react'
 // const NotFound = lazy(() => import('./not-found'))
 import { NotFound } from './not-found'
 import Loader from '../../../components/Loader'
-export default function Cartlist () {
+export default function Cartlist() {
   const {
     cartProducts,
     fetchCart,
     deleteCart,
     updateCart,
-     orderTotal,
+    orderTotal,
     status
   } = useCart()
 
@@ -23,7 +23,7 @@ export default function Cartlist () {
 
 
 
-  function calculateTotal (item) {
+  function calculateTotal(item) {
     const discountValue = (parseFloat(item.discount) / 100) * item.amount
     const priceAtSale = (item.amount - discountValue).toFixed(2)
 
@@ -31,7 +31,7 @@ export default function Cartlist () {
 
     const total = qty * priceAtSale
 
-  
+
 
     return total.toFixed(2)
   }
@@ -49,7 +49,7 @@ export default function Cartlist () {
             </div>
           </section>
 
-          <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-0.5 h-120  '>
+          <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-0.5 h-auto max-h-[60vh] md:max-h-none md:h-120  '>
             <div className='border w-full border-[#d9d9d9] rounded-[20px] flex px-4  p-5 h-full [scrollbar-width:thin] overflow-y-auto   bg-white flex-col gap-5 '>
               {status === 'loading' && (
                 <section className='flex relative  justify-center items-center h-120 w-full'>
@@ -69,7 +69,7 @@ export default function Cartlist () {
                     className='flex flex-col md:flex-row md:h-35  justify-between border-b pb-3 border-gray-200 w-full shrink-0 gap-3'
                   >
                     <div className='flex gap-5 w-full md:w-auto'>
-                      <div className='h-28 w-28 md:h-full md:w-35 bg-gray-200 rounded-2xl overflow-hidden'>
+                      <div className='h-24 w-24 sm:h-28 sm:w-28 md:h-full md:w-35 bg-gray-200 rounded-2xl overflow-hidden'>
                         <img
                           src={item.image}
                           className='h-full w-full rounded-2xl object-cover'
@@ -153,18 +153,18 @@ export default function Cartlist () {
         </section>
 
         <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]   w-full md:w-[40%] p-0.5 h-max '>
-          <div className='border w-full border-[#d9d9d9] rounded-[20px] flex flex-col md:flex-row justify-between p-5  h-full items-center  bg-white'>
+          <div className='border w-full border-[#d9d9d9] rounded-[20px] flex flex-col justify-between p-4 sm:p-5  h-full items-center  bg-white'>
             <ul className='flex flex-col gap-2 w-full'>
               <li className='w-full text-2xl font-semibold'>Order Summary</li>
-              <li className='flex w-full'>
+              <li className='flex flex-col sm:flex-row w-full gap-2'>
                 <input
                   type='text'
-                  className='w-full md:w-[70%] border rounded-3xl border-gray-200 px-4 mr-2'
+                  className='w-full sm:w-[70%] border rounded-3xl border-gray-200 px-4 py-2 sm:py-0'
                   placeholder='Coupon code'
                   name=''
                   id=''
                 />
-                <button className='p-3 grow cursor-pointer text-white rounded-4xl w-full md:w-auto bg-black '>
+                <button className='p-3 grow cursor-pointer text-white rounded-4xl w-full sm:w-auto bg-black '>
                   Apply
                 </button>
               </li>

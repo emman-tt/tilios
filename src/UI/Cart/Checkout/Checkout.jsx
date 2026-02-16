@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { api } from '../../../api/axios'
 import Loader from '../../../components/Loader'
-export default function Checkout () {
+export default function Checkout() {
   const [details, setDetails] = useState([
     {
       firstname: '',
@@ -33,7 +33,7 @@ export default function Checkout () {
     )
   }
 
-  function validator () {
+  function validator() {
     let isValid = true
     const each = details.some(
       item =>
@@ -58,7 +58,7 @@ export default function Checkout () {
     if (!orderTotal) {
       toast.error("No product  in cart to order")
       isValid = false;
-    return  navigate('/cart')
+      return navigate('/cart')
     }
 
     SaveCheckoutDetails(details)
@@ -66,7 +66,7 @@ export default function Checkout () {
     return isValid
   }
 
-  async function handlePayments () {
+  async function handlePayments() {
     try {
       const isValid = validator()
       if (!isValid) {
@@ -95,14 +95,14 @@ export default function Checkout () {
   }
 
   return (
-    <section className=' rounded-xl h-155 w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
-      <div className='border gap-5 grid grid-cols-3 relative   border-[#d9d9d9] h-full rounded-xl  p-1 px-4  bg-white'>
+    <section className=' rounded-xl h-auto min-h-[600px] lg:h-155 w-full px-4 md:w-[90%] lg:w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
+      <div className='border gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative   border-[#d9d9d9] h-full rounded-xl  p-3 sm:p-4 md:px-4  bg-white'>
         {loader && (
           <section className='flex absolute z-10 inset-0  justify-center items-center h-full w-full'>
             <Loader className={''} />
           </section>
         )}
-        <section className='h-full w-full pt-5  pr-20 '>
+        <section className='h-full w-full pt-5 pr-0 md:pr-10 lg:pr-20 '>
           <h2 className='text-xs font-semibold mb-3'>
             Fill the form below to complete your purchase
           </h2>
@@ -163,7 +163,7 @@ export default function Checkout () {
             />
           </div>
         </section>
-        <section className='h-full w-full pr-20 mt-10'>
+        <section className='h-full w-full pr-0 md:pr-10 lg:pr-20 mt-5 md:mt-10'>
           <div className=' flex w-full flex-col justify-between'>
             <div className='flex flex-col'>
               <label className='pl-3 font-semibold' htmlFor='name'>
@@ -263,7 +263,7 @@ export default function Checkout () {
 
           <button
             onClick={() => handlePayments()}
-            className='mt-8 bg-black rounded-xl flex justify-center items-center self-end justify-self-end p-3 px-7 cursor-pointer text-white'
+            className='mt-8 bg-black rounded-xl flex justify-center items-center self-end justify-self-end p-3 px-7 cursor-pointer text-white w-full md:w-auto'
           >
             Pay now
           </button>

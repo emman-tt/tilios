@@ -3,10 +3,14 @@ import Sidebar from '../UI/Dashboard/Sidebar/Sidebar'
 import { Outlet } from 'react-router-dom'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
-
+import { protectDashboard } from '../services/protectDashboard'
+import { useEffect } from 'react'
 export default function Dashboard () {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  useEffect(() => {
+    protectDashboard()
+  },[])
   return (
     <section>
       <section className='flex h-screen '>
