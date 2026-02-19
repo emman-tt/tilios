@@ -28,7 +28,7 @@ const CustomerSlice = createSlice({
   },
   reducers: {
     saveCustomers: (state, action) => {
-      state.orders = action.payload
+      state.customers = action.payload
       state.status = 'loaded'
     },
     updateStatus: (state, action) => {

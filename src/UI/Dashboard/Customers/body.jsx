@@ -1,5 +1,4 @@
-import { fetchOrders } from '../../../services/Order'
-import { saveOrders, setStatus } from '../../../store/store'
+import { saveCustomers, updateStatus } from '../../../store/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { headerList } from './headerList'
 import { ChevronDown, ChevronUp, Settings } from 'lucide-react'
@@ -7,41 +6,42 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import Loader from '../../../components/Loader'
 import { NotFound } from '../../../components/not-found'
-
 import React from 'react'
+import { fetchCustomers } from '../../../services/Customers'
 export const Body = ({ searchValue }) => {
   const dispatch = useDispatch()
-  const { orders, status, filter } = useSelector(state => state.orders)
+  const { customers, status } = useSelector(state => state.customers)
+
   const [options, showOptions] = useState({
     id: 0,
     status: false
   })
-  const [count, setCount] = useState(1)
-  const [confirmModal, showConfirmModal] = useState({
+  const [detailsModal, showDetailsModal] = useState({
     status: false,
     details: {}
   })
 
-  const filteredOrders = orders.filter(item => {
-    const address = getAddress(item.shippingAddress).toLowerCase()
-    // console.log(address)
-    return (
-      item.reference.toLowerCase().includes(searchValue.toLowerCase()) ||
-      address.includes(searchValue.toLowerCase())
-    )
-  })
+  // const filteredOrders = orders.filter(item => {
+  //   const address = getAddress(item.shippingAddress).toLowerCase()
+  //   // console.log(address)
+  //   return (
+  //     item.reference.toLowerCase().includes(searchValue.toLowerCase()) ||
+  //     address.includes(searchValue.toLowerCase())
+  //   )
+  // })
 
   useEffect(() => {
-    dispatch(setStatus('loading'))
-    fetchOrders(filter)
+    dispatch(updateStatus('loading'))
+    fetchCustomers()
       .then(item => {
-        dispatch(saveOrders(item.orders))
+        dispatch(saveCustomers(item.customers))
       })
       .catch(err => {
-        dispatch(setStatus('loaded'))
+        dispatch(updateStatus('loaded'))
         console.log(err)
       })
-  }, [count, filter])
+  }, [])
+  console.log(customers)
 
   function getAddress (item) {
     const arr = item.split(',')
@@ -65,7 +65,7 @@ export const Body = ({ searchValue }) => {
       }}
       className='w-full h-full relative shadow-lg p-5 pt-2 rounded-2xl'
     >
-      <header className=' w-full  items-center text-sm py-2 font-semibold rounded-xl grid grid-cols-8 bg-[#eef0f2]'>
+      <header className=' w-full  items-center text-sm py-2 font-semibold rounded-xl grid grid-cols-6 bg-[#eef0f2]'>
         {headerList.map(item => (
           <div className='text-center   whitespace-nowrap' key={item.id}>
             {item.value}
@@ -79,53 +79,30 @@ export const Body = ({ searchValue }) => {
         </section>
       )}
       {status === 'error' && <div>Error</div>}
-      {status === 'loaded' && filteredOrders.length === 0 && (
+      {status === 'loaded' && customers.length === 0 && (
         <div className='w-full h-90 flex justify-center items-center pb-20 sm:pb-40 pt-10 sm:pt-40'>
-          <NotFound showButton={false} message='No orders found' />
+          <NotFound showButton={false} message='No customers found' />
         </div>
       )}
-      {status === 'loaded' && orders.length > 0 && (
-        <main className='w-full h-20 grid grid-cols-8 gap-y-9 mt-5 text-sm shrink-0 font-semibold  '>
-          {filteredOrders.map((item, i) => (
+      {status === 'loaded' && customers.length > 0 && (
+        <main className='w-full h-20 grid grid-cols-6 gap-y-9 mt-5 text-sm shrink-0 font-semibold  '>
+          {customers.map((item, i) => (
             <React.Fragment key={i}>
               <div className='text-center   h-full flex items-center justify-center'>
-                {item.reference}
-              </div>
-              <div className='text-center h-full flex items-center justify-center '>
                 {item.user.name}
               </div>
-              <div className='text-center truncate h-full flex items-center justify-center'>
-                {getAddress(item.shippingAddress)}
-              </div>
-              <div className='text-center h-full flex items-center justify-center'>
+              <div className='text-center h-full flex items-center justify-center '>
                 {formatDate(item.updatedAt)}
               </div>
+              <div className='text-center truncate h-full flex items-center justify-center'>
+                {item.user.email}
+              </div>
+
               <div className='text-center h-full flex items-center justify-center'>
-                {item.totalAmount}
+                2
               </div>
-              <div
-                className={`text-center h-full flex items-center justify-center ${
-                  item.payment_status === 'confirmed'
-                    ? 'text-green-400'
-                    : item.payment_status === 'pending'
-                    ? 'text-[#fecd0b]'
-                    : 'text-red-500'
-                } `}
-              >
-                {item.payment_status}
-              </div>
-              <div
-                className={`text-center h-full flex items-center justify-center ${
-                  item.order_status === 'delivered'
-                    ? 'text-green-400'
-                    : item.order_status === 'pending'
-                    ? 'text-[#ffd52d]'
-                    : item.order_status === 'dispatched'
-                    ? 'text-blue-800'
-                    : 'text-red-500'
-                } `}
-              >
-                {item.order_status}
+              <div className='text-center h-full flex items-center justify-center'>
+                {getAddress(item.shippingAddress)}
               </div>
 
               <div className='flex gap-3 relative h-full items-center  w-full  justify-center '>
@@ -151,7 +128,7 @@ export const Body = ({ searchValue }) => {
                   <ul className='h-max p-5 pr-2  gap-3 flex text-xs flex-col text-gray-500 absolute rounded-xl -bottom-36 left-2 z-5 bg-white shadow w-max '>
                     <li
                       onClick={() =>
-                        showConfirmModal({ status: true, details: item })
+                        showDetailsModal({ status: true, details: item })
                       }
                       className='list-disc cursor-pointer hover:text-shadow-2xs'
                     >
@@ -159,7 +136,7 @@ export const Body = ({ searchValue }) => {
                     </li>
                     <li
                       onClick={() =>
-                        showConfirmModal({ status: true, details: item })
+                        showDetailsModal({ status: true, details: item })
                       }
                       className='list-disc cursor-pointer hover:text-shadow-2xs'
                     >

@@ -1,30 +1,27 @@
 export const headerList = [
+
   {
     id: 1,
-    value: 'ID'
-  },
-  {
-    id: 2,
     value: 'Customer'
   },
   {
-    id: 3,
+    id: 2,
     value: 'Date joined'
   },
   {
-    id: 4,
+    id: 3,
     value: 'Email'
   },
   {
-    id: 5,
+    id: 4,
     value: 'Orders'
   },
   {
-    id: 6,
+    id: 5,
     value: 'Location'
   },
   {
-    id: 8,
+    id: 6,
     value: 'Actions'
   }
 ]
