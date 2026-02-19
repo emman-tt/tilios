@@ -18,6 +18,8 @@ import Cartlist from './UI/Cart/Cartlist/CartList'
 import { CartProvider } from './context/cart'
 import Checkout from './UI/Cart/Checkout/Checkout'
 import Order from './UI/Cart/Order/Order'
+import Orders from './UI/Dashboard/Orders/page'
+import Customers from './UI/Dashboard/Customers/page'
 function App () {
   return (
     <ProductProvider>
@@ -47,6 +49,8 @@ function App () {
                     <Route path='addproduct' element={<AddProduct />} />
                     <Route path='productlist' element={<ProductList />} />
                     <Route path='settings' element={<Settings />} />
+                    <Route path='orders' element={<Orders />} />
+                    <Route path='customers' element={<Customers />} />
                   </Route>
 
                   <Route path='/cart' element={<CartPage />}>

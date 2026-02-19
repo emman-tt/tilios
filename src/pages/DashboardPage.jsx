@@ -9,8 +9,21 @@ export default function Dashboard () {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
-    protectDashboard()
-  },[])
+    const controller = new AbortController()
+    protectDashboard(controller.signal)
+
+    return () => {
+      controller.abort()
+    }
+  }, [])
+
+  function createInitials (item) {
+    const splitted = item.split('')
+    const first = splitted[0]
+    const second = splitted[1]
+    const full = first + second
+    return full.toUpperCase()
+  }
   return (
     <section>
       <section className='flex h-screen '>
@@ -23,10 +36,14 @@ export default function Dashboard () {
 
         <div
           className={`fixed lg:static top-0 right-0 h-screen z-40 transition-all duration-300 ${
-            sidebarOpen ? 'w-60' : 'w-0 lg:w-60'
+            sidebarOpen ? 'w-60' : 'w-0 lg:w-70'
           } overflow-hidden`}
         >
-          <Sidebar className={'h-full w-60 pl-3 pr-2'} />
+          <Sidebar
+            className={
+              'h-full w-full grow border-r-5 border-double border-black/50 '
+            }
+          />
         </div>
 
         {sidebarOpen && (

@@ -27,9 +27,21 @@ export default function ProductList () {
   } = useProductList()
   const { showEditor, productList, status, currenPage, showDeleteModal } = state
   const { fetchProducts } = useFetch()
+  const [searchValue, setSearchValue] = useState('')
 
   const containerRef = useRef(null)
 
+  const filteredProductList = productList.filter(item => {
+    return item.name.toLowerCase().includes(searchValue.toLowerCase())
+  })
+
+  function findCategory (id) {
+    const cat = categoryArray
+      .find(cat => cat.id === id)
+      .value.toLocaleLowerCase()
+
+    return cat
+  }
   return (
     <section
       ref={containerRef}
@@ -40,8 +52,18 @@ export default function ProductList () {
 
       {/* Delete Modal */}
       {showDeleteModal && (
-        <DeleteModal deleteProduct={deleteProduct} deleteMode={deleteMode} />
+        <DeleteModal
+          categoryArray={categoryArray}
+          deleteProduct={deleteProduct}
+          deleteMode={deleteMode}
+        />
       )}
+
+      {/* Delte Modal Overlay */}
+      {showDeleteModal && (
+        <div className='fixed inset-0 backdrop-blur-sm  bg-[#1a191948] z-25'></div>
+      )}
+
       <div className='flex flex-col sm:flex-row justify-end items-start sm:items-center gap-3 mb-4 flex-wrap'>
         <div className='flex max-sm:items-center  sm:flex-row gap-3 sm:gap-7 items-start sm:items-center w-full sm:w-auto'>
           <section className='flex gap-2 sm:gap-3  items-center text-xs sm:text-sm'>
@@ -91,8 +113,9 @@ export default function ProductList () {
           </section>
 
           <input
+            onChange={e => setSearchValue(e.target.value)}
             className='px-2 sm:px-3 py-2 w-full sm:w-100 rounded-md border border-[#e6dfd6] text-xs sm:text-sm'
-            placeholder='Search'
+            placeholder='Search by product name '
           />
         </div>
       </div>
@@ -126,18 +149,18 @@ export default function ProductList () {
         {/* Body Rows */}
         <div className=' overflow-y-scroll h-full w-full [scrollbar-width:thin]'>
           <div className='font-semibold text-xs sm:text-sm'>
-            {productList.length === 0 || !productList ? (
+            {status === 'loading' ? (
+              <section className='flex relative  justify-center items-center h-120 w-full'>
+                <Loader />
+              </section>
+            ) : filteredProductList.length === 0 || !productList ? (
               <div className='col-span-full'>
                 <div className='w-full h-full flex justify-center pb-20 sm:pb-40 pt-10 sm:pt-20'>
                   <NotFound />
                 </div>
               </div>
-            ) : status === 'loading' ? (
-              <section className='flex relative  justify-center items-center h-120 w-full'>
-                <Loader />
-              </section>
             ) : (
-              productList.map((item, idx) => (
+              filteredProductList.map((item, idx) => (
                 <div
                   key={idx}
                   className='grid grid-cols-5  md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0 border-b border-[#f7f7f7] hover:bg-gray-50 transition-colors'
@@ -172,9 +195,7 @@ export default function ProductList () {
                   </div>
 
                   <div className='px-2 sm:px-4 py-5 sm:py-4   text-xs sm:text-sm  lg:block'>
-                    {categoryArray
-                      .find(cat => cat.id === item.categoryId)
-                      .value.toLocaleLowerCase()}
+                    {findCategory(item.categoryId)}
                   </div>
 
                   <div className='px-2 sm:px-4 py-2 sm:py-4 '>
@@ -201,7 +222,7 @@ export default function ProductList () {
 
                       <button
                         onClick={() => {
-                          deleteMode(true, item.id)
+                          deleteMode(true, item)
                         }}
                         className='bg-red-300 max-sm:bg-red-500 text-white rounded-xl hover:bg-red-500 cursor-pointer px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm whitespace-nowrap max-sm:rounded'
                       >

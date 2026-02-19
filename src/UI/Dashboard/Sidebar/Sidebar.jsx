@@ -22,8 +22,11 @@ export default function Sidebar ({ className }) {
     setSelected(route.id)
   }, [location])
   return (
+    // bg-[#f2f8ff]
     <section
-      className={`bg-[#f2f8ff]  pt-20 sm:pt-30 flex flex-col gap-3 sm:gap-5 text-xs sm:text-sm md:text-md font-medium font-sans ${className}`}
+      className={`
+      bg-white
+          pt-20 sm:pt-30 flex flex-col sm:pl-6 sm:pr-1 gap-3  sm:gap-5 text-xs  sm:text-sm md:text-md font-medium font-sans ${className}`}
     >
       {sidebar.map(item => (
         <NavLink
@@ -32,19 +35,25 @@ export default function Sidebar ({ className }) {
           onClick={() => {
             setSelected(item.id)
           }}
-          className={`hover:italic cursor-pointer ${
-            item.id === selected ? 'border' : ''
-          } p-1.5 sm:p-2 px-3 sm:px-6 rounded-2xl flex justify-start gap-3 sm:gap-4 items-center text-sm sm:text-sm md:text-base`}
+          className={` cursor-pointer ${
+            item.id === selected ? 'bg-[#eff3f4]' : ''
+          } 
+          ${
+            item.id === sidebar.length &&
+            'border-t rounded-none mt-5 border-gray-400'
+          }
+          
+          p-1.5 sm:py-2 px-3 text-[#5c5c5c]  rounded-2xl flex justify-start gap-3 sm:gap-2 items-center text-sm sm:text-sm `}
         >
-          <img src={item.icon} className='h-6 sm:h-8 w-6 sm:w-8' alt='' />
-          <span className=' sm:inline'>{item.name}</span>
+          <img src={item.icon} className='h-6  sm:h-5 w-6 sm:w-5' alt='' />
+          <span className='  sm:inline'>{item.name}</span>
         </NavLink>
       ))}
       <NavLink
         to={'/'}
-        className='p-1.5 sm:p-2 px-3 sm:px-6 rounded-2xl flex justify-start gap-3 sm:gap-4 items-center text-sm sm:text-sm md:text-base'
+        className='p-1.5 sm:py-2 px-3 text-[#5c5c5c]  rounded-2xl flex justify-start gap-3 sm:gap-2 items-center text-sm sm:text-sm'
       >
-        <Home className='h-6 sm:h-8 w-6 sm:w-8' />
+        <Home className='h-6 sm:h-5 w-6 sm:w-5' />
         <span className='sm:inline'>Homepage</span>
       </NavLink>
     </section>
@@ -72,6 +81,18 @@ const sidebarNav = [
   },
   {
     id: 4,
+    name: 'Orders',
+    route: 'orders',
+    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABw0lEQVR4nO2UyyutURjGfyOdwsmAZDsmysAAIxR/AHUMpIzM/QPYRkbkUsotZkwoR9qZMCDMjA0pTM5pK7HdC7lsrXo+rVbr+xCd0ffUan/rWc/7vs+7LhtixIgRw48WYAu4BW70/Zv/hAEgGzL6Pfpy4A9wAlwDKaDiK51ngXugGyjR6BGXdXaiXIVdoxmgVJocYAQ4BtLAkDgvtpXAFHeR1Jo5jgDz4laAhIquiluSZthjcDDMwLUEpmsXCa0ZTYALccUWVybuUvO05g1Ao74N58XVBwxcevS/PAZONc9o3mgZOAszsCmBOXMXvVrbsLgFcasyYcaauEVpUp4jWA4z0GxdwqS6Tqj4g9aanF0JLqc9HoFKvRrfa3oB+sJMzEU8w1lLV6QLGaY9ssx0AYXOi3pxmuEHMAM8RyR9AqakDYofAO0ylA+0AvtWjNnJsBe1bhcPnuAdMA7UAbka9cCEtd1/9XuozlwUWCY6Iy50JiBmrMRVYWcD1AD/rO46IrRt0uxEaN6SPqvzqOK2PtiJ6gjdT2nO30s4LeEYH8ekYkb5BuwpWe0nYuoVs/sdBu6ULO8TMXmKMX/FMWLEiMFX8Ar7D7RML2XVbgAAAABJRU5ErkJggg=='
+  },
+  {
+    id: 5,
+    name: 'Customers',
+    route: 'customers',
+    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABgklEQVR4nO2Wv0vDQBTHP0NwEMFFUwUdg2tR/55uirg4dhUHF/8RwaUu4hZp/AU6GVTo7uIgSJ17UngHx3lJY3JnHfrgC+Wal8/33r13BGZRL1rAOfAF3AIbFXJuACXKaBArwIvxsrGuK+RdWTne4Ar4nJAXA3lTA60C+FhnFuwReJDfJjyXSvR9wp+ApYKd5hY8rrvz5xL4sgNugv8EjpTdhMVyDPoofh1zwH1FODJatWH2nB4D+yXwVeDU11zrMCFbwJ0DnjvgjebaDPNli8DQcdkUwb0bWJOyDgW8I5fQZQHcu4ELYB1YALaBI+CjBO7dgKoh7wZSoD0NA23gROY5nYaBVM7fhCcFOcl/7oEI6ACvoo6sBe+BSGADxzODMiPKUw8k8rk2cjwzkv+SkD3QAzZF2ogG6/VeyB5QAjSNmGBdmWA9oKyS74nsIwnWA8rSoWjivaE89UBjA6phD2QVDPRDGoiAXeDNYeAd6Mrn3o/IGsBdO5oX2IGoK2uzwIxvQwenR7Q2Pb0AAAAASUVORK5CYII='
+  },
+  {
+    id: 6,
     name: 'Settings',
     route: 'settings',
     icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC2UlEQVR4nO2av2sUQRTHP8FgUHMngtHCHwg5UCNioqIRS7HRXi099A8wxM4YECGiYv6CWNl5iIWtgoVGLKKthSjmULhYaZFc7pJbGXgLy7ruzszO3e6d+cIXApmbed/deTvffW9hA/8H7gPrgBdiE5iki1CNEOHzA12CItCKEVIH+ukCjMeI8HkoywD3AxPAUMK4soaQSwlzDAE3gH04xgHgqwRRAy7GjH2oIeROzO/PAd9lnMq1kisRpYjkVTnwCBgIjd0BvNEQ8goohH67WS5COL8WgeF2iAjyIzAiefEcWNUQ4XMZeAIcBQ4CCzFjU4nZmyDCZ8Mg+CiqO7CiMW4R2GMjRCdpO82rNkK2Ap9yELwn/AwMYokTDraOCzaB06TEdA6ETOEAyk7MZyjiLbAJRyhltMWWXZwhQZzJ6G6sA0dcCnlhGICyMbeAUWCbcEz2es1wrjlXInbJU0N34acR9iMI9b+KwXy/gC227xPKclwXP/XeUESfxhp9hmJeAw/kkD6VcKG4JzbAdj/XkhaIuGBLKdb7JjH/hbWUialywhS3U665FjVp3OupDo9ZCBlLuWarHUJsfFAhj0IKFkKKeRQympet1cjA2KU1pI2oSW9K8azeocfvduCn5Vp1iXUyye2q9/DLwIxmMcFnxeBAfGYw70vgrpSRDtsW+EwtSkWSOO5OmIj4bWtRXJjGJTnsjstjeVD+nrbYTo/pARvfcm3jRwy3lyuuSM3LCQakEOdlxAWpQqbGbIYiPKEqpabCeQcnvqtcuWArYifwIwcivMCBu9tGyEQOgvdCVD0Tq8aOThF7tUNF7KrE1Ja2wjsZMy6ntW1bYTihCFh10fCJEtOUU7o/otEzr1lMCBtMVU2cinDhTrtWwdbbF+Bsyse1MoD/wslAF8CpiGDjpyzFtjhc0xByRaOlUbZt7HTSlykrnnsUe+WDgZ75hAOpAPbERzUbwBJ/AGHShFfzN0J6AAAAAElFTkSuQmCC'

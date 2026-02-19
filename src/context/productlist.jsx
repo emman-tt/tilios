@@ -18,7 +18,8 @@ const inititalState = {
   currentPage: 1,
   categoryValue: '',
   category: 0,
-  showDeleteModal: false
+  showDeleteModal: false,
+  deleteProductDetails: {}
 }
 
 function reducer (state, action) {
@@ -68,7 +69,8 @@ function reducer (state, action) {
       return {
         ...state,
         showDeleteModal: action.payload,
-        productId: action.product
+        productId: action.product.id,
+        deleteProductDetails: action.product
       }
 
     default:
@@ -94,11 +96,11 @@ export const ProductListProvider = ({ children }) => {
     dispatch({ type: 'editor', payload: data })
   }
 
-  const deleteMode = (boolean, id) => {
+  const deleteMode = (boolean, item) => {
     dispatch({
       type: 'deleteMode',
       payload: boolean,
-      product: id
+      product: item
     })
   }
 
