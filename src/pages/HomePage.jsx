@@ -21,14 +21,19 @@ export default function HomePage () {
   }
 
   useEffect(() => {
+    const controller = new AbortController()
     ;(async () => {
-      const status = await silentUserAuth()
+      const status = await silentUserAuth(controller.signal)
       if (status === 'success') {
         fetchCart()
       }
 
       console.log(status)
     })()
+
+    return () => {
+      controller.abort()
+    }
   }, [])
 
   return (

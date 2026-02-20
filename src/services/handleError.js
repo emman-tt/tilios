@@ -2,34 +2,33 @@ import { toast } from 'sonner'
 import { autoRefresh } from '../hooks/autoRefresh'
 
 export async function handleError (callbackfn, error, ...params) {
-  console.log(error)
   const status = error.status
   const serverError = error?.response?.data.message
-
+  console.log('status', status)
   if (status === 401) {
-    return toast.error('Please sign up to use the cart')
+    return status
   }
 
   if (status === 403) {
-    const status = await autoRefresh()
+    const refreshResult = await autoRefresh()
 
-    if (status === 'success') {
-      return callbackfn(...params)
+    if (refreshResult === 'success') {
+      await callbackfn(...params)
+      return 201
     } else {
-      //   toast.error('Please sign up', {
-      //     description: 'Note this is required to use the cart',
-      //     duration: 3000
-      //   })
-      setTimeout(() => {
-        window.location.href = '/auth'
-      }, 3100)
-
-      return
+      const status = 401
+      return status
     }
   }
 
   if (status === 405) {
-    return toast.error('Session timed out, please log in')
+    return status
   }
-  return { serverError, status }
+  console.log(serverError)
+  
 }
+
+// My system Error Status Codes meaning
+// 401- unauthorized
+// 403- expired access token but existing refresh token so autoRefresh()
+// 405- refresh token is expired hence restart login again

@@ -1,8 +1,9 @@
 import { useContext, useReducer, createContext, useEffect } from 'react'
 import { api } from '../api/axios'
-import useToken from '../hooks/useToken'
+// import useToken from '../hooks/useToken'
 import { autoRefresh } from '../hooks/autoRefresh'
 import { toast } from 'sonner'
+import { handleError } from '../services/handleError'
 
 const CartContext = createContext()
 
@@ -122,11 +123,7 @@ export function CartProvider ({ children }) {
         payload: response.data.orderTotal
       })
     } catch (error) {
-      if (error.status === 404) {
-        fetchCart()
-        return
-      }
-
+      cartCatchBlock(updateCart, error, true, type, productId)
       dispatch({
         type: 'setProductQty',
         payload: { id: productId, amount: type === 'increase' ? -1 : 1 }
@@ -145,29 +142,16 @@ export function CartProvider ({ children }) {
     }
   }, [cartProducts])
 
-  function updateOrderTotal () {
-    const total = cartProducts.reduce(
-      (acc, item) => item.cartProduct.total + acc,
-      0
-    )
-    console.log(cartProducts)
-    console.log('total', total)
-
-    const formatted = parseFloat(total).toFixed(2)
-    dispatch({
-      type: 'setOrderTotal',
-      payload: formatted
-    })
-  }
-
-  async function fetchCart () {
+  async function fetchCart (signal) {
     try {
       dispatch({
         type: 'setStatus',
         payload: 'loading'
       })
 
-      const response = await api.get(`/cart`)
+      const response = await api.get(`/cart`, {
+        signal: signal
+      })
 
       const data = await response.data.products
       dispatch({
@@ -200,34 +184,38 @@ export function CartProvider ({ children }) {
         payload: 'filled'
       })
     } catch (error) {
-      console.log(error)
-      const status = error.status
-      const serverError = error.response.data.message
-
       dispatch({
         type: 'setStatus',
         payload: 'empty'
       })
-
-      if (status === 403) {
-        const status = await autoRefresh()
-
-        if (status === 'success') {
-          return fetchCart()
-        } else {
-          return toast.error('Please sign up', {
-            description: 'required for you to use the cart'
-          })
-        }
-      }
-
-      if (status === 405) {
-        toast.error('Session timed out, please log in')
-      }
-
-      return toast.error(serverError)
+      cartCatchBlock(fetchCart, error, false, signal)
     }
   }
+
+  async function cartCatchBlock (callbackfn, error, redirect = true, ...params) {
+    const code = await handleError(callbackfn, error, ...params)
+
+    if (code === 401) {
+      toast.error('Please sign up', {
+        description: 'required to use the cart',
+        duration: 3000
+      })
+      setTimeout(() => {
+        if (redirect) {
+          window.location.href = '/auth/signup'
+        }
+      }, 3100)
+    }
+
+    if (code === 405) {
+      return toast.error('Session timed out, please log in')
+    }
+
+    if (code === 201) {
+      return
+    }
+  }
+
   async function addCart (productId) {
     try {
       toast.success('Adding item to cart ...', {
@@ -247,42 +235,13 @@ export function CartProvider ({ children }) {
         payload: parseInt(cartTotal)
       })
     } catch (error) {
-      console.log(error)
-      const status = error.status
-      const serverError = error.response.data.message
-
-      if (status === 401) {
-        toast.error('Please sign up to use the cart')
-      }
-
-      if (status === 403) {
-        const status = await autoRefresh()
-
-        if (status === 'success') {
-          return addCart(productId)
-        } else {
-          toast.error('Please sign up', {
-            description: 'Note this is required to use the cart',
-            duration: 3000
-          })
-          setTimeout(() => {
-            window.location.href = '/auth'
-          }, 3100)
-
-          return 
-        }
-      }
-
-      if (status === 405) {
-        return toast.error('Session timed out, please log in')
-      }
-      return toast.error(serverError)
+      cartCatchBlock(addCart, error, true, productId)
     }
   }
 
   async function deleteCart (productId) {
     try {
-      toast.dismiss()
+     
       dispatch({
         type: 'deleteProduct',
         payload: productId
@@ -297,37 +256,8 @@ export function CartProvider ({ children }) {
         })
       }
     } catch (error) {
-      console.log(error)
-      const status = error.status
-      const serverError = error.response.data.message
       toast.dismiss()
-      if (status === 403) {
-        const status = await autoRefresh()
-
-        if (status === 'success') {
-          return addCart(productId)
-        } else {
-          toast.error('Please sign up', {
-            description: ' required to use the cart',
-            duration: 3000
-          })
-          setTimeout(() => {
-            window.location.href = '/auth'
-          }, 3100)
-
-          return
-        }
-      }
-
-      if (status === 405) {
-        toast.dismiss()
-        toast.error('Session timed out, please log in')
-        setTimeout(() => {
-          window.location.href = '/auth'
-        }, 3100)
-        return
-      }
-      return toast.error(serverError)
+      cartCatchBlock(deleteCart, error, true, productId)
     }
   }
 

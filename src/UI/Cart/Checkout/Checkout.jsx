@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { api } from '../../../api/axios'
 import Loader from '../../../components/Loader'
-export default function Checkout() {
+export default function Checkout () {
   const [details, setDetails] = useState([
     {
       firstname: '',
@@ -33,7 +33,7 @@ export default function Checkout() {
     )
   }
 
-  function validator() {
+  function validator () {
     let isValid = true
     const each = details.some(
       item =>
@@ -48,17 +48,26 @@ export default function Checkout() {
     )
 
     if (each) {
+      toast.dismiss()
       toast.error('Some required fields are missing', {
         description: 'Please make sure to fill every field '
       })
 
       isValid = false
+      return
     }
 
-    if (!orderTotal) {
-      toast.error("No product  in cart to order")
-      isValid = false;
-      return navigate('/cart')
+    // if (!orderTotal) {
+    //   toast.dismiss()
+    //   toast.error('No product  in cart to order')
+    //   isValid = false
+    //   return navigate('/cart')
+    // }
+
+    if (cartProducts.length === 0 || !cartProducts) {
+      toast.error('No products in cart to order')
+      navigate('/cart')
+      return (isValid = false)
     }
 
     SaveCheckoutDetails(details)
@@ -66,16 +75,16 @@ export default function Checkout() {
     return isValid
   }
 
-  async function handlePayments() {
+  async function handlePayments () {
     try {
       const isValid = validator()
       if (!isValid) {
-        console.log('invalid input')
         return
       }
       showLoader(true)
       const data = details[0]
       const address = `${data.country},${data.city},${data.addressOne},${data.addressTwo},${data.email},${data.number}`
+
       const response = await api.post('/order/session', {
         address: address,
         details: cartProducts
@@ -88,14 +97,13 @@ export default function Checkout() {
         window.location.href = url
       }, 1000)
     } catch (error) {
-      toast.error(error.data.message)
+      toast.error(error?.response?.data?.message)
       showLoader(false)
-      console.log(error)
     }
   }
 
   return (
-    <section className=' rounded-xl h-auto min-h-[600px] lg:h-155 w-full px-4 md:w-[90%] lg:w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
+    <section className=' rounded-xl h-auto min-h-150 lg:h-155 w-full px-4 md:w-[90%] lg:w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
       <div className='border gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative   border-[#d9d9d9] h-full rounded-xl  p-3 sm:p-4 md:px-4  bg-white'>
         {loader && (
           <section className='flex absolute z-10 inset-0  justify-center items-center h-full w-full'>

@@ -5,10 +5,12 @@ import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { protectDashboard } from '../services/protectDashboard'
 import { useEffect } from 'react'
+import Loader from '../components/Loader'
 export default function Dashboard () {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [user, setUser] = useState('')
   const [initial, setInitial] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -22,12 +24,21 @@ export default function Dashboard () {
       const full = first + second
 
       setInitial(full.toUpperCase())
+      setLoading(false)
     })
 
     return () => {
       controller.abort()
     }
   }, [])
+
+  if (loading) {
+    return (
+      <section className='relative w-full h-screen justify-center items-center flex'>
+        <Loader />
+      </section>
+    )
+  }
 
   return (
     <section>

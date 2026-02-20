@@ -4,10 +4,9 @@ import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Collectiion } from '../../../utils/collection'
 import { lazy } from 'react'
-// const NotFound = lazy(() => import('./not-found'))
 import { NotFound } from './not-found'
 import Loader from '../../../components/Loader'
-export default function Cartlist() {
+export default function Cartlist () {
   const {
     cartProducts,
     fetchCart,
@@ -18,21 +17,19 @@ export default function Cartlist() {
   } = useCart()
 
   useEffect(() => {
-    fetchCart()
+    const controller = new AbortController()
+    fetchCart(controller.signal)
+
+    return () => {
+      controller.abort()
+    }
   }, [])
 
-
-
-  function calculateTotal(item) {
+  function calculateTotal (item) {
     const discountValue = (parseFloat(item.discount) / 100) * item.amount
     const priceAtSale = (item.amount - discountValue).toFixed(2)
-
     const qty = parseInt(item.cartProduct.quantity)
-
     const total = qty * priceAtSale
-
-
-
     return total.toFixed(2)
   }
 
@@ -187,6 +184,12 @@ export default function Cartlist() {
                 className='bg-black cursor-pointer rounded-3xl p-4 text-center w-full text-white'
               >
                 Go To Checkout
+              </NavLink>
+              <NavLink
+                to={'/'}
+                className='bg-black cursor-pointer rounded-3xl p-4 text-center w-full text-white'
+              >
+                Bck to Home
               </NavLink>
             </ul>
           </div>

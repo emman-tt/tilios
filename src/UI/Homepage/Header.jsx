@@ -1,6 +1,7 @@
 import { Volleyball, Menu, X } from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { useCart } from '../../context/cart'
+import { toast } from 'sonner'
 export default function Header ({
   headerText,
   isMenuOpen,
@@ -39,6 +40,18 @@ export default function Header ({
             <NavLink to={'/cart'}>
               Cart({cartTotal > 0 ? cartTotal : 0})
             </NavLink>
+          </li>
+          <li
+            onClick={() => {
+              const token = localStorage.getItem('accessToken')
+              if (!token) {
+                return toast.error('Unauthorized')
+              }
+              navigate('/dashboard')
+            }}
+            className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'
+          >
+            Admin
           </li>
           <li
             onClick={() => {
