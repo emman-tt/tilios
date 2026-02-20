@@ -65,7 +65,7 @@ export const Body = ({ searchValue }) => {
       }}
       className='w-full h-full relative shadow-lg p-5 pt-2 rounded-2xl'
     >
-      <header className=' w-full  items-center text-sm py-2 font-semibold rounded-xl grid grid-cols-6 bg-[#eef0f2]'>
+      <header className=' w-full  items-center text-sm py-2 font-semibold rounded-xl grid grid-cols-5 bg-[#eef0f2]'>
         {headerList.map(item => (
           <div className='text-center   whitespace-nowrap' key={item.id}>
             {item.value}
@@ -85,24 +85,21 @@ export const Body = ({ searchValue }) => {
         </div>
       )}
       {status === 'loaded' && customers.length > 0 && (
-        <main className='w-full h-20 grid grid-cols-6 gap-y-9 mt-5 text-sm shrink-0 font-semibold  '>
+        <main className='w-full h-20 grid grid-cols-5 gap-y-9 mt-5 text-sm shrink-0 font-semibold  '>
           {customers.map((item, i) => (
             <React.Fragment key={i}>
               <div className='text-center   h-full flex items-center justify-center'>
-                {item.user.name}
+                {item.name}
               </div>
               <div className='text-center h-full flex items-center justify-center '>
-                {formatDate(item.updatedAt)}
+                {formatDate(item.createdAt)}
               </div>
               <div className='text-center truncate h-full flex items-center justify-center'>
-                {item.user.email}
+                {item.email}
               </div>
 
               <div className='text-center h-full flex items-center justify-center'>
-                2
-              </div>
-              <div className='text-center h-full flex items-center justify-center'>
-                {getAddress(item.shippingAddress)}
+                {item.totalOrders}
               </div>
 
               <div className='flex gap-3 relative h-full items-center  w-full  justify-center '>
@@ -125,7 +122,7 @@ export const Body = ({ searchValue }) => {
                 </div>
 
                 {options.id == i && options.status === true && (
-                  <ul className='h-max p-5 pr-2  gap-3 flex text-xs flex-col text-gray-500 absolute rounded-xl -bottom-36 left-2 z-5 bg-white shadow w-max '>
+                  <ul className='h-max p-5 pr-2  gap-3 flex text-xs flex-col text-gray-500 absolute rounded-xl -bottom-22 left-20 z-5 bg-white shadow w-max '>
                     <li
                       onClick={() =>
                         showDetailsModal({ status: true, details: item })
@@ -134,19 +131,9 @@ export const Body = ({ searchValue }) => {
                     >
                       View Details
                     </li>
-                    <li
-                      onClick={() =>
-                        showDetailsModal({ status: true, details: item })
-                      }
-                      className='list-disc cursor-pointer hover:text-shadow-2xs'
-                    >
-                      Confirm Payment
-                    </li>
-                    <li className='list-disc cursor-pointer hover:text-shadow-2xs'>
-                      Refund Payment
-                    </li>
+
                     <li className='list-disc text-red-500 cursor-pointer hover:text-shadow-2xs'>
-                      Delete Order
+                      Delete Customer
                     </li>
                   </ul>
                 )}

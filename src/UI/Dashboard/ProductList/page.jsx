@@ -12,6 +12,7 @@ import Loader from '../../Login/Loader'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import DeleteModal from './DeleteModal'
+import Overlay from '../../../components/Overlay'
 
 export default function ProductList () {
   const [categoryBox, showCategoryBox] = useState(false)
@@ -49,6 +50,10 @@ export default function ProductList () {
     >
       {/*Editor Sidebar */}
       {showEditor && <ProductEditor />}
+
+      {showEditor && (
+        <div className='fixed inset-0 backdrop-blur-sm  bg-[#1a191948] z-25'></div>
+      )}
 
       {/* Delete Modal */}
       {showDeleteModal && (

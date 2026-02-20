@@ -17,10 +17,6 @@ export const headerList = [
     value: 'Orders'
   },
   {
-    id: 5,
-    value: 'Location'
-  },
-  {
     id: 6,
     value: 'Actions'
   }

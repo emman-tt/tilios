@@ -30,7 +30,7 @@ export default function DeleteModal ({
           Category : {findCategory(deleteProductDetails.categoryId)}
         </p>
       </section>
-      <p className='text-xs sm:text-sm text-center'>
+      <p className='text-xs sm:text-sm text-gray-400 text-center'>
         note: this action is irreversible
       </p>
 

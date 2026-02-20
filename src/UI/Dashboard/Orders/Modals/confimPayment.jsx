@@ -99,10 +99,10 @@ export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
                 className={` font-bold ${
                   data?.transactions.length > 0
                     ? 'text-green-400'
-                    : 'text-amber-500'
+                    : 'text-red-500'
                 } `}
               >
-                {data?.transactions.length > 0 ? 'completed' : 'pending'}
+                {data?.transactions.length > 0 ? 'paid' : 'unpaid'}
               </p>
             </div>
             <div className='flex gap-2 w-full'>
