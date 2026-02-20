@@ -65,7 +65,7 @@ export default function Endsection ({ headerText, closeSideBar, sidebarBg }) {
           trigger: BiographyRef.current,
           start: isMobile ? 'top 80%' : 'top+=-200 top',
           end: isMobile ? 'bottom bottom' : 'top 0%',
-          scrub: 1,
+          scrub: 0.2,
           // markers: true,
           toggleActions: 'play reverse play reverse'
         }
@@ -74,7 +74,7 @@ export default function Endsection ({ headerText, closeSideBar, sidebarBg }) {
       tl.from(
         BioHeadSplit.chars,
         {
-          x: 200,
+          x: 100,
           opacity: 0,
           ease: 'circ.inOut',
           duration: 2,

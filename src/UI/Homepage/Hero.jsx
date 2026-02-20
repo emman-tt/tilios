@@ -4,13 +4,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import SplitText from 'gsap/SplitText'
 import bg7 from '../../assets/img/bg7.jpg'
+import home1 from '../../assets/img/home1.jpg'
+import home2 from '../../assets/img/home2.jpg'
+import home4 from '../../assets/img/home4.jpg'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 export default function Hero ({
   containerRef,
   headerText,
   closeSideBar,
   sidebarBg
 }) {
-  gsap.registerPlugin(ScrollTrigger, SplitText)
+  gsap.registerPlugin(ScrollTrigger, SplitText, ScrollToPlugin)
 
   const nextPanel = useRef(null)
   const previousPanel = useRef(null)
@@ -19,6 +23,7 @@ export default function Hero ({
   const textRef1 = useRef(null)
   const textRef2 = useRef(null)
   const textRef3 = useRef(null)
+  const imagesRef = useRef(null)
 
   useGSAP(
     () => {
@@ -80,7 +85,7 @@ export default function Hero ({
           start: 'top 90%',
           end: 'top 50%',
           // markers: true,
-          scrub: 1
+          scrub: 2
         }
       })
       gsap.from(splitAnime2.chars, {
@@ -98,7 +103,7 @@ export default function Hero ({
           start: 'top 70%',
           end: 'top 50%',
           // markers: true,
-          scrub: 2.5
+          scrub: 2
         }
       })
       gsap.from(splitAnime3.chars, {
@@ -112,7 +117,7 @@ export default function Hero ({
           start: 'top 90%',
           end: 'top 50%',
           // markers: true,
-          scrub: 1
+          scrub: 2.5
         }
       })
 
@@ -131,8 +136,6 @@ export default function Hero ({
         stagger: 5,
         duration: 10
       })
-
-      // return () => splitAnime.revert()
     },
     { scope: containerRef }
   )
@@ -174,6 +177,22 @@ export default function Hero ({
     { scope: containerRef }
   )
 
+  useGSAP(
+    () => {
+      gsap.to(imagesRef.current, {
+        xPercent: -50,
+        repeat: -1,
+        duration: 30,
+        ease: 'none',
+
+        force3D: true
+      })
+    },
+    { scope: containerRef }
+  )
+
+  const images = [home1, home4, home2, bg7, home1, home4, home2, bg7]
+
   return (
     <main
       onClick={() => closeSideBar()}
@@ -204,35 +223,39 @@ export default function Hero ({
             className='absolute inset-0 pt-10 xl:p-10  z-20 flex flex-col items-center justify-center bg-[#333333] text-white'
           >
             <div
-              ref={barRef}
-              className='w-[200%] max-lg:hidden h-10 md:h-25 rotate-10 -z-1 bg-[#1c1c1dc3] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
-            ></div>
-
-            <div
               ref={bgRef}
               className='relative top-10 md:top-20 h-[70%] md:h-[80%] w-full p-2 md:p-0 lg:p-0 xl:p-20'
             >
-              <img
-                src={bg7}
-                alt=''
-                className='h-full w-full rounded-3xl opacity-70 object-cover'
-              />
-              <ul className='flex flex-col md:flex-row absolute bottom-10 md:bottom-20 lg:bottom-40 left-0 right-0 justify-between w-full px-8 md:px-5 lg:px-30 items-start md:items-center gap-6 md:gap-0'>
+              <section
+                ref={imagesRef}
+                className='flex max-sm:items-end  w-max h-full gap-10 px-20'
+              >
+                {images.map((item, i) => (
+                  <img
+                    key={i}
+                    src={item}
+                    alt=''
+                    className='h-auto max-sm:h-[90%] rounded-3xl opacity-70 object-cover'
+                  />
+                ))}
+              </section>
+              <ul className='flex flex-col md:flex-row absolute bottom-10 md:bottom-20 lg:bottom-40 left-0 right-0 justify-between w-full px-8 md:px-5 lg:px-0 xl:pr-30 items-start md:items-center gap-6 md:gap-0'>
                 <li
                   ref={textRef1}
-                  className='font-semibold text-lg md:text-xl w-full md:w-[25%] lg:w-[15%]'
+                  className='font-semibold text-lg md:text-xl  w-full md:w-[25%] lg:w-[15%]'
                 >
                   Our Exquisite Collection of Tiles
                 </li>
                 <li
                   ref={textRef2}
-                  className='tile-title text-4xl md:text-6xl lg:text-7xl font-extrabold font-stretch-ultra-expanded'
+                  className='tile-title text-4xl backdrop-blur-[15px] ring-1 ring-inset ring-white/50
+                   p-5   shadow-2xl rounded-2xl     md:text-6xl lg:text-7xl font-extrabold font-stretch-ultra-expanded'
                 >
                   Celestial Symphony
                 </li>
                 <li
                   ref={textRef3}
-                  className='tile-title font-semibold text-lg md:text-xl'
+                  className='tile-title max-sm:pl-10 font-semibold text-lg md:text-xl'
                 >
                   02 - 26
                 </li>

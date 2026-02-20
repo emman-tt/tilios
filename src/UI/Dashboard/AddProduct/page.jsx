@@ -5,7 +5,7 @@ export default function AddProduct () {
   const [selectedFile, setSelectedFile] = useState('')
   const [fileName, setFileName] = useState('')
   const [isSelected, setIsSelected] = useState(false)
-  const { state, handleInput,addProduct } = useAddProduct()
+  const { state, handleInput, addProduct } = useAddProduct()
   const { title, category, image, stock, discount, price } = state
 
   const fileInputRef = useRef(null)
@@ -38,13 +38,15 @@ export default function AddProduct () {
   }
 
   return (
-    <section className='h-full w-full pt-5 p-4 sm:p-6 md:p-10 overflow-y-auto'>
+    <section className='h-full w-full  p-4 sm:p-6 md:p-10 py-30 pt-10 overflow-y-auto'>
       <h2 className='text-lg sm:text-xl font-semibold'>Add Products</h2>
 
       <section className='flex flex-col lg:flex-row gap-6 sm:gap-10 md:gap-20 p-4 sm:p-6 md:p-10'>
         <div className='flex flex-col grow gap-6 sm:gap-8 md:gap-10 w-full lg:w-auto'>
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>Title</p>
+            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
+              Title
+            </p>
             <input
               value={title}
               onChange={e => handleInput('title', e.target.value)}
@@ -55,7 +57,9 @@ export default function AddProduct () {
             />
           </div>
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>Category</p>
+            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
+              Category
+            </p>
             <select
               value={category}
               onChange={e => {
@@ -71,7 +75,9 @@ export default function AddProduct () {
           </div>
 
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>Price(per ft)</p>
+            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
+              Price(per ft)
+            </p>
             <input
               value={price}
               onChange={e => handleInput('price', e.target.value)}
@@ -83,7 +89,9 @@ export default function AddProduct () {
           </div>
 
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>Stock</p>
+            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
+              Stock
+            </p>
             <input
               value={stock}
               onChange={e => {
@@ -113,7 +121,9 @@ export default function AddProduct () {
         <div className='w-full lg:w-[50%] h-full relative flex flex-col gap-6 sm:gap-8 md:gap-10'>
           <div className='h-full'>
             <div className='flex justify-between w-full'>
-              <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>Media</p>
+              <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
+                Media
+              </p>
 
               {isSelected && (
                 <button

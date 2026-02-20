@@ -1,15 +1,49 @@
-import { Volleyball, Menu, X } from 'lucide-react'
+import {
+  Volleyball,
+  Menu,
+  X,
+  LockKeyholeOpenIcon,
+  ShoppingBag,
+  Search
+} from 'lucide-react'
 import { useNavigate, NavLink } from 'react-router-dom'
 import { useCart } from '../../context/cart'
 import { toast } from 'sonner'
+import gsap from 'gsap'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import { useGSAP } from '@gsap/react'
+import { PhoneIcon, ShieldCheckIcon } from '@heroicons/react/24/solid'
+import { UserStar } from 'lucide-react'
+gsap.registerPlugin(ScrollToPlugin)
 export default function Header ({
   headerText,
   isMenuOpen,
   setIsMenuOpen,
-  sidebarBg
+  sidebarBg,
+  shopRef
 }) {
   const navigate = useNavigate()
   const { cartTotal } = useCart()
+
+  function moveTo (where) {
+    where === 'search'
+      ? gsap.to(window, {
+          duration: 0,
+          scrollTo: { y: shopRef.current, offsetY: 500 },
+          ease: 'power2.inOut'
+        })
+      : where === 'contact'
+      ? gsap.to(window, {
+          duration: 0,
+          scrollTo: { y: 'max' },
+          ease: 'power2.inOut'
+        })
+      : gsap.to(window, {
+          duration: 0,
+          scrollTo: shopRef.current,
+          ease: 'power2.inOut'
+        })
+  }
 
   return (
     <section
@@ -25,15 +59,28 @@ export default function Header ({
         </div>
 
         <ul className='hidden md:flex gap-6 items-center'>
-          <li className='cursor-pointer hover:font-bold hover:italic transition-all'>
+          <li
+            onClick={() => {
+              moveTo('search')
+            }}
+            className='cursor-pointer hover:font-bold hover:italic transition-all'
+          >
             Search
           </li>
-          <li className='cursor-pointer flex gap-4'>
-            <div className='hover:font-semibold hover:italic transition-all'>
-              Collection
-            </div>
+          <li
+            className='cursor-pointer hover:font-bold hover:italic transition-all'
+            onClick={() => {
+              moveTo('shop')
+            }}
+          >
+            Collection
           </li>
-          <li className='cursor-pointer hover:font-bold hover:italic transition-all'>
+          <li
+            onClick={() => {
+              moveTo('contact')
+            }}
+            className='cursor-pointer hover:font-bold hover:italic transition-all'
+          >
             Contact
           </li>
           <li className='cursor-pointer hover:font-bold hover:italic transition-all font-semibold'>
@@ -84,30 +131,53 @@ export default function Header ({
       >
         <ul className='flex flex-col gap-6 text-xl font-mono font-semibold'>
           <li
-            onClick={() => setIsMenuOpen(false)}
-            className='cursor-pointer hover:italic'
+            onClick={() => {
+              setIsMenuOpen(false), moveTo('search')
+            }}
+            className='cursor-pointer flex items-center gap-3 hover:font-bold hover:italic transition-all font-semibold'
           >
+            <Search className='h-5 w-5' />
             Search
           </li>
 
           <li
-            onClick={() => setIsMenuOpen(false)}
-            className='cursor-pointer hover:italic'
+            onClick={() => {
+              setIsMenuOpen(false), moveTo('shop')
+            }}
+            className='cursor-pointer flex gap-3 items-center hover:font-bold hover:italic transition-all font-semibold'
           >
+            <ShoppingBag className='h-5 w-5' />
             Collection
           </li>
 
           <li
-            onClick={() => setIsMenuOpen(false)}
-            className='cursor-pointer hover:italic'
+            onClick={() => {
+              setIsMenuOpen(false), moveTo('contact')
+            }}
+            className='cursor-pointer flex items-center gap-3 hover:font-bold hover:italic transition-all font-semibold'
           >
+            <PhoneIcon className='h-5 w-5' />
             Contact
+          </li>
+          <li
+            onClick={() => {
+              const token = localStorage.getItem('accessToken')
+              if (!token) {
+                return toast.error('Unauthorized')
+              }
+              navigate('/dashboard')
+            }}
+            className='cursor-pointer flex items-center gap-3 hover:font-bold hover:italic transition-all font-semibold'
+          >
+            <UserStar className='h-5 w-5' />
+            Admin
           </li>
           <NavLink
             to={'/auth'}
             onClick={() => setIsMenuOpen(false)}
-            className='   cursor-pointer hover:italic'
+            className='flex gap-3 items-center  cursor-pointer hover:font-bold hover:italic transition-all font-semibold'
           >
+            <LockKeyholeOpenIcon className='h-5 w-5' />
             Login
           </NavLink>
         </ul>

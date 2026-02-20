@@ -1,18 +1,18 @@
 import { ChevronLeft } from 'lucide-react'
 import { confirmPayment, fetchOrders } from '../../../../services/Order'
-export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
-  function getAddress (item) {
+export default function ConfirmPayment({ showConfirmModal, data, setCount }) {
+  function getAddress(item) {
     const arr = item.split(',')
     const address = `${arr[0]},${arr[1]},${arr[2]}`
     return address
   }
-  function getPhone (item) {
+  function getPhone(item) {
     const arr = item.split(',')
     const phone = arr[arr.length - 1]
     return phone
   }
 
-  function formatDate (rawDate) {
+  function formatDate(rawDate) {
     const formattedDate = new Date(rawDate).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -23,18 +23,18 @@ export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
   }
 
   return (
-    <section className='p-10 pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300   ease-in-out  h-max bg-white absolute  rounded-xl z-10 w-240 -top-20 left-[15%]'>
+    <section className='p-6 md:p-10 pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:absolute rounded-xl z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-[-80px] -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 shadow-2xl overflow-y-auto max-h-[90vh]'>
       <button
         onClick={() => {
           setCount(e => e + 1), showConfirmModal(false)
         }}
-        className='font-bold gap-3 cursor-pointer flex '
+        className='font-bold gap-3 cursor-pointer flex mb-5'
       >
         <ChevronLeft /> Confirm Order Payment (TIL-39348)
       </button>
 
-      <section className='grid grid-cols-2      gap-x-5 '>
-        <ul className='flex flex-col rounded-xl shadow-xl overflow-hidden overflow-y-scroll py-10 [scrollbar-width:thin]  h-[95%]'>
+      <section className='grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-x-10'>
+        <ul className='flex flex-col rounded-xl shadow-lg border border-gray-100 overflow-y-auto py-5 md:py-10 [scrollbar-width:thin] h-max md:h-[450px]'>
           {data.product_details.map(each => (
             <li
               key={each.id}
@@ -96,11 +96,10 @@ export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
             <div className='flex gap-2 w-full'>
               <p className='text-sm font-semibold'> Transaction : </p>
               <p
-                className={` font-bold ${
-                  data?.transactions.length > 0
+                className={` font-bold ${data?.transactions.length > 0
                     ? 'text-green-400'
                     : 'text-red-500'
-                } `}
+                  } `}
               >
                 {data?.transactions.length > 0 ? 'paid' : 'unpaid'}
               </p>

@@ -17,7 +17,7 @@ export const Customers = ({ className, customers }) => {
     return formattedDate
   }
   return (
-    <section className='flex max-lg:mb-20 max-lg:py-10 w-full h-full flex-col px-2 sm:px-4 grow shadow-lg rounded-xl py-4'>
+    <section className='flex max-lg:mb-20 max-lg:py-10 w-full h-max flex-col px-2 sm:px-4  shadow-lg rounded-xl py-4'>
       <header className='text-xl sm:text-2xl font-semibold px-2'>
         New customers
       </header>

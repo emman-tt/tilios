@@ -3,16 +3,16 @@ import { useFetchProducts } from './api/useFetchProducts'
 import { useProductContext } from '../../context/product'
 import styles from '../../assets/css/product.module.css'
 import { useRef } from 'react'
-export default function Shop ({ tilioRef, closeSideBar }) {
+export default function Shop ({ tilioRef, closeSideBar ,shopRef}) {
   const { state } = useProductContext()
   const { products, status } = state
 
-  const shopContainer = useRef(null)
+
   useFetchProducts()
   return (
     <main
       onClick={() => closeSideBar()}
-      ref={shopContainer}
+      ref={shopRef}
       className='grid pt-10 md:pt-30 grid-cols-1 md:grid-cols-2  lg:grid-cols-4 max-sm:h-max md:h-[230vh] lg:h-auto px-6 md:px-12 lg:pl-40 xl:pl-100 xl:pr-40 border-gray-500 content-start 
       '
     >
@@ -23,7 +23,7 @@ export default function Shop ({ tilioRef, closeSideBar }) {
               className='border-r  border-b cursor-pointer h-90  xl:h-70 2xl:h-90'
             >
               <ProductItem
-                shopContainer={shopContainer}
+                shopContainer={shopRef}
                 tilioRef={tilioRef}
                 item={artifact}
                 status={status}

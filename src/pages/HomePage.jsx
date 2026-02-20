@@ -14,6 +14,7 @@ export default function HomePage () {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const sidebarBg = useRef(null)
   const { fetchCart } = useCart()
+  const shopRef = useRef(null)
 
   function closeSideBar () {
     console.log('close sidebar')
@@ -43,6 +44,7 @@ export default function HomePage () {
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
         headerText={headerText}
+        shopRef={shopRef}
       />
       <Hero
         sidebarBg={sidebarBg}
@@ -58,7 +60,7 @@ export default function HomePage () {
         containerRef={containeRef}
       />
       <Collection closeSideBar={closeSideBar} />
-      <Shop closeSideBar={closeSideBar} tilioRef={tilioRef} />
+      <Shop shopRef={shopRef} closeSideBar={closeSideBar} tilioRef={tilioRef} />
       <Endsection
         sidebarBg={sidebarBg}
         closeSideBar={closeSideBar}

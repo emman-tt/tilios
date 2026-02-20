@@ -34,10 +34,10 @@ export default function Overview () {
 
       <Header analytics={analytics} />
       <section className='flex flex-col lg:flex-row w-full gap-3 sm:gap-5 lg:gap-10 mt-4 sm:mt-6 md:mt-8 lg:mt-10'>
-        <div className='w-full lg:flex-1 h-72 sm:h-80 md:h-96 lg:h-110 shadow-xl border-gray-100 rounded-3xl p-2 sm:p-4 md:p-6 lg:p-10'>
+        <div className='w-full lg:flex-1 h-72    sm:h-80 md:h-96 lg:h-115 shadow-xl border-gray-100 rounded-3xl p-2 sm:p-4 md:p-6 lg:p-10'>
           <Chart data={chart_data} />
         </div>
-        <div className='w-full lg:flex-1 h-auto lg:h-110 flex gap-3 sm:gap-5 lg:gap-10 flex-col'>
+        <div className='w-full lg:flex-1 h-auto lg:h-100 flex gap-3 sm:gap-5 lg:gap-10 flex-col'>
           <QuickActions />
           <Customers customers={customers} />
         </div>

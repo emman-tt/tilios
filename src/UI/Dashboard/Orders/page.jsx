@@ -10,14 +10,14 @@ export default function Orders () {
   const [searchValue, setSearchValue] = useState('')
 
   return (
-    <section className='pt-10'>
-      <header className='w-full flex items-center justify-between px-15'>
-        <ul className='flex gap-9 text-lg font-semibold'>
+    <section className='pt-10 max-sm:pb-15'>
+      <header className='w-full flex flex-col md:flex-row items-center justify-between px-5 md:px-15 gap-5'>
+        <ul className='flex gap-5 md:gap-9 text-base md:text-lg font-semibold overflow-x-auto w-full md:w-max pb-2 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'>
           <li
             onClick={() => {
               setSelected(1), dispatch(setFilter('all'))
             }}
-            className={` border-b-2 pb-1 ${
+            className={` border-b-2 pb-1 whitespace-nowrap ${
               selected === 1
                 ? 'text-[#5038d9] border-[#5038d9]'
                 : 'text-gray-300'
@@ -29,7 +29,7 @@ export default function Orders () {
             onClick={() => {
               setSelected(2), dispatch(setFilter('pending'))
             }}
-            className={` border-b-2 pb-1 ${
+            className={` border-b-2 pb-1 whitespace-nowrap ${
               selected === 2
                 ? 'text-[#5038d9] border-[#5038d9]'
                 : 'text-gray-300'
@@ -41,7 +41,7 @@ export default function Orders () {
             onClick={() => {
               setSelected(3), dispatch(setFilter('dispatched'))
             }}
-            className={` border-b-2 pb-1 ${
+            className={` border-b-2 pb-1 whitespace-nowrap ${
               selected === 3
                 ? 'text-[#5038d9] border-[#5038d9]'
                 : 'text-gray-300'
@@ -53,7 +53,7 @@ export default function Orders () {
             onClick={() => {
               setSelected(4), dispatch(setFilter('delivered'))
             }}
-            className={` border-b-2 pb-1 ${
+            className={` border-b-2 pb-1 whitespace-nowrap ${
               selected === 4
                 ? 'text-[#5038d9] border-[#5038d9]'
                 : 'text-gray-300'
@@ -62,19 +62,19 @@ export default function Orders () {
             Delivered
           </li>
         </ul>
-        <ul>
-          <li className='text-xs flex gap-3 items-center  mr-20  px-2 sm:w-90 rounded-md border border-[#e6dfd6]  sm:px-3  sm:text-sm relative '>
+        <ul className='w-full md:w-auto'>
+          <li className='text-xs flex gap-3 items-center px-2 w-full md:w-90 rounded-md border border-[#e6dfd6] sm:px-3 sm:text-sm relative '>
             <Search />
             <input
               onChange={e => setSearchValue(e.target.value)}
-              className='  w-full h-full outline-0  py-2 '
+              className='  w-full h-full outline-0  py-4 '
               placeholder='Search by address or order id'
             />
           </li>
         </ul>
       </header>
 
-      <section className=' h-150 px-5 mt-0 p-5'>
+      <section className=' h-150 px-5 max-sm:px-1 mt-0 p-5'>
         <Body searchValue={searchValue} />
       </section>
     </section>

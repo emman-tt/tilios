@@ -43,13 +43,16 @@ export const Chart = ({ data }) => {
     xAxis: {
       axisLabel: {
         margin: 0,
-        padding: [5, 10],
+        padding: [5, 17],
         rotate: 45
       },
       type: 'category',
-      data: xAxis
+      data: xAxis,
+      min: 0,
+      boundaryGap: false
     },
     yAxis: {
+      min: 0,
       type: 'value',
       splitLine: {
         show: false
@@ -97,14 +100,9 @@ export const Chart = ({ data }) => {
         </div>
         <div className='flex gap-2 sm:gap-3 md:gap-5 text-xs sm:text-sm flex-wrap'>
           <p className='flex gap-1 sm:gap-2 items-center h-full'>
-            <span className='h-2 w-2 rounded-full inline-block bg-[#a6d7ee]'></span>
+            <span className='h-2 w-2 rounded-full inline-block bg-[#b16c88]'></span>
             <span className='hidden sm:inline'>Income</span>
             <span className='sm:hidden'>Inc</span>
-          </p>
-          <p className='text-xs sm:text-sm flex gap-1 sm:gap-2 items-center h-full'>
-            <span className='h-2 w-2 rounded-full inline-block bg-[#b16c88]'></span>
-            <span className='hidden sm:inline'>Expense</span>
-            <span className='sm:hidden'>Exp</span>
           </p>
         </div>
       </header>

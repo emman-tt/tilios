@@ -22,15 +22,15 @@ export default function CartPage () {
     }
   }, [location])
   return (
-    <section className='flex flex-col w-full justify-center items-center'>
-      <div className='w-full px-4 md:w-[70%] lg:w-[50%]'>
+    <section className='flex flex-col w-full justify-center max-sm:pb-20  items-center'>
+      <div className='w-full px-4 md:w-[70%] lg:w-[50%]  '>
         <h2 className='text-3xl text-center font-bold mt-7 mb-4 font-serif'>
           Shopping Cart
         </h2>
 
-        <ul className='flex gap-4 sm:gap-6 md:gap-10 flex-col sm:flex-row'>
+        <ul className='flex gap-4 sm:gap-6 md:gap-10  sm:flex-row'>
           <li
-            className={`text-3xl items-center w-full sm:w-auto md:w-70  gap-3 border-b-2 flex pb-3`}
+            className={`text-3xl max-sm:flex-col items-center w-full sm:w-auto md:w-70  gap-3 border-b-2 flex sm:pb-3`}
           >
             <div
               className={`px-4.5 py-2 flex justify-center items-center  rounded-2xl    ${
@@ -44,11 +44,11 @@ export default function CartPage () {
                 section === 1 ? 'text-black' : 'text-gray-200'
               } `}
             >
-              Shopping Cart
+              <span className='max-sm:hidden'>Shopping</span> Cart
             </p>
           </li>
           <li
-            className={`text-3xl  flex gap-3 w-full sm:w-auto md:w-70 items-center  border-b-2 pb-3`}
+            className={`text-3xl max-sm:flex-col  flex gap-3 w-full sm:w-auto md:w-70 items-center  border-b-2 sm:pb-3`}
           >
             <div
               className={`px-4.5 py-2 rounded-2xl flex justify-center items-center    ${
@@ -58,15 +58,15 @@ export default function CartPage () {
               2
             </div>
             <p
-              className={`text-lg font-semibold ${
+              className={`text-lg  font-semibold ${
                 section === 2 ? 'text-black' : 'text-gray-200'
               }  `}
             >
-              Checkout Details
+              Checkout <span className='max-sm:hidden'>Details</span>
             </p>
           </li>
           <li
-            className={`text-3xl flex gap-3 w-full sm:w-auto md:w-70 items-center border-b-2 pb-3`}
+            className={`text-3xl w-full  max-sm:flex-col flex gap-3  sm:w-auto md:w-70 items-center border-b-2 sm:pb-3`}
           >
             <div
               className={`px-4.5 py-2 flex justify-center items-center rounded-xl
@@ -81,13 +81,13 @@ export default function CartPage () {
                 section === 3 ? 'text-black' : 'text-gray-200'
               } font-semibold  `}
             >
-              Order Complete
+              Order <span className='max-sm:hidden'> Complete </span>
             </p>
           </li>
         </ul>
       </div>
 
-      <div className='w-full px-4 flex justify-center md:w-[90%]'>
+      <div className='w-full px-4 flex  max-sm:mt-10 justify-center md:w-[90%]'>
         <Outlet />
       </div>
     </section>
