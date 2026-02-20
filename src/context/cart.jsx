@@ -269,12 +269,12 @@ export function CartProvider ({ children }) {
             window.location.href = '/auth'
           }, 3100)
 
-          return
+          return 
         }
       }
 
       if (status === 405) {
-        toast.error('Session timed out, please log in')
+        return toast.error('Session timed out, please log in')
       }
       return toast.error(serverError)
     }

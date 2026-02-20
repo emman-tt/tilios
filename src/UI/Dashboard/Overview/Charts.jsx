@@ -1,5 +1,33 @@
 import EChartsReact from 'echarts-for-react'
-export const AreaChart = () => {
+import Loader from '../../../components/Loader'
+import { useEffect, useState } from 'react'
+export const Chart = ({ data }) => {
+  const [xAxis, setXaxis] = useState([])
+  const [yAxis, setYaxis] = useState([])
+
+  function buildChartData () {
+    const timeArr = []
+    const revenueArr = []
+    data.map(item => {
+      timeArr.push(formatDate(item.time_bucket))
+      revenueArr.push(item.total_revenue)
+
+      return setYaxis(revenueArr), setXaxis(timeArr)
+    })
+  }
+
+  function formatDate (item) {
+    const date = new Date(item).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    })
+    return date
+  }
+
+  useEffect(() => {
+    buildChartData()
+  }, [data])
+
   const option = {
     tooltip: {
       show: true,
@@ -19,20 +47,7 @@ export const AreaChart = () => {
         rotate: 45
       },
       type: 'category',
-      data: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'April',
-        'May',
-        'June',
-        'July',
-        'Aug',
-        'Sept',
-        'Oct',
-        'Nov',
-        'Dec'
-      ]
+      data: xAxis
     },
     yAxis: {
       type: 'value',
@@ -48,38 +63,29 @@ export const AreaChart = () => {
         smooth: true,
         name: 'Income',
 
-        data: [43, 62, 49, 64, 53, 43, 34, 43, 10, 33, 9, 40],
+        data: yAxis,
         type: 'line',
         symbol: 'none',
         lineStyle: {
           width: 10,
-          color: '#a6d7ee',
+          color: '#b16c88',
           opacity: 0.1
         },
         areaStyle: {
-          color: '#a6d7ee',
+          color: '#b16c88',
           opaque: 0.1
         }
         // itemStyle: { color: '#a6d7ee' }
-      },
-      {
-        smooth: 0.5,
-        name: 'Expenses',
-        data: [2, 31, 14, 35, 53, 53, 23, 23, 13, 44, 32, 15],
-        type: 'line',
-        symbol: 'none',
-        lineStyle: {
-          width: 10,
-          color: '#b16c88',
-          opacity: 0.1
-        },
-        areaStyle: {
-          color: '#b16c88',
-          opaque: 0.1
-        }
-        // itemStyle: { color: '#b16c88' }
       }
     ]
+  }
+
+  if (!data || xAxis.length === 0) {
+    return (
+      <section className='relative'>
+        <Loader />
+      </section>
+    )
   }
 
   return (

@@ -6,6 +6,16 @@ export const Customers = ({ className, customers }) => {
     const full = first + second
     return full.toUpperCase()
   }
+
+  function formatDate (rawDate) {
+    const formattedDate = new Date(rawDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+
+    return formattedDate
+  }
   return (
     <section className='flex max-lg:mb-20 max-lg:py-10 w-full h-full flex-col px-2 sm:px-4 grow shadow-lg rounded-xl py-4'>
       <header className='text-xl sm:text-2xl font-semibold px-2'>
@@ -18,13 +28,14 @@ export const Customers = ({ className, customers }) => {
             key={item.id}
             className='flex w-full justify-between items-center px-2 sm:px-4 gap-2 sm:gap-4 text-xs sm:text-sm md:text-base'
           >
-            <p className='shrink-0'>
-              <span className='p-1.5 sm:p-2 rounded-full h-max bg-gray-100 text-xs sm:text-sm font-semibold'>
-                {createInitials(item.name)}
-              </span>
+            <p className='p-1.5 sm:p-2 rounded-full h-max bg-gray-100 text-xs sm:text-lg font-semibold'>
+              {createInitials(item.name)}
             </p>
-            <p className='grow text-left truncate'>{item.name}</p>
-            <p className='shrink-0'>{item.date}</p>
+
+            <p className=' truncate font-semibold'>{item.name}</p>
+            <p className='shrink-0 font-semibold'>
+              {formatDate(item.createdAt)}
+            </p>
           </section>
         ))}
       </div>

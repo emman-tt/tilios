@@ -37,12 +37,30 @@ const CustomerSlice = createSlice({
   }
 })
 
+const OverviewSlice = createSlice({
+  name: 'overview',
+  initialState: {
+    customers: [],
+    analytics: [],
+    chart_data: []
+  },
+  reducers: {
+    saveAnalytics: (state, action) => {
+      state.analytics = action.payload.analytics
+      state.customers = action.payload.customers
+      state.chart_data = action.payload.chart_data
+    }
+  }
+})
+
 export const { saveOrders, setStatus, setFilter } = OrderSlice.actions
 export const { saveCustomers, updateStatus } = CustomerSlice.actions
+export const { saveAnalytics } = OverviewSlice.actions
 
 export const store = configureStore({
   reducer: {
     orders: OrderSlice.reducer,
-    customers: CustomerSlice.reducer
+    customers: CustomerSlice.reducer,
+    overview: OverviewSlice.reducer
   }
 })

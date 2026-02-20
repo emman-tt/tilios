@@ -8,6 +8,7 @@ export async function protectDashboard (signal) {
     })
     const username = response.data.name
     toast.success(`Admin verified , welcome back ${username}`)
+    return username
   } catch (error) {
     if (error.status === 401) {
       toast.error('Unauthorized, not an admin')

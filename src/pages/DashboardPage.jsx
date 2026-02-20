@@ -7,23 +7,28 @@ import { protectDashboard } from '../services/protectDashboard'
 import { useEffect } from 'react'
 export default function Dashboard () {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [user, setUser] = useState('')
+  const [initial, setInitial] = useState('')
 
   useEffect(() => {
     const controller = new AbortController()
-    protectDashboard(controller.signal)
+    protectDashboard(controller.signal).then(item => {
+      const username = item
+      setUser(username)
+
+      const splitted = item.split('')
+      const first = splitted[0]
+      const second = splitted[1]
+      const full = first + second
+
+      setInitial(full.toUpperCase())
+    })
 
     return () => {
       controller.abort()
     }
   }, [])
 
-  function createInitials (item) {
-    const splitted = item.split('')
-    const first = splitted[0]
-    const second = splitted[1]
-    const full = first + second
-    return full.toUpperCase()
-  }
   return (
     <section>
       <section className='flex h-screen '>
@@ -60,9 +65,9 @@ export default function Dashboard () {
             />
 
             <div className='flex gap-3  sm:gap-7 align-middle items-center'>
-              <span className='text-sm sm:text-base'>Emmannuel</span>
-              <span className='p-2 sm:p-3 rounded-full text-white font-bold bg-[#fdc886] text-xs sm:text-sm'>
-                EM
+              <span className='text-sm sm:text-base font-semibold'>{user}</span>
+              <span className='p-2 sm:p-3 rounded-full text-white font-bold bg-[#b690a8] text-xs sm:text-sm'>
+                {initial}
               </span>
             </div>
           </header>

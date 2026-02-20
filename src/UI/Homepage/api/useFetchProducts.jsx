@@ -5,9 +5,7 @@ import { api } from '../../../api/axios'
 export function useFetchProducts () {
   const { state, fetchProducts, fetchProductsError } = useProductContext()
   const { category } = state
-  // console.log(category)
-
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
