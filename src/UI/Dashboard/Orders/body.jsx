@@ -164,7 +164,7 @@ export const Body = ({ searchValue }) => {
                   </div>
 
                   {options.id == i && options.status === true && (
-                    <ul className='h-max p-5 pr-2 gap-3 flex text-xs flex-col text-gray-500 absolute rounded-xl -bottom-36 right-0 sm:left-2 z-10 bg-white shadow w-max '>
+                    <ul className='h-max p-5 pr-2 gap-3 flex text-xs flex-col text-gray-500 absolute rounded-xl -bottom-36 right-7 sm:left-2 z-50 bg-white shadow w-max '>
                       <li
                         onClick={() =>
                           showConfirmModal({ status: true, details: item })

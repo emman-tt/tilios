@@ -1,18 +1,18 @@
 import { ChevronLeft } from 'lucide-react'
 import { confirmPayment, fetchOrders } from '../../../../services/Order'
-export default function ConfirmPayment({ showConfirmModal, data, setCount }) {
-  function getAddress(item) {
+export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
+  function getAddress (item) {
     const arr = item.split(',')
     const address = `${arr[0]},${arr[1]},${arr[2]}`
     return address
   }
-  function getPhone(item) {
+  function getPhone (item) {
     const arr = item.split(',')
     const phone = arr[arr.length - 1]
     return phone
   }
 
-  function formatDate(rawDate) {
+  function formatDate (rawDate) {
     const formattedDate = new Date(rawDate).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -23,7 +23,7 @@ export default function ConfirmPayment({ showConfirmModal, data, setCount }) {
   }
 
   return (
-    <section className='p-6 md:p-10 pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:absolute rounded-xl z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-[-80px] -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 shadow-2xl overflow-y-auto max-h-[90vh]'>
+    <section className='p-6 md:p-10 pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:absolute rounded-xl z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 shadow-2xl overflow-y-auto max-h-[90vh]'>
       <button
         onClick={() => {
           setCount(e => e + 1), showConfirmModal(false)
@@ -34,11 +34,11 @@ export default function ConfirmPayment({ showConfirmModal, data, setCount }) {
       </button>
 
       <section className='grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-x-10'>
-        <ul className='flex flex-col rounded-xl shadow-lg border border-gray-100 overflow-y-auto py-5 md:py-10 [scrollbar-width:thin] h-max md:h-[450px]'>
+        <ul className='flex flex-col rounded-xl shadow-lg border border-gray-100 overflow-y-auto py-5 md:py-10 [scrollbar-width:thin] h-max md:h-112.5'>
           {data.product_details.map(each => (
             <li
               key={each.id}
-              className='w-full shrink-0 flex flex-col sm:flex-row  sm:h-30 p-3 sm:p-4 items-start sm:items-center    gap-3 sm:gap-7'
+              className='w-full shrink-0 flex  sm:flex-row  sm:h-30 p-3 sm:p-4 items-start sm:items-center    gap-3 sm:gap-7'
             >
               <div className='flex h-full items-center gap-3 sm:gap-6'>
                 <div className='  h-20 w-20 sm:h-full sm:w-30'>
@@ -96,10 +96,11 @@ export default function ConfirmPayment({ showConfirmModal, data, setCount }) {
             <div className='flex gap-2 w-full'>
               <p className='text-sm font-semibold'> Transaction : </p>
               <p
-                className={` font-bold ${data?.transactions.length > 0
+                className={` font-bold ${
+                  data?.transactions.length > 0
                     ? 'text-green-400'
                     : 'text-red-500'
-                  } `}
+                } `}
               >
                 {data?.transactions.length > 0 ? 'paid' : 'unpaid'}
               </p>
@@ -125,8 +126,13 @@ export default function ConfirmPayment({ showConfirmModal, data, setCount }) {
               >
                 Confirm payment
               </button>
-              <button className=' p-3 hover:bg-red-500  border hover:border-0 rounded-xl text-black hover:text-white cursor-pointer border-black grow'>
-                Cancel And Refund
+              <button
+                onClick={() => {
+                  showConfirmModal(false)
+                }}
+                className=' p-3 hover:bg-black hover:text-white  border hover:border-0 rounded-xl text-black cursor-pointer border-black grow'
+              >
+                Back
               </button>
             </div>
           </section>
