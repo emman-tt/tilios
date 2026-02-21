@@ -127,7 +127,7 @@ export default function Endsection ({ headerText, closeSideBar, sidebarBg }) {
     <section
       onClick={() => closeSideBar()}
       ref={EndRef}
-      className='relative w-full h-screen bg-amber-300 mt-20 md:mt-100 overflow-hidden'
+      className='relative w-full h-screen bg-amber-300 mt-100 md:mt-100 overflow-hidden'
     >
       <Biography
         BioHead={BioHead}
