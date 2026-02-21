@@ -39,27 +39,24 @@ export function AddProductProvider ({ children }) {
     })
   }
 
-  function addProduct () {
+  async function addProduct () {
     try {
       const accessToken = getToken()
 
-      api.post(
-        '/admin/add-product',
-        {
-          title: title,
-          image: image,
-          stock: stock,
-          price: price,
-          name: name,
-          discount: discount,
-          category: category
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+      const formData = new FormData()
+      formData.append('title', title)
+      formData.append('image', image)
+      formData.append('stock', stock)
+      formData.append('price', price)
+      formData.append('name', name)
+      formData.append('discount', discount)
+      formData.append('category', category)
+
+      await api.post('/admin/add-product', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      )
+      })
 
       return toast.success('Product added successfully')
     } catch (error) {

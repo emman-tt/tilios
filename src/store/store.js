@@ -17,6 +17,22 @@ const OrderSlice = createSlice({
     },
     setFilter: (state, action) => {
       state.filter = action.payload
+    },
+    confirmPaymentStatus: (state, action) => {
+      const order = state.orders.find(item => item.reference === action.payload)
+      if (order) {
+        order.payment_status = 'confirmed'
+      } else {
+        console.warn(`Order with ID ${action.payload} not found in state`)
+      }
+    },
+    markDelivered: (state, action) => {
+      const order = state.orders.find(item => item.reference === action.payload)
+      if (order) {
+        order.order_status = 'delivered'
+      } else {
+        console.warn(`Order with ID ${action.payload} not found in state.`)
+      }
     }
   }
 })
@@ -53,7 +69,13 @@ const OverviewSlice = createSlice({
   }
 })
 
-export const { saveOrders, setStatus, setFilter } = OrderSlice.actions
+export const {
+  saveOrders,
+  setStatus,
+  setFilter,
+  confirmPaymentStatus,
+  markDelivered
+} = OrderSlice.actions
 export const { saveCustomers, updateStatus } = CustomerSlice.actions
 export const { saveAnalytics } = OverviewSlice.actions
 

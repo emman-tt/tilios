@@ -21,14 +21,12 @@ export const Body = ({ searchValue }) => {
     details: {}
   })
 
-  // const filteredOrders = orders.filter(item => {
-  //   const address = getAddress(item.shippingAddress).toLowerCase()
-  //   // console.log(address)
-  //   return (
-  //     item.reference.toLowerCase().includes(searchValue.toLowerCase()) ||
-  //     address.includes(searchValue.toLowerCase())
-  //   )
-  // })
+  const filteredCustomers = customers.filter(item => {
+    return (
+      item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+      item.email.toLowerCase().includes(searchValue.toLowerCase())
+    )
+  })
 
   useEffect(() => {
     dispatch(updateStatus('loading'))
@@ -41,7 +39,7 @@ export const Body = ({ searchValue }) => {
         console.log(err)
       })
   }, [])
-  console.log(customers)
+
 
   function getAddress (item) {
     const arr = item.split(',')
@@ -80,14 +78,14 @@ export const Body = ({ searchValue }) => {
           </section>
         )}
         {status === 'error' && <div>Error</div>}
-        {status === 'loaded' && customers.length === 0 && (
+        {status === 'loaded' && filteredCustomers.length == 0 && (
           <div className='w-full h-90 flex justify-center items-center pb-20 sm:pb-40 pt-10 sm:pt-40'>
             <NotFound showButton={false} message='No customers found' />
           </div>
         )}
         {status === 'loaded' && customers.length > 0 && (
           <main className='min-w-175 w-full h-max grid grid-cols-5 gap-y-9 mt-5 text-sm shrink-0 font-semibold'>
-            {customers.map((item, i) => (
+            {filteredCustomers.reverse().map((item, i) => (
               <React.Fragment key={i}>
                 <div className='text-center h-full flex items-center justify-center'>
                   {item.name}

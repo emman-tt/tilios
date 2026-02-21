@@ -9,6 +9,21 @@ export async function fetchOrders (filter = 'all') {
     console.log(error)
   }
 }
+
+export async function deleteOrder (id) {
+  try {
+    await api.put(`/admin/orders/${id}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
+export async function markOrderDelivered (id) {
+  try {
+    await api.put(`/admin/orders/${id}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
 export async function confirmPayment (id) {
   try {
     await api.put(`/admin/confirm/payment/${id}`)

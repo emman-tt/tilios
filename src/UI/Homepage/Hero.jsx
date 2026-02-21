@@ -182,7 +182,7 @@ export default function Hero ({
       gsap.to(imagesRef.current, {
         xPercent: -50,
         repeat: -1,
-        duration: window.innerWidth < 500 ? 120 : 30,
+        duration: window.innerWidth < 500 ? 120 : 80,
         ease: 'none',
         force3D: true
       })

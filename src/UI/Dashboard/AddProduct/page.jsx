@@ -25,12 +25,12 @@ export default function AddProduct () {
       const imageUrl = URL.createObjectURL(file)
       console.log(imageUrl)
       setSelectedFile(imageUrl)
-      handleInput('image', imageUrl)
+      handleInput('image', file)
     }
   }
 
   function validateFieldsAndSubmit () {
-    if (category < 1 || stock < 1 || !image.trim() || !title.trim() || !price) {
+    if (category < 1 || stock < 1 || !image || !title.trim() || !price) {
       return toast.error('Some required fields are missing')
     }
     console.log('called')

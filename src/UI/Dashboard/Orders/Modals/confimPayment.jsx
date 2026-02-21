@@ -1,6 +1,13 @@
 import { ChevronLeft } from 'lucide-react'
 import { confirmPayment, fetchOrders } from '../../../../services/Order'
-export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
+
+export default function ConfirmPayment ({
+  showConfirmModal,
+  data,
+  setCount,
+  confirmPaymentStatus,
+  dispatch
+}) {
   function getAddress (item) {
     const arr = item.split(',')
     const address = `${arr[0]},${arr[1]},${arr[2]}`
@@ -23,16 +30,7 @@ export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
   }
 
   return (
-    <section className='p-6 md:p-10 pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:absolute rounded-xl z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 shadow-2xl overflow-y-auto max-h-[90vh]'>
-      <button
-        onClick={() => {
-          setCount(e => e + 1), showConfirmModal(false)
-        }}
-        className='font-bold gap-3 cursor-pointer flex mb-5'
-      >
-        <ChevronLeft /> Confirm Order Payment (TIL-39348)
-      </button>
-
+    <section className='p-6 md:p-10 pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:absolute  z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 rounded-2xl  xl:top-0 shadow-2xl overflow-y-auto max-h-[90vh]'>
       <section className='grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-x-10'>
         <ul className='flex flex-col rounded-xl shadow-lg border border-gray-100 overflow-y-auto py-5 md:py-10 [scrollbar-width:thin] h-max md:h-112.5'>
           {data.product_details.map(each => (
@@ -118,13 +116,14 @@ export default function ConfirmPayment ({ showConfirmModal, data, setCount }) {
             <div className='flex gap-5 w-full text-black mt-5'>
               <button
                 onClick={() => {
-                  console.log(data.reference)
+                  dispatch(confirmPaymentStatus(data.reference))
                   confirmPayment(data.reference)
-                  setCount(e => e + 1), showConfirmModal(false)
+                  showConfirmModal(false)
                 }}
                 className='border p-3 rounded-xl hover:bg-black hover:text-white cursor-pointer border-black grow'
               >
-                Confirm payment
+                {data.payment_status === 'confirmed' && 'Refund payment'}
+                {data.payment_status === 'pending' && 'Confirm payment'}
               </button>
               <button
                 onClick={() => {

@@ -165,7 +165,7 @@ export default function ProductList () {
                 </div>
               </div>
             ) : (
-              filteredProductList.map((item, idx) => (
+              filteredProductList.reverse().map((item, idx) => (
                 <div
                   key={idx}
                   className='grid grid-cols-5  md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0 border-b border-[#f7f7f7] hover:bg-gray-50 transition-colors'
