@@ -89,11 +89,11 @@ export default function Information ({
     <section
       onClick={() => closeSideBar()}
       ref={infoBox}
-      className='min-h-screen pt-20 md:pt-40 lg:pt-100 flex flex-col justify-center items-center gap-20 md:gap-40 lg:gap-60 pb-20 md:pb-40 lg:pb-100 px-6 md:px-12'
+      className='min-h-screen pt-20 md:pt-40 lg:pt-100 flex flex-col justify-center items-center gap-20 md:gap-40 lg:gap-30 pb-20 md:pb-40 lg:pb-100 px-6 md:px-12'
     >
       <h2
         ref={firstRef}
-        className='first-text text-4xl max-sm:pt-40 md:text-6xl lg:text-7xl max-sm:text-3xl w-full md:w-[70%] lg:w-[40%] font-bold font-sans text-center leading-tight max-sm:font-semibold max-sm:px-0'
+        className='first-text text-4xl max-sm:pt-40 md:text-6xl lg:text-5xl max-sm:text-3xl w-full md:w-[70%] lg:w-[40%] font-bold font-sans text-center leading-tight max-sm:font-semibold xl:w-full max-sm:px-0'
       >
         Whole Catalog Of Tiles
       </h2>
@@ -101,7 +101,7 @@ export default function Information ({
       <div className='flex justify-center flex-col items-center w-full'>
         <div
           ref={secondRef}
-          className='second-text text-center text-base md:text-lg lg:px-40 w-full md:w-[80%] lg:w-200 font-medium leading-relaxed'
+          className='second-text text-center text-base md:text-md lg:px-40 w-full md:w-[80%] lg:w-200 font-medium leading-relaxed'
         >
           TileCraft, located in the heart of New-York, was founded by Esther
           Howard with a passion for creating high-quality tiles. Our

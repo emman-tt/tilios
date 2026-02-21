@@ -205,10 +205,10 @@ export default function Hero ({
         <div className='text-lg md:text-2xl font-semibold md:pr-10 lg:pr-0 lg:w-[30%] w-full md:w-auto'>
           INSPIRED TILING SOLUTIONS
         </div>
-        <div className='font-sans w-full md:w-[80%] lg:w-[50%] font-semibold lg:pr-10 lg:text-8xl text-[3.5em] md:text-[4em]  leading-tight'>
+        <div className='font-sans w-full md:w-[80%] lg:w-[50%]  font-semibold lg:pr-10 lg:text-7xl text-[3.5em] md:text-[4em]  leading-tight'>
           Your home, your reflection.
         </div>
-        <div className='w-full md:w-[45%] lg:w-[30%] xl:w-[20%] text-base lg:text-lg md:text-sm font-semibold'>
+        <div className='w-full md:w-[45%] lg:w-[30%] xl:w-[20%] text-base  md:text-sm font-semibold'>
           The goal was to create a minimalistic yet sophisticated website with
           the ability to view tiles in the interior for users or download them
           and view them in your project for interior designers.
@@ -241,20 +241,20 @@ export default function Hero ({
               <ul className='flex flex-col md:flex-row absolute bottom-10 md:bottom-20 lg:bottom-40 left-0 right-0 justify-between w-full px-8 md:px-5 lg:px-0 xl:pr-30 items-start md:items-center gap-6 md:gap-0'>
                 <li
                   ref={textRef1}
-                  className='font-semibold text-lg md:text-xl  w-full md:w-[25%] lg:w-[15%]'
+                  className='font-semibold text-lg md:text-lg  w-full md:w-[25%] lg:w-[15%]'
                 >
                   Our Exquisite Collection of Tiles
                 </li>
                 <li
                   ref={textRef2}
                   className='tile-title text-4xl backdrop-blur-[15px] ring-1 ring-inset ring-white/50
-                   p-5   shadow-2xl rounded-2xl     md:text-6xl lg:text-7xl font-extrabold font-stretch-ultra-expanded'
+                   p-5   shadow-2xl rounded-2xl     md:text-6xl lg:text-6xl font-extrabold font-stretch-ultra-expanded'
                 >
                   Celestial Symphony
                 </li>
                 <li
                   ref={textRef3}
-                  className='tile-title max-sm:pl-10 font-semibold text-lg md:text-xl'
+                  className='tile-title max-sm:pl-10 font-semibold text-md md:text-xl'
                 >
                   02 - 26
                 </li>

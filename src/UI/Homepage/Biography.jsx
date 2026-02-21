@@ -10,14 +10,14 @@ export default function Biography ({ BioHead, BioInfo, BiographyRef }) {
     >
       <header
         ref={BioHead}
-        className='text-3xl md:text-5xl  xl:text-6xl font-extrabold font-sans max-md:tracking-widest w-full  md:w-[40%] xl:w-[30%]  leading-tight'
+        className='text-3xl md:text-5xl  xl:text-5xl font-extrabold font-sans max-md:tracking-widest w-full  md:w-[40%] xl:w-[30%]  leading-tight'
       >
         A Legacy Of Expertly Crafted Tiles
       </header>
       <section className='w-full md:w-[55%] lg:w-[50%] md:pr-12  xl:pr-35 pb-10 md:pb-0'>
         <p
           ref={BioInfo}
-          className='text-base xl:text-lg leading-relaxed md:leading-10 lg:leading-6 xl:leading-10'
+          className='text-base xl:text-md leading-relaxed md:leading-10 lg:leading-6 xl:leading-8'
         >
           At our tile store, our team of experts is dedicated to helping you
           find the perfect tiles for your project. Our staff is knowledgeable,

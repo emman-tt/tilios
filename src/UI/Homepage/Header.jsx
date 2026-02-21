@@ -50,8 +50,9 @@ export default function Header ({
       ref={headerText}
       className='w-full fixed top-0 z-50 left-0 right-0'
     >
-      <nav className='flex w-full justify-between p-5 px-6 md:px-9 items-center  backdrop-blur-md'>
-        <div className='text-lg cursor-pointer font-semibold flex gap-1 hover:italic transition-all duration-500'>
+      {/* desktop navigation */}
+      <nav className='flex w-full text-sm justify-between p-5 px-6 md:px-9 items-center  backdrop-blur-md'>
+        <div className='text-sm cursor-pointer font-semibold flex gap-1 hover:italic transition-all duration-500'>
           Tilios
           <span>
             <Volleyball size={20} />
@@ -129,6 +130,7 @@ export default function Header ({
           isMenuOpen ? 'translate-x-40' : 'translate-x-full'
         } transition-transform duration-300 ease-in-out md:hidden flex flex-col p-10 pt-24 gap-8 pl-5`}
       >
+        {/* mobile navigation */}
         <ul className='flex flex-col gap-6 text-xl font-mono font-semibold'>
           <li
             onClick={() => {

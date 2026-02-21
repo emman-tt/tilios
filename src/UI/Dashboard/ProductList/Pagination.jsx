@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useFetch } from './api/useFetch'
 import { useProductList } from '../../../context/productlist'
-export default function Pagination () {
+import { memo } from 'react'
+export default Pagination = memo(() => {
   const [entries, setEntries] = useState(10)
   const [entriesBox, showEntriesBox] = useState(false)
 
@@ -76,4 +77,4 @@ export default function Pagination () {
       </section>
     </div>
   )
-}
+})

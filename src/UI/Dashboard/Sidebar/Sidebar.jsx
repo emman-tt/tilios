@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { Home } from 'lucide-react'
-export default function Sidebar ({ className }) {
+import { memo } from 'react'
+export default Sidebar = memo(({ className }) => {
   const [selected, setSelected] = useState(1)
   const [sidebar, setSidebar] = useState(sidebarNav)
   const location = useLocation()
@@ -58,7 +59,7 @@ export default function Sidebar ({ className }) {
       </NavLink>
     </section>
   )
-}
+})
 
 const sidebarNav = [
   {
