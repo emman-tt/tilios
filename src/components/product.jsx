@@ -41,12 +41,7 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
   }
 
   return (
-    <section
-      onClick={() => {
-        addCart(item.id)
-      }}
-      className='relative group flex  sm:px-18 flex-col w-full px-10 pt-5 max-sm:pb-10  h-full xl:p-5 2xl:p-10 lg:p-5 md:p-20  justify-between  '
-    >
+    <section className='relative group flex  sm:px-18 flex-col w-full px-10 pt-5 max-sm:pb-10  h-full xl:p-5 2xl:p-10 lg:p-5 md:p-20  justify-between  '>
       <div className='relative max-sm:px-5'>
         <img
           ref={eachBox}
@@ -73,7 +68,12 @@ export function ProductItem ({ item, status, tilioRef, shopContainer }) {
           )}
         </div>
       </div>
-      <div className='absolute lg:hidden flex   group-hover:flex p-2 text-sm  text-white font-medium gap-3 items-center backdrop-blur-3xl bg-black shadow-2xl rounded-xl  px-3 right-2 bottom-2 z-10 cursor-pointer lg:bottom-2 xl:bottom-4 lg:right-1 xl:right-5'>
+      <div
+        onClick={() => {
+          addCart(item.id)
+        }}
+        className='absolute lg:hidden flex   group-hover:flex p-2 text-sm  text-white font-medium gap-3 items-center backdrop-blur-3xl bg-black shadow-2xl rounded-xl  px-3 right-2 bottom-2 z-10 cursor-pointer lg:bottom-2 xl:bottom-4 lg:right-1 xl:right-5'
+      >
         Add to Cart <ShoppingBag size={15} />
       </div>
     </section>

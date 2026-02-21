@@ -6,7 +6,7 @@ export default function Biography ({ BioHead, BioInfo, BiographyRef }) {
   return (
     <section
       ref={BiographyRef}
-      className='bg-[#464240] absolute inset-0 h-full z-10 flex flex-col md:flex-row justify-between px-6 md:px-12  md:pt-40 lg:pt-20 xl:pt-50 w-full  text-white pt-0 overflow-y-auto md:overflow-hidden gap-10 md:gap-0 max-sm:pt-30'
+      className='bg-[#464240] sm:absolute  inset-0 h-full z-10 flex flex-col md:flex-row justify-between px-6 md:px-12  md:pt-40 lg:pt-20 xl:pt-50 w-full  text-white pt-0 overflow-y-auto md:overflow-hidden gap-10 md:gap-0 max-sm:pt-30'
     >
       <header
         ref={BioHead}
