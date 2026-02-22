@@ -74,7 +74,7 @@ export default function Orders () {
         </ul>
       </header>
 
-      <section className=' h-135 px-5 max-sm:px-1 pb-10 mt-0 p-5'>
+      <section className=' h-135 px-5 max-sm:px-6 pb-10 mt-0 p-5'>
         <Body searchValue={searchValue} />
       </section>
     </section>

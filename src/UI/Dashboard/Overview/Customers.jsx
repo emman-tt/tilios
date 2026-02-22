@@ -1,5 +1,5 @@
 export const Customers = ({ className, customers }) => {
-  function createInitials (item) {
+  function createInitials(item) {
     const splitted = item.split('')
     const first = splitted[0]
     const second = splitted[1]
@@ -7,7 +7,7 @@ export const Customers = ({ className, customers }) => {
     return full.toUpperCase()
   }
 
-  function formatDate (rawDate) {
+  function formatDate(rawDate) {
     const formattedDate = new Date(rawDate).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -17,12 +17,12 @@ export const Customers = ({ className, customers }) => {
     return formattedDate
   }
   return (
-    <section className='flex max-lg:mb-20 max-lg:py-10 w-full  flex-col px-2 sm:px-4  shadow-lg rounded-xl py-0'>
+    <section className='flex w-full flex-col px-2 sm:px-4 shadow-lg rounded-xl py-4 sm:py-6'>
       <header className='text-lg sm:text-xl font-semibold px-2'>
         Recent customers
       </header>
 
-      <div className='py-10 sm:py-6 gap-y-10 sm:gap-y-4 flex flex-col w-full overflow-x-auto'>
+      <div className='py-4 sm:py-6 gap-y-4 flex flex-col w-full overflow-x-auto'>
         {customers
           .slice(0, 3)
           .reverse()

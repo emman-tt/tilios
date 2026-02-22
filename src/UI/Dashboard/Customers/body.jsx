@@ -40,13 +40,13 @@ export const Body = ({ searchValue }) => {
       })
   }, [])
 
-  function getAddress (item) {
+  function getAddress(item) {
     const arr = item.split(',')
     const address = `${arr[0]},${arr[1]},${arr[2]}`
     return address
   }
 
-  function formatDate (rawDate) {
+  function formatDate(rawDate) {
     const formattedDate = new Date(rawDate).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -60,88 +60,90 @@ export const Body = ({ searchValue }) => {
       onClick={() => {
         options.status === true && showOptions({ options, status: false })
       }}
-      className='w-full h-full relative shadow-lg overflow-x-auto  [scrollbar-width:thin] p-3  max-sm:p-2 pt-2 rounded-2xl'
+      className='w-full h-full relative shadow-lg p-3 max-sm:p-2 pt-2 rounded-2xl border border-gray-100 overflow-hidden'
     >
-      <div className=''>
-        <header className='min-w-175 w-full items-center text-xs py-2   font-semibold rounded-xl grid grid-cols-5 bg-[#eef0f2]'>
-          {headerList.map(item => (
-            <div className='text-center whitespace-nowrap' key={item.id}>
-              {item.value}
+      <div className='h-full flex flex-col overflow-x-auto [scrollbar-width:thin]'>
+        <div className='min-w-[700px] w-full'>
+          <header className='w-full items-center text-xs py-3 font-semibold rounded-xl grid grid-cols-5 bg-[#eef0f2] mb-4'>
+            {headerList.map(item => (
+              <div className='text-center whitespace-nowrap' key={item.id}>
+                {item.value}
+              </div>
+            ))}
+          </header>
+
+          {status === 'loading' && (
+            <section className='flex relative justify-center items-center h-96 w-full'>
+              <Loader />
+            </section>
+          )}
+          {status === 'error' && <div className='p-10 text-center'>Error loading customers</div>}
+          {status === 'loaded' && filteredCustomers.length == 0 && (
+            <div className='w-full h-90 flex justify-center items-center pb-20 sm:pb-40 pt-10 sm:pt-40'>
+              <NotFound showButton={false} message='No customers found' />
             </div>
-          ))}
-        </header>
-
-        {status === 'loading' && (
-          <section className='flex relative justify-center items-center h-120 w-full'>
-            <Loader />
-          </section>
-        )}
-        {status === 'error' && <div>Error</div>}
-        {status === 'loaded' && filteredCustomers.length == 0 && (
-          <div className='w-full h-90 flex justify-center items-center pb-20 sm:pb-40 pt-10 sm:pt-40'>
-            <NotFound showButton={false} message='No customers found' />
-          </div>
-        )}
-        {status === 'loaded' && customers.length > 0 && (
-          <main className='min-w-175 w-full h-max grid grid-cols-5 gap-y-7 mt-5 text-xs shrink-0 font-semibold'>
-            {filteredCustomers.reverse().map((item, i) => (
-              <React.Fragment key={i}>
-                <div className='text-center h-full flex items-center justify-center'>
-                  {item.name}
-                </div>
-                <div className='text-center h-full flex items-center justify-center '>
-                  {formatDate(item.createdAt)}
-                </div>
-                <div className='text-center truncate h-full flex items-center justify-center px-2'>
-                  {item.email}
-                </div>
-
-                <div className='text-center h-full flex items-center justify-center'>
-                  {item.totalOrders}
-                </div>
-
-                <div className='flex gap-3 relative h-full items-center w-full justify-center'>
-                  <div>
-                    {options.status === true && options.id === i ? (
-                      <div className='p-2 rounded-lg cursor-pointer items-center bg-gray-100'>
-                        <ChevronUp
-                          onClick={() =>
-                            showOptions({ id: null, status: false })
-                          }
-                          className='h-5 w-5'
-                        />
-                      </div>
-                    ) : (
-                      <div className='p-2 rounded-lg cursor-pointer items-center bg-gray-100'>
-                        <ChevronDown
-                          onClick={() => showOptions({ id: i, status: true })}
-                          className='h-5 w-5'
-                        />
-                      </div>
-                    )}
+          )}
+          {status === 'loaded' && customers.length > 0 && (
+            <main className='w-full grid grid-cols-5 gap-y-7 text-xs font-semibold'>
+              {filteredCustomers.reverse().map((item, i) => (
+                <React.Fragment key={i}>
+                  <div className='text-center h-full flex items-center justify-center'>
+                    {item.name}
+                  </div>
+                  <div className='text-center h-full flex items-center justify-center '>
+                    {formatDate(item.createdAt)}
+                  </div>
+                  <div className='text-center truncate h-full flex items-center justify-center px-2'>
+                    {item.email}
                   </div>
 
-                  {options.id == i && options.status === true && (
-                    <ul className='h-max p-5 pr-2 gap-3 flex text-xs flex-col text-gray-500 absolute rounded-xl -bottom-22 right-0 sm:left-20 z-10 bg-white shadow w-max '>
-                      <li
-                        onClick={() =>
-                          showDetailsModal({ status: true, details: item })
-                        }
-                        className='list-disc cursor-pointer hover:text-shadow-2xs'
-                      >
-                        View Details
-                      </li>
+                  <div className='text-center h-full flex items-center justify-center'>
+                    {item.totalOrders}
+                  </div>
 
-                      <li className='list-disc text-red-500 cursor-pointer hover:text-shadow-2xs'>
-                        Delete Customer
-                      </li>
-                    </ul>
-                  )}
-                </div>
-              </React.Fragment>
-            ))}
-          </main>
-        )}
+                  <div className='flex gap-3 relative h-full items-center w-full justify-center'>
+                    <div>
+                      {options.status === true && options.id === i ? (
+                        <div className='p-2 rounded-lg cursor-pointer items-center bg-gray-100'>
+                          <ChevronUp
+                            onClick={() =>
+                              showOptions({ id: null, status: false })
+                            }
+                            className='h-5 w-5'
+                          />
+                        </div>
+                      ) : (
+                        <div className='p-2 rounded-lg cursor-pointer items-center bg-gray-100'>
+                          <ChevronDown
+                            onClick={() => showOptions({ id: i, status: true })}
+                            className='h-5 w-5'
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {options.id == i && options.status === true && (
+                      <ul className='h-max p-5 pr-2 gap-3 flex text-xs flex-col text-gray-500 absolute rounded-xl bottom-10 right-0 z-20 bg-white shadow-xl border border-gray-100 w-max '>
+                        <li
+                          onClick={() =>
+                            showDetailsModal({ status: true, details: item })
+                          }
+                          className='list-disc cursor-pointer hover:font-bold'
+                        >
+                          View Details
+                        </li>
+
+                        <li className='list-disc text-red-500 cursor-pointer hover:font-bold'>
+                          Delete Customer
+                        </li>
+                      </ul>
+                    )}
+                  </div>
+                </React.Fragment>
+              ))}
+            </main>
+          )}
+        </div>
       </div>
     </section>
   )

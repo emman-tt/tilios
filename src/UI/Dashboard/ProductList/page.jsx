@@ -69,7 +69,7 @@ export default function ProductList () {
         <div className='fixed inset-0 backdrop-blur-sm  bg-[#1a191948] z-25'></div>
       )}
 
-      <div className='flex flex-col sm:flex-row justify-end items-start sm:items-center gap-3 mb-4 flex-wrap'>
+      <div className='flex flex-col   sm:flex-row justify-end items-start sm:items-center gap-3 mb-4 flex-wrap'>
         <div className='flex max-sm:items-center  sm:flex-row gap-3 sm:gap-7 items-start sm:items-center w-full sm:w-auto'>
           <section className='flex gap-2 sm:gap-3  items-center text-xs '>
             <span>
@@ -125,7 +125,7 @@ export default function ProductList () {
         </div>
       </div>
 
-      <div className='  rounded-4xl overflow-y-hidden p-0 sm:p-6 md:pt-15 lg:p-12  lg:pl-0 lg:pb-5 xl:pl-10  md:pl-2  shadow flex-1 relative   pt-12  lg:pr-0 max-sm:rounded-xl'>
+      <div className=' max-sm:px-1 max-sm:mx-3 rounded-4xl overflow-y-hidden p-0 sm:p-6 md:pt-15 lg:p-12  lg:pl-0 lg:pb-5 xl:pl-10  md:pl-2  shadow flex-1 relative   pt-12  lg:pr-0 max-sm:rounded-xl'>
         <div
           className='absolute   left-0 right-0 z-20 top-0 rounded-t-xl bg-[#eef0f2] grid grid-cols-5 sm:grid-cols-7
          md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0  font-semibold text-xs  '
@@ -152,7 +152,7 @@ export default function ProductList () {
         </div>
 
         {/* Body Rows */}
-        <div className=' overflow-y-scroll h-full w-full [scrollbar-width:thin]'>
+        <div className=' overflow-y-scroll h-full w-full  [scrollbar-width:thin]'>
           <div className='font-semibold text-xs '>
             {status === 'loading' ? (
               <section className='flex relative  justify-center items-center h-120 w-full'>
@@ -168,7 +168,7 @@ export default function ProductList () {
               filteredProductList.reverse().map((item, idx) => (
                 <div
                   key={idx}
-                  className='grid grid-cols-5  md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0 border-b border-[#f7f7f7] hover:bg-gray-50 transition-colors items-center py-3'
+                  className='grid grid-cols-5 max-sm:px-3 md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0 border-b border-[#f7f7f7] hover:bg-gray-50 transition-colors items-center py-3'
                 >
                   <div className='px-2 col-span-2 lg:col-span-2 md:col-span-2 xl:col-span-2 sm:px-4  flex gap-2 sm:gap-3 items-center'>
                     <div className='h-8 sm:h-10 w-8 sm:w-10 shrink-0'>

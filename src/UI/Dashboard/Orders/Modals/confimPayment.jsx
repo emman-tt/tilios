@@ -30,7 +30,7 @@ export default function ConfirmPayment ({
   }
 
   return (
-    <section className='p-6   pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:translate-x-50  md:translate-y-30   z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-20 max-sm:-translate-x-1/2   rounded-2xl  xl:top-0 shadow-2xl max-sm:overflow-y-auto sm:h-max  sm:overflow-hidden'>
+    <section className='p-6   pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:translate-x-50  md:translate-y-30   z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-20 max-sm:-translate-x-1/2   rounded-2xl max-sm:-translate-y-80 max-sm:overflow-y-scroll  xl:top-0 shadow-2xl max-sm:h-160  sm:h-max  sm:overflow-hidden'>
       <section className='grid grid-cols-1  md:grid-cols-2 gap-5 md:gap-x-10'>
         <ul className='flex flex-col rounded-xl shadow-lg border border-gray-100   py-5 overflow-auto  [scrollbar-width:thin] h-max md:h-112.5'>
           {data.product_details.map(each => (

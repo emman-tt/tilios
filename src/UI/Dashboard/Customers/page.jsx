@@ -19,7 +19,7 @@ export default function Customers () {
         </div>
       </header>
 
-      <section className=' h-135 px-5 max-sm:px-1 mt-0  p-5 pb-10'>
+      <section className='mt-0 p-4 sm:p-5'>
         <Body searchValue={searchValue} />
       </section>
     </section>
