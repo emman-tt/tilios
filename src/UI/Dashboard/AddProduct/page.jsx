@@ -39,14 +39,12 @@ export default function AddProduct () {
 
   return (
     <section className='h-full w-full  p-4 sm:p-6 md:p-10 py-30 pt-10 overflow-y-auto'>
-      <h2 className='text-lg sm:text-xl font-semibold'>Add Products</h2>
+      <h2 className='text-lg  font-semibold'>Add Products</h2>
 
-      <section className='flex flex-col lg:flex-row gap-6 sm:gap-10 md:gap-20 p-4 sm:p-6 md:p-10'>
+      <section className='flex flex-col lg:flex-row gap-6 sm:gap-10 md:gap-20 p-4 sm:p-6 '>
         <div className='flex flex-col grow gap-6 sm:gap-8 md:gap-10 w-full lg:w-auto'>
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
-              Title
-            </p>
+            <p className='text-sm   font-semibold pl-0'>Title</p>
             <input
               value={title}
               onChange={e => handleInput('title', e.target.value)}
@@ -57,9 +55,7 @@ export default function AddProduct () {
             />
           </div>
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
-              Category
-            </p>
+            <p className='text-sm   font-semibold pl-3'>Category</p>
             <select
               value={category}
               onChange={e => {
@@ -75,7 +71,7 @@ export default function AddProduct () {
           </div>
 
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
+            <p className='text-sm   font-semibold pl-3'>
               Price(per ft)
             </p>
             <input
@@ -89,9 +85,7 @@ export default function AddProduct () {
           </div>
 
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
-              Stock
-            </p>
+            <p className='text-sm   font-semibold pl-3'>Stock</p>
             <input
               value={stock}
               onChange={e => {
@@ -104,7 +98,7 @@ export default function AddProduct () {
             />
           </div>
           <div>
-            <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
+            <p className='text-sm   font-semibold pl-3'>
               Discount ( if any in percent %)
             </p>
             <input
@@ -121,9 +115,7 @@ export default function AddProduct () {
         <div className='w-full lg:w-[50%] h-full relative flex flex-col gap-6 sm:gap-8 md:gap-10'>
           <div className='h-full'>
             <div className='flex justify-between w-full'>
-              <p className='text-sm sm:text-base md:text-lg font-semibold pl-3'>
-                Media
-              </p>
+              <p className='text-sm   font-semibold pl-3'>Media</p>
 
               {isSelected && (
                 <button
@@ -181,7 +173,7 @@ export default function AddProduct () {
               disabled={isSelected}
               type='file'
               accept='image/*'
-              className='absolute top-0 left-0 right-0 h-[60%] w-full opacity-0 cursor-pointer'
+              className='absolute top-0 left-0 right-0 h-[80%] w-full opacity-0 cursor-pointer'
               onChange={e => handleFileChange(e)}
             />
           </div>
@@ -189,7 +181,7 @@ export default function AddProduct () {
             onClick={() => {
               validateFieldsAndSubmit()
             }}
-            className='p-2 sm:p-3 px-6 sm:px-15 cursor-pointer mt-4 sm:mt-6 md:mt-10 hover:bg-[#fdc886] border rounded-xl flex self-center text-sm sm:text-base font-medium'
+            className='p-2 sm:p-3 px-6 sm:px-15 cursor-pointer mt-4 sm:mt-6 md:mt-10 hover:border-0 hover:text-white hover:bg-[#5b5d8e] border rounded-xl flex self-center text-xs  font-medium'
           >
             Publish
           </button>

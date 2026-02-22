@@ -4,7 +4,7 @@ import { api } from '../api/axios'
 export async function protectDashboard (signal) {
   try {
     const response = await api.get('/admin/check', {
-      signal:signal
+      signal: signal
     })
     const username = response.data.name
     toast.success(`Admin verified , welcome back ${username}`)
@@ -12,10 +12,12 @@ export async function protectDashboard (signal) {
   } catch (error) {
     if (error.status === 401) {
       toast.error('Unauthorized, not an admin')
-      window.location.href = '/'
+      return (window.location.href = '/')
     }
     if (error.status === 405) {
-      toast.error('Session timed out , log in')
+      return toast.error('Session timed out , log in')
     }
+
+    // window.location.href = '/'
   }
 }

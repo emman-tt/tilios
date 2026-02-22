@@ -5,12 +5,10 @@ export const QuickActions = ({ className }) => {
     <section
       className={`flex flex-col  max-lg:mt-10 px-2 sm:px-4 grow shadow-lg rounded-xl p-3 sm:pb-4 gap-4 sm:gap-5 ${className}`}
     >
-      <header className='font-semibold text-lg sm:text-2xl px-2'>
-        Quick Actions
-      </header>
+      <header className='font-semibold text-lg  px-2'>Quick Actions</header>
       <section className='flex flex-col max-lg:p-10 max-lg:px-3  sm:flex-row justify-between gap-3 sm:gap-5 md:gap-7 px-2'>
         <div className='flex flex-col w-full gap-2 sm:gap-3'>
-          <p className='flex gap-2 text-sm sm:text-lg font-serif px-2 sm:px-5 items-center'>
+          <p className='flex gap-2 text-sm  font-serif px-2 sm:px-5 items-center'>
             <img
               width='20'
               height='20'
@@ -28,7 +26,7 @@ export const QuickActions = ({ className }) => {
           </NavLink>
         </div>
         <div className='flex flex-col w-full gap-2 sm:gap-3'>
-          <p className='flex gap-2 text-sm sm:text-lg font-serif px-2 sm:px-5 items-center'>
+          <p className='flex gap-2 text-sm  font-serif px-2 sm:px-5 items-center'>
             <img
               width='20'
               height='20'

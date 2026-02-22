@@ -3,26 +3,25 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useFetch } from './api/useFetch'
 import { useProductList } from '../../../context/productlist'
 import { memo } from 'react'
-export default Pagination = memo(() => {
+export const Pagination = memo(() => {
   const [entries, setEntries] = useState(10)
   const [entriesBox, showEntriesBox] = useState(false)
-
   const { state, setParams } = useProductList()
   const { totalPages, currentPage, category, limit } = state
 
   return (
     <div className='flex max-sm:my-4 sm:flex-row gap-4 sm:gap-6 md:gap-10 justify-between sm:justify-end items-start sm:items-center mt-4 sm:mt-6 md:mt-8 px-3 sm:px-6 md:px-0'>
-      <section className='flex gap-2 sm:gap-4 items-center text-xs sm:text-sm'>
+      <section className='flex gap-2 sm:gap-4 items-center text-xs '>
         <span>Showing</span>
         <div className='relative cursor-pointer rounded-md border hover:bg-gray-100 border-[#e6dfd6] bg-white'>
           <span
-            className='block w-full px-3 sm:px-6 py-2 sm:py-3 font-semibold text-xs sm:text-sm'
+            className='block w-full px-3 sm:px-6 py-2 sm:py-3 font-semibold text-xs '
             onClick={() => showEntriesBox(e => !e)}
           >
             {limit}
           </span>
           {entriesBox && (
-            <div className='absolute -top-20 right-0 rounded-2xl gap-1 px-4 sm:px-7 py-3 sm:py-4 shadow-2xl items-center text-white bg-black flex flex-col font-semibold text-lg sm:text-sm'>
+            <div className='absolute -top-20 right-0 rounded-2xl gap-1 px-4 sm:px-7 py-3 sm:py-4 shadow-2xl items-center text-white bg-black flex flex-col font-semibold text-lg '>
               <div
                 className='hover:italic cursor-pointer'
                 onClick={() => {

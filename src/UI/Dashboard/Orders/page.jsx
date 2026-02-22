@@ -12,7 +12,7 @@ export default function Orders () {
   return (
     <section className='pt-10 max-sm:pb-15'>
       <header className='w-full flex flex-col md:flex-row items-center justify-between px-5 md:px-15 gap-5'>
-        <ul className='flex gap-5 md:gap-9 text-base md:text-lg font-semibold overflow-x-auto w-full md:w-max pb-2 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'>
+        <ul className='flex gap-5 md:gap-9 text-base  font-semibold overflow-x-auto w-full md:w-max pb-2 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'>
           <li
             onClick={() => {
               setSelected(1), dispatch(setFilter('all'))
@@ -63,18 +63,18 @@ export default function Orders () {
           </li>
         </ul>
         <ul className='w-full md:w-auto'>
-          <li className='text-xs flex gap-3 items-center px-2 w-full md:w-90 rounded-md border border-[#e6dfd6] sm:px-3 sm:text-sm relative '>
+          <li className='text-xs flex gap-3 items-center px-2 w-full md:w-90 rounded-md border border-[#e6dfd6] sm:px-3 relative '>
             <Search />
             <input
               onChange={e => setSearchValue(e.target.value)}
-              className='  w-full h-full outline-0  py-4 '
+              className='  w-full h-full outline-0  py-3 '
               placeholder='Search by address or order id'
             />
           </li>
         </ul>
       </header>
 
-      <section className=' h-150 px-5 max-sm:px-1 mt-0 p-5'>
+      <section className=' h-135 px-5 max-sm:px-1 pb-10 mt-0 p-5'>
         <Body searchValue={searchValue} />
       </section>
     </section>

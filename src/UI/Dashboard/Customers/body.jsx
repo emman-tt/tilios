@@ -40,7 +40,6 @@ export const Body = ({ searchValue }) => {
       })
   }, [])
 
-
   function getAddress (item) {
     const arr = item.split(',')
     const address = `${arr[0]},${arr[1]},${arr[2]}`
@@ -61,10 +60,10 @@ export const Body = ({ searchValue }) => {
       onClick={() => {
         options.status === true && showOptions({ options, status: false })
       }}
-      className='w-full h-full relative shadow-lg overflow-x-auto  [scrollbar-width:thin] p-5  max-sm:p-2 pt-2 rounded-2xl'
+      className='w-full h-full relative shadow-lg overflow-x-auto  [scrollbar-width:thin] p-3  max-sm:p-2 pt-2 rounded-2xl'
     >
       <div className=''>
-        <header className='min-w-175 w-full items-center text-sm py-2   font-semibold rounded-xl grid grid-cols-5 bg-[#eef0f2]'>
+        <header className='min-w-175 w-full items-center text-xs py-2   font-semibold rounded-xl grid grid-cols-5 bg-[#eef0f2]'>
           {headerList.map(item => (
             <div className='text-center whitespace-nowrap' key={item.id}>
               {item.value}
@@ -84,7 +83,7 @@ export const Body = ({ searchValue }) => {
           </div>
         )}
         {status === 'loaded' && customers.length > 0 && (
-          <main className='min-w-175 w-full h-max grid grid-cols-5 gap-y-9 mt-5 text-sm shrink-0 font-semibold'>
+          <main className='min-w-175 w-full h-max grid grid-cols-5 gap-y-7 mt-5 text-xs shrink-0 font-semibold'>
             {filteredCustomers.reverse().map((item, i) => (
               <React.Fragment key={i}>
                 <div className='text-center h-full flex items-center justify-center'>

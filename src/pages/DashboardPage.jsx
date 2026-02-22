@@ -1,16 +1,22 @@
 import Logo from '../components/logo'
-import Sidebar from '../UI/Dashboard/Sidebar/Sidebar'
+
+import { Sidebar } from '../UI/Dashboard/Sidebar/Sidebar'
 import { Outlet } from 'react-router-dom'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { protectDashboard } from '../services/protectDashboard'
 import { useEffect } from 'react'
 import Loader from '../components/Loader'
+
 export default function Dashboard () {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [user, setUser] = useState('')
   const [initial, setInitial] = useState('')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState({
+    error: false,
+    message: ''
+  })
 
   useEffect(() => {
     const controller = new AbortController()
@@ -18,7 +24,7 @@ export default function Dashboard () {
       const username = item
       setUser(username)
 
-      const splitted = item.split('')
+      const splitted = item?.split('')
       const first = splitted[0]
       const second = splitted[1]
       const full = first + second
@@ -26,6 +32,19 @@ export default function Dashboard () {
       setInitial(full.toUpperCase())
       setLoading(false)
     })
+    // .catch(err => {
+    //   setLoading(false)
+    //   if (err.code === 'ERR_NETWORK') {
+    //     return setError({
+    //       error: true,
+    //       err
+    //     })
+    //   }
+    //   setError({
+    //     error: true,
+    //     err: err
+    //   })
+    // })
 
     return () => {
       controller.abort()
@@ -39,6 +58,14 @@ export default function Dashboard () {
       </section>
     )
   }
+
+  // if (error.error === true) {
+  //   return (
+  //     <section>
+  //       <Error errMessage={error.message}/>
+  //     </section>
+  //   )
+  // }
 
   return (
     <section>
@@ -72,12 +99,12 @@ export default function Dashboard () {
         <main className='flex flex-col w-full h-full'>
           <header className='flex w-full max-lg:justify-end  items-center h-15 border-b border-gray-200 justify-between px-4 sm:px-8 md:px-10 pt-0 ml-0 max-sm:justify-start lg:ml-0'>
             <Logo
-              classname={`flex gap-7 align-middle max-lg:hidden items-center text-sm sm:text-lg font-semibold`}
+              classname={`flex gap-7 align-middle max-lg:hidden items-center text-sm sm:text-md font-semibold`}
             />
 
             <div className='flex gap-3  sm:gap-7 align-middle items-center'>
               <span className='text-sm sm:text-base font-semibold'>{user}</span>
-              <span className='p-2 sm:p-3 rounded-full text-white font-bold bg-[#b690a8] text-xs sm:text-sm'>
+              <span className='p-2 sm:p-3 rounded-full text-white font-bold bg-[#b690a8] text-xs '>
                 {initial}
               </span>
             </div>

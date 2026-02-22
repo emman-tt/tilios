@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { Home } from 'lucide-react'
 import { memo } from 'react'
-export default Sidebar = memo(({ className }) => {
+export const Sidebar = memo(({ className }) => {
   const [selected, setSelected] = useState(1)
   const [sidebar, setSidebar] = useState(sidebarNav)
   const location = useLocation()
@@ -27,7 +27,7 @@ export default Sidebar = memo(({ className }) => {
     <section
       className={`
       bg-white
-          pt-20 sm:pt-30 flex flex-col sm:pl-6 sm:pr-1 gap-3  sm:gap-5 text-xs  sm:text-sm md:text-md font-medium font-sans ${className}`}
+          pt-20 sm:pt-30 flex flex-col sm:pl-6 sm:pr-1 gap-3  sm:gap-5 text-xs  sm:text-sm  font-medium font-sans ${className}`}
     >
       {sidebar.map(item => (
         <NavLink
@@ -44,7 +44,7 @@ export default Sidebar = memo(({ className }) => {
             'border-t rounded-none mt-5 border-gray-400'
           }
           
-          p-1.5 sm:py-2 px-3 text-[#5c5c5c]  rounded-2xl flex justify-start gap-3 sm:gap-2 items-center text-sm sm:text-sm `}
+          p-1.5 sm:py-2 px-3 text-[#5c5c5c]  rounded-2xl flex justify-start gap-3 sm:gap-2 items-center text-xs `}
         >
           <img src={item.icon} className='h-6  sm:h-5 w-6 sm:w-5' alt='' />
           <span className='  sm:inline'>{item.name}</span>
@@ -52,9 +52,9 @@ export default Sidebar = memo(({ className }) => {
       ))}
       <NavLink
         to={'/'}
-        className='p-1.5 sm:py-2 px-3 text-[#5c5c5c]  rounded-2xl flex justify-start gap-3 sm:gap-2 items-center text-sm sm:text-sm'
+        className='p-1.5 sm:py-2 px-3 text-[#5c5c5c]  rounded-2xl flex justify-start gap-3 sm:gap-2 items-center text-xs'
       >
-        <Home className='h-6 sm:h-5 w-6 sm:w-5' />
+        <Home className='h-6 sm:h-5 w-6 sm:w-5 text-black' />
         <span className='sm:inline'>Homepage</span>
       </NavLink>
     </section>

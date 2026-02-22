@@ -13,13 +13,13 @@ export default function Customers () {
           <Search />
           <input
             onChange={e => setSearchValue(e.target.value)}
-            className='w-full h-full outline-0 py-4'
+            className='w-full h-full outline-0 py-3'
             placeholder='Search by address or order id'
           />
         </div>
       </header>
 
-      <section className=' h-150 px-5 max-sm:px-1 mt-0 p-5'>
+      <section className=' h-135 px-5 max-sm:px-1 mt-0  p-5 pb-10'>
         <Body searchValue={searchValue} />
       </section>
     </section>

@@ -234,6 +234,7 @@ export default function Hero ({
                     key={i}
                     src={item}
                     alt=''
+                    loading='lazy'
                     className='h-auto max-sm:h-[90%] rounded-3xl opacity-70 object-cover'
                   />
                 ))}

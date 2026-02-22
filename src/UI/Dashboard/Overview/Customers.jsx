@@ -18,20 +18,20 @@ export const Customers = ({ className, customers }) => {
   }
   return (
     <section className='flex max-lg:mb-20 max-lg:py-10 w-full  flex-col px-2 sm:px-4  shadow-lg rounded-xl py-0'>
-      <header className='text-xl sm:text-2xl font-semibold px-2'>
+      <header className='text-lg sm:text-xl font-semibold px-2'>
         Recent customers
       </header>
 
-      <div className='py-10 sm:py-5 gap-y-10 sm:gap-y-7 flex flex-col w-full overflow-x-auto'>
+      <div className='py-10 sm:py-6 gap-y-10 sm:gap-y-4 flex flex-col w-full overflow-x-auto'>
         {customers
           .slice(0, 3)
           .reverse()
           .map(item => (
             <section
               key={item.id}
-              className='flex w-full justify-between items-center px-2 sm:px-4 gap-2 sm:gap-4 text-xs sm:text-sm md:text-base'
+              className='flex w-full justify-between items-center px-2 sm:px-4 gap-2 sm:gap-4 text-xs sm:text-sm '
             >
-              <p className='p-1.5 sm:p-2 rounded-full h-max bg-gray-100 text-xs sm:text-lg font-semibold'>
+              <p className='p-1.5 sm:p-2 rounded-full h-max bg-gray-100 text-xs  font-semibold'>
                 {createInitials(item.name)}
               </p>
 

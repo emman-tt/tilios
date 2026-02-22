@@ -1,34 +1,28 @@
-import EChartsReact from 'echarts-for-react'
+import { useEffect, useState, useMemo, lazy, Suspense } from 'react'
 import Loader from '../../../components/Loader'
-import { useEffect, useState } from 'react'
-export const Chart = ({ data }) => {
-  const [xAxis, setXaxis] = useState([])
-  const [yAxis, setYaxis] = useState([])
 
-  function buildChartData () {
+// Lazy load ECharts - this is KEY for reducing bundle size!
+const EChartsReact = lazy(() => import('echarts-for-react'))
+
+export const Chart = ({ data }) => {
+  // ✅ Use useMemo to process data - no need for useState here!
+  const { xAxis, yAxis } = useMemo(() => {
+    if (!data) return { xAxis: [], yAxis: [] }
+    
     const timeArr = []
     const revenueArr = []
-    data.map(item => {
+    
+    // ✅ Use forEach instead of map with side effects
+    data.forEach(item => {
       timeArr.push(formatDate(item.time_bucket))
       revenueArr.push(item.total_revenue)
-
-      return setYaxis(revenueArr), setXaxis(timeArr)
     })
-  }
+    
+    return { xAxis: timeArr, yAxis: revenueArr }
+  }, [data]) // ✅ Only recalculates when data changes
 
-  function formatDate (item) {
-    const date = new Date(item).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric'
-    })
-    return date
-  }
-
-  useEffect(() => {
-    buildChartData()
-  }, [data])
-
-  const option = {
+  // ✅ Memoize the chart option to prevent unnecessary re-renders
+  const option = useMemo(() => ({
     tooltip: {
       show: true,
       trigger: 'axis'
@@ -54,33 +48,35 @@ export const Chart = ({ data }) => {
     yAxis: {
       min: 0,
       type: 'value',
-      splitLine: {
-        show: false
-      },
+      splitLine: { show: false },
       axisLabel: {
         formatter: '${value}'
       }
     },
-    series: [
-      {
-        smooth: true,
-        name: 'Income',
-
-        data: yAxis,
-        type: 'line',
-        symbol: 'none',
-        lineStyle: {
-          width: 10,
-          color: '#b16c88',
-          opacity: 0.1
-        },
-        areaStyle: {
-          color: '#b16c88',
-          opaque: 0.1
-        }
-        // itemStyle: { color: '#a6d7ee' }
+    series: [{
+      smooth: true,
+      name: 'Income',
+      data: yAxis,
+      type: 'line',
+      symbol: 'none',
+      lineStyle: {
+        width: 10,
+        color: '#b16c88',
+        opacity: 0.1
+      },
+      areaStyle: {
+        color: '#b16c88',
+        opaque: 0.1
       }
-    ]
+    }]
+  }), [xAxis, yAxis]) // ✅ Only updates when axes data changes
+
+  function formatDate(item) {
+    const date = new Date(item).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    })
+    return date
   }
 
   if (!data || xAxis.length === 0) {
@@ -94,8 +90,8 @@ export const Chart = ({ data }) => {
   return (
     <main className='grow w-full p-0 h-full flex flex-col'>
       <header className='flex flex-col sm:flex-row justify-between px-2 sm:px-4 md:px-5 gap-2 sm:gap-3'>
-        <div className='font-semibold text-base sm:text-lg md:text-xl'>
-          Revenue{' '}
+        <div className='font-semibold text-base sm:text-lg'>
+          Revenue
           <span className='text-xs sm:text-sm font-light'>(this year)</span>
         </div>
         <div className='flex gap-2 sm:gap-3 md:gap-5 text-xs sm:text-sm flex-wrap'>
@@ -106,12 +102,17 @@ export const Chart = ({ data }) => {
           </p>
         </div>
       </header>
-      <EChartsReact
-        opts={{ renderer: 'canvas', usePassive: true }}
-        option={option}
-        style={{ height: '100%', width: '100%' }}
-        lazyUpdate={true}
-      />
+      
+      {/* ✅ Suspense handles loading state while ECharts loads */}
+      <Suspense fallback={<div className="h-full w-full flex items-center justify-center"><Loader /></div>}>
+        <EChartsReact
+          opts={{ renderer: 'canvas', usePassive: true }}
+          option={option}
+          style={{ height: '100%', width: '100%' }}
+          lazyUpdate={true}
+          notMerge={false} // Add this for better performance
+        />
+      </Suspense>
     </main>
   )
 }

@@ -30,16 +30,17 @@ export default function ConfirmPayment ({
   }
 
   return (
-    <section className='p-6 md:p-10 pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:absolute  z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 rounded-2xl  xl:top-0 shadow-2xl overflow-y-auto max-h-[90vh]'>
-      <section className='grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-x-10'>
-        <ul className='flex flex-col rounded-xl shadow-lg border border-gray-100 overflow-y-auto py-5 md:py-10 [scrollbar-width:thin] h-max md:h-112.5'>
+    <section className='p-6   pt-5 pb-4 transition-all transform animate-in fade-in zoom-in-95 duration-300 ease-in-out h-max bg-white fixed md:translate-x-50  md:translate-y-30   z-20 w-[95%] max-w-4xl top-1/2 left-1/2 md:left-[15%] md:top-20 max-sm:-translate-x-1/2   rounded-2xl  xl:top-0 shadow-2xl max-sm:overflow-y-auto sm:h-max  sm:overflow-hidden'>
+      <section className='grid grid-cols-1  md:grid-cols-2 gap-5 md:gap-x-10'>
+        <ul className='flex flex-col rounded-xl shadow-lg border border-gray-100   py-5 overflow-auto  [scrollbar-width:thin] h-max md:h-112.5'>
           {data.product_details.map(each => (
             <li
               key={each.id}
-              className='w-full shrink-0 flex  sm:flex-row  sm:h-30 p-3 sm:p-4 items-start sm:items-center    gap-3 sm:gap-7'
+              className='w-full shrink-0 flex  sm:flex-ro
+              w  sm:h-30 p-3 sm:p-4 items-start sm:items-center    gap-3 sm:gap-7'
             >
               <div className='flex h-full items-center gap-3 sm:gap-6'>
-                <div className='  h-20 w-20 sm:h-full sm:w-30'>
+                <div className='  h-20 w-20 sm:h-full sm:w-24'>
                   <img
                     src={each.product_image}
                     className='w-full rounded-3xl h-full object-cover'
@@ -55,44 +56,44 @@ export default function ConfirmPayment ({
           ))}
         </ul>
         <section className=' max-h-full justify-between flex flex-col'>
-          <h2 className='text-lg font-bold mb-2'>Customer Details</h2>
+          <h2 className='text-xs font-bold mb-2'>Customer Details</h2>
 
-          <section className='rounded-xl shadow-sm pb-2 p-5 gap-3 h-max text-sm  text-slate-500 flex flex-col'>
+          <section className='rounded-xl shadow-sm pb-2 p-5 gap-3 h-max text-xs  text-slate-500 flex flex-col'>
             <div className='flex gap-5 w-full'>
-              <p className='text-sm font-semibold'>Name :</p>
+              <p className='text-xs font-semibold'>Name :</p>
               <p className='text-black'>{data.user.name}</p>
             </div>
             <div className='flex gap-5 w-full'>
-              <p className='text-sm font-semibold'> Address : </p>
+              <p className='text-xs font-semibold'> Address : </p>
               <p className='text-black'>{getAddress(data.shippingAddress)}</p>
             </div>
             <div className='flex gap-5 w-full'>
-              <p className='text-sm font-semibold'> Email : </p>
+              <p className='text-xs font-semibold'> Email : </p>
               <p className='text-black'>{data.user.email}</p>
             </div>
             <div className='flex gap-5 w-full'>
-              <p className='text-sm font-semibold'> Phone : </p>
+              <p className='text-xs font-semibold'> Phone : </p>
               <p className='text-black'>{getPhone(data.shippingAddress)}</p>
             </div>
             <div className='flex gap-5 w-full'>
-              <p className='text-sm font-semibold'> Order number : </p>
+              <p className='text-xs font-semibold'> Order number : </p>
               <p className='text-black'>{data.reference}</p>
             </div>
           </section>
-          <h2 className='text-lg font-bold mt-4 mb-2'>Payment Details</h2>
-          <section className='flex flex-col  p-5 pb-2 text-sm text-slate-500 gap-3 h-full rounded-xl shadow-sm'>
+          <h2 className='text-xs font-bold mt-4 mb-2'>Payment Details</h2>
+          <section className='flex flex-col  p-5 pb-2 text-xs text-slate-500 gap-3 h-full rounded-xl shadow-sm'>
             <div className='flex gap-2 w-full'>
-              <p className='text-sm font-semibold w-max'>Payment Id:</p>
+              <p className='text-xs font-semibold w-max'>Payment Id:</p>
               <p className='text-black truncate w-[60%]'>
                 {data?.transactions[0]?.providerReference || 'null'}
               </p>
             </div>
             <div className='flex gap-2 w-full'>
-              <p className='text-sm font-semibold'> Date : </p>
+              <p className='text-xs font-semibold'> Date : </p>
               <p className='text-black'>{formatDate(data.updatedAt)}</p>
             </div>
             <div className='flex gap-2 w-full'>
-              <p className='text-sm font-semibold'> Transaction : </p>
+              <p className='text-xs font-semibold'> Transaction : </p>
               <p
                 className={` font-bold ${
                   data?.transactions.length > 0
@@ -104,11 +105,11 @@ export default function ConfirmPayment ({
               </p>
             </div>
             <div className='flex gap-2 w-full'>
-              <p className='text-sm font-semibold'> Expected Amount : </p>
+              <p className='text-xs font-semibold'> Expected Amount : </p>
               <p className='text-black font-semibold'>${data.totalAmount}</p>
             </div>
             <div className='flex gap-2 w-full'>
-              <p className='text-sm font-semibold'> Amount paid :</p>
+              <p className='text-xs font-semibold'> Amount paid :</p>
               <p className='text-black font-semibold'>
                 ${data?.transactions[0]?.amount || 0}
               </p>

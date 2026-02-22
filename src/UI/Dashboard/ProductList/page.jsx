@@ -3,7 +3,7 @@ import { ListFilterIcon } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { Collectiion } from '../../../utils/collection'
 import { ProductEditor } from './ProductEditor'
-import Pagination from './Pagination'
+import { Pagination } from './Pagination'
 
 import { useFetch } from './api/useFetch'
 import { useProductList } from '../../../context/productlist'
@@ -71,14 +71,14 @@ export default function ProductList () {
 
       <div className='flex flex-col sm:flex-row justify-end items-start sm:items-center gap-3 mb-4 flex-wrap'>
         <div className='flex max-sm:items-center  sm:flex-row gap-3 sm:gap-7 items-start sm:items-center w-full sm:w-auto'>
-          <section className='flex gap-2 sm:gap-3  items-center text-xs sm:text-sm'>
+          <section className='flex gap-2 sm:gap-3  items-center text-xs '>
             <span>
               <ListFilterIcon size={16} />
             </span>
             <p>Filter</p>
           </section>
           <section>
-            <div className='text-xs sm:text-sm relative rounded-2xl border border-gray-500'>
+            <div className='text-xs  relative rounded-2xl border border-gray-500'>
               <div
                 onClick={() => showCategoryBox(e => !e)}
                 className='p-2 px-2 gap-3 sm:gap-5 flex cursor-pointer hover:bg-gray-50 rounded-2xl justify-between items-center'
@@ -97,7 +97,7 @@ export default function ProductList () {
                 </span>
               </div>
               {categoryBox && (
-                <div className='absolute -bottom-45 max-sm:-bottom-38 z-30 right-0 rounded-2xl gap-3 px-4 sm:px-8 py-3 items-center text-white bg-black flex flex-col text-xs sm:text-sm'>
+                <div className='absolute -bottom-39 max-sm:-bottom-38 z-30 right-0 rounded-2xl gap-3 px-5  py-3 items-center text-white bg-black flex flex-col text-xs '>
                   {categoryArray.map(item => (
                     <div
                       className='cursor-pointer hover:italic'
@@ -119,7 +119,7 @@ export default function ProductList () {
 
           <input
             onChange={e => setSearchValue(e.target.value)}
-            className='px-2 sm:px-3 py-2 w-full sm:w-100 rounded-md border border-[#e6dfd6] text-xs sm:text-sm'
+            className='px-2 sm:px-3 py-2 w-full sm:w-100 rounded-md border border-[#e6dfd6] text-xs '
             placeholder='Search by product name '
           />
         </div>
@@ -128,7 +128,7 @@ export default function ProductList () {
       <div className='  rounded-4xl overflow-y-hidden p-0 sm:p-6 md:pt-15 lg:p-12  lg:pl-0 lg:pb-5 xl:pl-10  md:pl-2  shadow flex-1 relative   pt-12  lg:pr-0 max-sm:rounded-xl'>
         <div
           className='absolute   left-0 right-0 z-20 top-0 rounded-t-xl bg-[#eef0f2] grid grid-cols-5 sm:grid-cols-7
-         md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0  font-semibold text-xs sm:text-sm '
+         md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0  font-semibold text-xs  '
         >
           <div className='text-left max-sm:pl-12 col-span-2 md:col-span-2 lg:col-span-2 xl:col-span-2 md:pl-10 xl:pl-20 px-2 sm:px-4 py-3 sm:py-4 rounded-l-3xl max-[330px]:pl-0 border-b border-[#efe7db] whitespace-nowrap'>
             Product Name
@@ -153,7 +153,7 @@ export default function ProductList () {
 
         {/* Body Rows */}
         <div className=' overflow-y-scroll h-full w-full [scrollbar-width:thin]'>
-          <div className='font-semibold text-xs sm:text-sm'>
+          <div className='font-semibold text-xs '>
             {status === 'loading' ? (
               <section className='flex relative  justify-center items-center h-120 w-full'>
                 <Loader />
@@ -168,9 +168,9 @@ export default function ProductList () {
               filteredProductList.reverse().map((item, idx) => (
                 <div
                   key={idx}
-                  className='grid grid-cols-5  md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0 border-b border-[#f7f7f7] hover:bg-gray-50 transition-colors'
+                  className='grid grid-cols-5  md:grid-cols-10 lg:grid-cols-9 xl:grid-cols-9 gap-0 border-b border-[#f7f7f7] hover:bg-gray-50 transition-colors items-center py-3'
                 >
-                  <div className='px-2 col-span-2 lg:col-span-2 md:col-span-2 xl:col-span-2 sm:px-4 py-2 sm:py-4 flex gap-2 sm:gap-3 items-center'>
+                  <div className='px-2 col-span-2 lg:col-span-2 md:col-span-2 xl:col-span-2 sm:px-4  flex gap-2 sm:gap-3 items-center'>
                     <div className='h-8 sm:h-10 w-8 sm:w-10 shrink-0'>
                       <img
                         src={item.image}
@@ -178,32 +178,30 @@ export default function ProductList () {
                         className='rounded-lg w-full h-full object-cover'
                       />
                     </div>
-                    <span className='truncate text-xs sm:text-sm'>
-                      {item.name}
-                    </span>
+                    <span className='truncate text-xs '>{item.name}</span>
                   </div>
 
-                  <div className='px-2 sm:px-4 py-2 sm:py-4 text-xs sm:text-sm hidden sm:block'>
+                  <div className='px-2 sm:px-4  text-xs  hidden sm:block'>
                     {item.amount}
                   </div>
 
-                  <div className='px-2 sm:px-4 py-2 sm:py-4 text-xs max-sm:hidden sm:text-sm'>
+                  <div className='px-2 sm:px-4  text-xs max-sm:hidden '>
                     {item.stock}
                   </div>
 
-                  <div className='px-2 sm:px-4 py-2 sm:py-4 text-xs sm:text-sm hidden md:block'>
+                  <div className='px-2 sm:px-4  text-xs  hidden md:block'>
                     {item.id}
                   </div>
 
-                  <div className='px-2 sm:px-4 py-2 sm:py-4 text-xs sm:text-sm  hidden   md:block'>
+                  <div className='px-2 sm:px-4  text-xs   hidden   md:block'>
                     {item.saleProducts.sold_units}
                   </div>
 
-                  <div className='px-2 sm:px-4 py-5 sm:py-4   text-xs sm:text-sm  lg:block'>
+                  <div className='px-2 sm:px-4 py-5 sm:py-4   text-xs   lg:block'>
                     {findCategory(item.categoryId)}
                   </div>
 
-                  <div className='px-2 sm:px-4 py-2 sm:py-4 '>
+                  <div className='px-2 sm:px-4  '>
                     <div className='flex gap-1 sm:gap-3 flex-row  sm:flex-row'>
                       <button
                         onClick={() => {
@@ -220,7 +218,7 @@ export default function ProductList () {
                             productId: item.id
                           })
                         }}
-                        className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae] px-1 sm:px-3 py-1 rounded-md text-xs sm:text-sm max-sm:py-2 whitespace-nowrap'
+                        className='bg-white border hover:bg-gray-50 cursor-pointer border-[#c9bfae] px-1 sm:px-3 py-1 rounded-md text-xs  max-sm:py-2 whitespace-nowrap'
                       >
                         View Details
                       </button>
@@ -229,7 +227,7 @@ export default function ProductList () {
                         onClick={() => {
                           deleteMode(true, item)
                         }}
-                        className='bg-red-300 max-sm:bg-red-500 text-white rounded-xl hover:bg-red-500 cursor-pointer px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm whitespace-nowrap max-sm:rounded'
+                        className='bg-red-300 max-sm:bg-red-500 text-white rounded-xl hover:bg-red-500 cursor-pointer px-3 sm:px-4 py-1 sm:py-2 text-xs  whitespace-nowrap max-sm:rounded'
                       >
                         Delete
                       </button>
