@@ -23,14 +23,14 @@ export default function CartPage () {
   }, [location])
   return (
     <section className='flex flex-col w-full justify-center max-sm:pb-20  items-center'>
-      <div className='w-full px-4 md:w-[70%] lg:w-[50%]  '>
-        <h2 className='text-3xl text-center font-bold mt-7 mb-4 font-serif'>
+      <div className='w-full px-4 md:w-[70%] md:w-[50%]  '>
+        <h2 className='text-xl text-center font-bold mt-7 mb-4 font-serif'>
           Shopping Cart
         </h2>
 
         <ul className='flex gap-4 sm:gap-6 md:gap-10  sm:flex-row'>
           <li
-            className={`text-3xl max-sm:flex-col items-center w-full sm:w-auto md:w-70  gap-3 border-b-2 flex sm:pb-3`}
+            className={`text-xl max-sm:flex-col items-center w-full sm:w-auto md:w-70  gap-3 border-b-2 flex sm:pb-3`}
           >
             <div
               className={`px-4.5 py-2 flex justify-center items-center  rounded-2xl    ${
@@ -40,7 +40,7 @@ export default function CartPage () {
               1
             </div>
             <p
-              className={`text-lg font-semibold ${
+              className={`text-md font-semibold ${
                 section === 1 ? 'text-black' : 'text-gray-200'
               } `}
             >
@@ -48,7 +48,7 @@ export default function CartPage () {
             </p>
           </li>
           <li
-            className={`text-3xl max-sm:flex-col  flex gap-3 w-full sm:w-auto md:w-70 items-center  border-b-2 sm:pb-3`}
+            className={`text-xl max-sm:flex-col  flex gap-3 w-full sm:w-auto md:w-70 items-center  border-b-2 sm:pb-3`}
           >
             <div
               className={`px-4.5 py-2 rounded-2xl flex justify-center items-center    ${
@@ -58,7 +58,7 @@ export default function CartPage () {
               2
             </div>
             <p
-              className={`text-lg  font-semibold ${
+              className={`text-md  font-semibold ${
                 section === 2 ? 'text-black' : 'text-gray-200'
               }  `}
             >
@@ -66,7 +66,7 @@ export default function CartPage () {
             </p>
           </li>
           <li
-            className={`text-3xl w-full  max-sm:flex-col flex gap-3  sm:w-auto md:w-70 items-center border-b-2 sm:pb-3`}
+            className={`text-xl w-full  max-sm:flex-col flex gap-3  sm:w-auto md:w-70 items-center border-b-2 sm:pb-3`}
           >
             <div
               className={`px-4.5 py-2 flex justify-center items-center rounded-xl
@@ -77,7 +77,7 @@ export default function CartPage () {
               3
             </div>
             <p
-              className={`text-lg  ${
+              className={`text-md  ${
                 section === 3 ? 'text-black' : 'text-gray-200'
               } font-semibold  `}
             >

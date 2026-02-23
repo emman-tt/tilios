@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronUpCircle } from 'lucide-react'
 import { ListFilterIcon } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Collectiion } from '../../../utils/collection'
 import { ProductEditor } from './ProductEditor'
 import { Pagination } from './Pagination'
@@ -32,9 +32,13 @@ export default function ProductList () {
 
   const containerRef = useRef(null)
 
-  const filteredProductList = productList.filter(item => {
-    return item.name.toLowerCase().includes(searchValue.toLowerCase())
-  })
+  const filteredProductList = useMemo(
+    () =>
+      productList.filter(item => {
+        return item.name.toLowerCase().includes(searchValue.toLowerCase())
+      }),
+    [productList, searchValue]
+  )
 
   function findCategory (id) {
     const cat = categoryArray

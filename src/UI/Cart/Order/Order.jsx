@@ -3,7 +3,19 @@ import Loader from '../../../components/Loader'
 import { api } from '../../../api/axios'
 import { toast } from 'sonner'
 import { NavLink } from 'react-router-dom'
-export default function Order() {
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'
+
+const App = () => {
+  return (
+    <DotLottieReact
+      src='https://lottie.host/ee7eb6c6-c5e2-42f0-80e4-2655419c9e2d/LreECmrsf5.lottie'
+      loop
+      autoplay
+    />
+  )
+}
+
+export default function Order () {
   const [loader, showLoader] = useState(true)
   const [details, setDetails] = useState([])
 
@@ -12,7 +24,7 @@ export default function Order() {
       'session_id'
     )
 
-    async function fetchOrderDetails() {
+    async function fetchOrderDetails () {
       try {
         const response = await api.get(`/order/status/${sessionId}`)
         const data = response.data
@@ -42,7 +54,7 @@ export default function Order() {
     fetchOrderDetails()
   }, [])
 
-  function extractData(item, type) {
+  function extractData (item, type) {
     const arr = item.split(',')
     if (type === 'email') {
       const email = arr.find(item => item.includes('@'))
@@ -79,13 +91,13 @@ export default function Order() {
                 key={item.id}
                 className='justify-center flex flex-col items-center h-full p-6'
               >
-                <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold'>
+                <h2 className='text-2xl sm:text-3xl  font-bold'>
                   Thank You for the purchase!
                 </h2>
-                <p className='text-[#4d4d4d] mt-4 font-semibold text-base md:text-lg'>
+                <p className='text-[#4d4d4d] mt-4 font-semibold text-base md:text-md'>
                   We've received your order and will ship in 5-7 business days
                 </p>
-                <p className='text-[#4d4d4d] text-center text-base md:text-lg font-semibold'>
+                <p className='text-[#4d4d4d] text-center text-base md:text-md font-semibold'>
                   Your order number is {item.reference}
                 </p>
 
@@ -117,39 +129,41 @@ export default function Order() {
               </section>
 
               <section className='flex flex-col pt-5'>
-                <section className='h-[50%] border rounded-4xl shadow w-full'></section>
-                <section className='px-4 sm:px-6 md:px-10  mt-5 gap-3'>
+                <section className='h-[50%]  rounded-4xl shadow w-full '>
+                  <App />
+                </section>
+                <section className='px-4 text-sm sm:px-6 md:px-10  mt-5 gap-3'>
                   <div className='flex justify-between w-full'>
-                    <p className='text-sm font-semibold'>Name :</p>
+                    <p className=' font-semibold'>Name :</p>
                     <p className='text-black'>{item.user.name}</p>
                   </div>
                   <div className='flex justify-between w-full'>
-                    <p className='text-sm font-semibold'> Address : </p>
+                    <p className=' font-semibold'> Address : </p>
                     <p className='text-black'>
                       {extractData(item.shippingAddress, 'address')}
                     </p>
                   </div>
                   <div className='flex justify-between w-full'>
-                    <p className='text-sm font-semibold'> Email : </p>
+                    <p className=' font-semibold'> Email : </p>
                     <p className='text-black'>
                       {extractData(item.shippingAddress, 'email')}
                     </p>
                   </div>
                   <div className='flex justify-between w-full'>
-                    <p className='text-sm font-semibold'> Phone : </p>
+                    <p className=' font-semibold'> Phone : </p>
                     <p className='text-black'>
                       {extractData(item.shippingAddress, 'phone')}
                     </p>
                   </div>
                   <div className='flex justify-between w-full'>
-                    <p className='text-sm font-semibold'> Order number : </p>
+                    <p className=' font-semibold'> Order number : </p>
                     <p className='text-black'>{item.reference}</p>
                   </div>
                 </section>
 
                 <NavLink
                   to={'/'}
-                  className='py-4 bg-black text-white mx-4 sm:mx-10 md:mx-30 mt-6 rounded-2xl flex justify-center items-center font-semibold'
+                  className='py-3 bg-black text-white mx-4 sm:mx-10 md:mx-30 mt-6 rounded-2xl flex justify-center items-center font-semibold'
                 >
                   Back to shopping
                 </NavLink>

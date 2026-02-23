@@ -7,6 +7,7 @@ export default function AddProduct () {
   const [isSelected, setIsSelected] = useState(false)
   const { state, handleInput, addProduct } = useAddProduct()
   const { title, category, image, stock, discount, price } = state
+ 
 
   const fileInputRef = useRef(null)
 
@@ -71,9 +72,7 @@ export default function AddProduct () {
           </div>
 
           <div>
-            <p className='text-sm   font-semibold pl-3'>
-              Price(per ft)
-            </p>
+            <p className='text-sm   font-semibold pl-3'>Price(per ft)</p>
             <input
               value={price}
               onChange={e => handleInput('price', e.target.value)}
@@ -181,7 +180,7 @@ export default function AddProduct () {
             onClick={() => {
               validateFieldsAndSubmit()
             }}
-            className='p-2 sm:p-3 px-6 sm:px-15 cursor-pointer mt-4 sm:mt-6 md:mt-10 hover:border-0 hover:text-white hover:bg-[#5b5d8e] border rounded-xl flex self-center text-xs  font-medium'
+            className='p-2 max-sm:w-full items-center justify-center max-sm:py-3  sm:p-3 px-6 sm:px-15 cursor-pointer mt-4 sm:mt-6 md:mt-10 hover:border-0 hover:text-white hover:bg-[#5b5d8e] border rounded-xl flex self-center text-sm  font-medium'
           >
             Publish
           </button>

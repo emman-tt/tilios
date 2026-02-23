@@ -34,27 +34,27 @@ export default function Cartlist () {
   }
 
   return (
-    <section className='mt-6 w-full flex justify-center'>
+    <section className='mt-3 w-full flex justify-center'>
       <div className='flex flex-col md:flex-row w-full md:w-[80%] gap-3 px-4'>
         <section className='flex flex-col w-full md:w-[60%] gap-3'>
           <section className=' rounded-[100px] border-[0.1px] border-black/30 bg-[#f0f0f0]   w-full p-0.5 '>
             <div className='border w-full border-[#d9d9d9] rounded-[100px] flex justify-between p-1 px-4 items-center bg-white'>
               <div className='font-semibold'>Select All</div>
-              <button className='rounded-3xl bg-black flex justify-center items-center text-white py-2 px-7'>
+              <button className='rounded-3xl bg-black flex justify-center items-center text-white py-1 px-7'>
                 Clear
               </button>
             </div>
           </section>
 
-          <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-0.5 h-auto max-h-[60vh] md:max-h-none md:h-120  '>
-            <div className='border w-full border-[#d9d9d9] rounded-[20px] flex px-4  p-5 h-full [scrollbar-width:thin] overflow-y-auto   bg-white flex-col gap-5 '>
+          <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]    w-full p-0.5 h-auto max-h-[60vh] md:max-h-none md:h-100  '>
+            <div className='border w-full border-[#d9d9d9] rounded-[20px] flex px-3  p-4 h-full [scrollbar-width:thin] overflow-y-auto   bg-white flex-col gap-5 '>
               {status === 'loading' && (
-                <section className='flex relative  justify-center items-center h-120 w-full'>
+                <section className='flex relative  justify-center items-center h-100 w-full'>
                   <Loader />
                 </section>
               )}
               {status === 'empty' && cartProducts.length === 0 && (
-                <section className='flex w-full h-full justify-center items-center text-3xl font-semibold'>
+                <section className='flex w-full h-full justify-center items-center text-xl font-semibold'>
                   <NotFound />
                 </section>
               )}
@@ -63,10 +63,10 @@ export default function Cartlist () {
                 cartProducts.map(item => (
                   <section
                     key={item.id}
-                    className='flex flex-col md:flex-row md:h-35  justify-between border-b pb-3 border-gray-200 w-full shrink-0 gap-3'
+                    className='flex flex-col md:flex-row md:h-30  justify-between border-b pb-3 border-gray-200 w-full shrink-0 gap-3'
                   >
                     <div className='flex gap-5 w-full md:w-auto'>
-                      <div className='h-24 w-24 sm:h-28 sm:w-28 md:h-full md:w-35 bg-gray-200 rounded-2xl overflow-hidden'>
+                      <div className='h-24 w-24 sm:h-28 sm:w-28  bg-gray-200 rounded-2xl overflow-hidden'>
                         <img
                           src={item.image}
                           className='h-full w-full rounded-2xl object-cover'
@@ -76,7 +76,7 @@ export default function Cartlist () {
                       <header className=' flex flex-col justify-between h-full'>
                         <section>
                           <div className='text-[15px]'>
-                            <p className='text-lg font-semibold'>{item.name}</p>
+                            <p className='text-sm font-semibold'>{item.name}</p>
                             <p>
                               Category:
                               <span className='font-semibold pl-3 capitalize'>
@@ -152,42 +152,42 @@ export default function Cartlist () {
         <section className=' rounded-[20px] border-[0.1px] border-black/30 bg-[#f0f0f0]   w-full md:w-[40%] p-0.5 h-max '>
           <div className='border w-full border-[#d9d9d9] rounded-[20px] flex flex-col justify-between p-4 sm:p-5  h-full items-center  bg-white'>
             <ul className='flex flex-col gap-2 w-full'>
-              <li className='w-full text-2xl font-semibold'>Order Summary</li>
+              <li className='w-full text-xl font-semibold'>Order Summary</li>
               <li className='flex flex-col sm:flex-row w-full gap-2'>
                 <input
                   type='text'
-                  className='w-full sm:w-[70%] border rounded-3xl border-gray-200 px-4 py-2 sm:py-0'
+                  className='w-full sm:w-[70%] border rounded-3xl border-gray-200 px-3 py-2 sm:py-0'
                   placeholder='Coupon code'
                   name=''
                   id=''
                 />
-                <button className='p-3 grow cursor-pointer text-white rounded-4xl w-full sm:w-auto bg-black '>
+                <button className='p-2 grow cursor-pointer text-white rounded-4xl w-full sm:w-auto bg-black '>
                   Apply
                 </button>
               </li>
               <li className='w-full flex justify-between'>
-                <p className='text-sm text-gray-500'>Subtotal</p>
+                <p className='text-xs text-gray-500'>Subtotal</p>
                 <p className='font-semibold'>${orderTotal}</p>
               </li>
 
               <li className='w-full flex justify-between border-b border-gray-200 pb-8'>
-                <p className='text-sm text-gray-500'>Delivery Fee </p>
-                <p className='text-sm'>(decided at checkout)</p>
+                <p className='text-xs text-gray-500'>Delivery Fee </p>
+                <p className='text-xs'>(decided at checkout)</p>
               </li>
               <li className='w-full flex justify-between mb-5'>
-                <p className='font-bold text-lg'>Total</p>
-                <p className='font-semibold text-lg'>${orderTotal}</p>
+                <p className='font-bold text-sm'>Total</p>
+                <p className='font-semibold text-sm'>${orderTotal}</p>
               </li>
 
               <NavLink
                 to={'/cart/checkout'}
-                className='bg-black cursor-pointer rounded-3xl p-4 text-center w-full text-white'
+                className='bg-black cursor-pointer rounded-3xl p-3 text-center w-full text-white'
               >
                 Go To Checkout
               </NavLink>
               <NavLink
                 to={'/'}
-                className='bg-black cursor-pointer rounded-3xl p-4 text-center w-full text-white'
+                className='bg-black cursor-pointer rounded-3xl p-3 text-center w-full text-white'
               >
                 Bck to Home
               </NavLink>

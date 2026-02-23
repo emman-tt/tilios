@@ -57,13 +57,6 @@ export default function Checkout () {
       return
     }
 
-    // if (!orderTotal) {
-    //   toast.dismiss()
-    //   toast.error('No product  in cart to order')
-    //   isValid = false
-    //   return navigate('/cart')
-    // }
-
     if (cartProducts.length === 0 || !cartProducts) {
       toast.error('No products in cart to order')
       navigate('/cart')
@@ -103,10 +96,10 @@ export default function Checkout () {
   }
 
   return (
-    <section className=' rounded-xl h-auto min-h-150 lg:h-155 w-full px-4 md:w-[90%] lg:w-[80%] mt-6  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
+    <section className=' rounded-xl h-auto  lg:h-140 w-full px-4 md:w-[90%] lg:w-[80%] mt-4  border-[0.1px] border-black/30 bg-[#f0f0f0] p-0.5 '>
       <div className='border gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative   border-[#d9d9d9] h-full rounded-xl  p-3 sm:p-4 md:px-4  bg-white'>
         {loader && (
-          <section className='flex absolute z-10 inset-0  justify-center items-center h-full w-full'>
+          <section className='flex absolute z-10 inset-0 bg-gray-50  justify-center items-center h-full w-full'>
             <Loader className={''} />
           </section>
         )}
@@ -126,7 +119,7 @@ export default function Checkout () {
                 onChange={e => handleInput('firstname', e.target.value)}
                 required
                 type='text'
-                className='border block pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
+                className='border block pl-5 rounded-3xl border-gray-500 w-full py-2 mb-4'
               />
             </div>
             <div className='flex flex-col'>
@@ -137,7 +130,7 @@ export default function Checkout () {
                 onChange={e => handleInput('secondname', e.target.value)}
                 required
                 type='text'
-                className='border  b pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
+                className='border  b pl-5 rounded-3xl border-gray-500 w-full py-2 mb-4'
               />
             </div>
           </div>
@@ -148,7 +141,7 @@ export default function Checkout () {
             type='email'
             onChange={e => handleInput('email', e.target.value)}
             required
-            className='border pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
+            className='border pl-5 rounded-3xl border-gray-500 w-full py-2 mb-4'
           />
           <label className='pl-3 font-semibold' htmlFor='tel'>
             Phone number
@@ -157,7 +150,7 @@ export default function Checkout () {
             onChange={e => handleInput('number', e.target.value)}
             type='tel'
             required
-            className='border pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
+            className='border pl-5 rounded-3xl border-gray-500 w-full py-2 mb-4'
           />
 
           <div className='flex flex-col'>
@@ -167,7 +160,7 @@ export default function Checkout () {
             <input
               onChange={e => handleInput('country', e.target.value)}
               type='text'
-              className='border block pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
+              className='border block pl-5 rounded-3xl border-gray-500 w-full py-2 mb-4'
             />
           </div>
         </section>
@@ -181,7 +174,7 @@ export default function Checkout () {
                 type='text'
                 onChange={e => handleInput('city', e.target.value)}
                 required
-                className='border  b pl-5 rounded-3xl border-gray-500 w-full py-3 mb-4'
+                className='border  b pl-5 rounded-3xl border-gray-500 w-full py-2 mb-4'
               />
             </div>
           </div>
@@ -192,7 +185,7 @@ export default function Checkout () {
             type='text'
             onChange={e => handleInput('addressOne', e.target.value)}
             required
-            className='border pl-5 rounded-3xl border-gray-500 w-full py-3 '
+            className='border pl-5 rounded-3xl border-gray-500 w-full py-2 '
           />
           <label className='pl-3 font-semibold' htmlFor='tel'>
             Address 2
@@ -201,7 +194,7 @@ export default function Checkout () {
             type='text'
             onChange={e => handleInput('addressTwo', e.target.value)}
             required
-            className='border pl-5 rounded-3xl border-gray-500 w-full py-3 '
+            className='border pl-5 rounded-3xl border-gray-500 w-full py-2 '
           />
           <p className='font-bold  mt-8'>2. Shipping method</p>
 
@@ -213,7 +206,7 @@ export default function Checkout () {
                   defaultChecked
                   type='radio'
                   name='week'
-                  className='text-sm'
+                  className='text-xs'
                 />
                 <p>Faster(1-5 weeks)</p>
               </div>
@@ -235,7 +228,7 @@ export default function Checkout () {
                 type='radio'
                 defaultChecked
                 name='payment'
-                className='text-sm'
+                className='text-xs'
               />
               <p>Credit Card</p>
             </div>
@@ -252,15 +245,12 @@ export default function Checkout () {
             </li>
 
             <li className='w-full flex justify-between'>
-              <p className='text-sm text-gray-500'>Subtotal</p>
+              <p className='text-xs text-gray-500'>Subtotal</p>
               <p className='font-semibold'>${orderTotal}</p>
             </li>
-            <li className='w-full flex justify-between'>
-              {/* <p className='text-sm text-gray-500'>Discount (0%)</p>
-              <p className='text-red-500'>- $0</p> */}
-            </li>
+
             <li className='w-full flex justify-between border-b border-gray-200 pb-8'>
-              <p className='text-sm text-gray-500'>Delivery Fee</p>
+              <p className='text-xs text-gray-500'>Delivery Fee</p>
               <p className='font-semibold'>${fee}</p>
             </li>
             <li className='w-full flex justify-between mb-5'>

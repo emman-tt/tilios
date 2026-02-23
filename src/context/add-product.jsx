@@ -1,6 +1,8 @@
 import { useContext, useReducer, createContext } from 'react'
 import { api } from '../api/axios'
 import useToken from '../hooks/useToken'
+import { toast } from 'sonner'
+import { handleError } from '../services/handleError'
 const AddProductContext = createContext()
 
 const initialState = {
@@ -9,7 +11,8 @@ const initialState = {
   price: 0,
   stock: 0,
   discount: 0,
-  image: ''
+  image: '',
+  status: 'loaded'
 }
 
 function reducer (state, action) {
@@ -18,6 +21,12 @@ function reducer (state, action) {
       return {
         ...state,
         [action.fieldType]: action.payload
+      }
+
+    case 'changeStatus':
+      return {
+        ...state,
+        status: action.payload
       }
 
     default:
@@ -41,7 +50,10 @@ export function AddProductProvider ({ children }) {
 
   async function addProduct () {
     try {
-      const accessToken = getToken()
+      dispatch({
+        type: 'changeStatus',
+        payload: 'loading'
+      })
 
       const formData = new FormData()
       formData.append('title', title)
@@ -57,17 +69,23 @@ export function AddProductProvider ({ children }) {
           'Content-Type': 'multipart/form-data'
         }
       })
+      dispatch({
+        type: 'changeStatus',
+        payload: 'loaded'
+      })
 
       return toast.success('Product added successfully')
     } catch (error) {
-      console.log(error)
-      const status = error.status
-      const serverError = error.response.data.message
-      if (status === 403) {
-        return toast.error('Session timed out please login ')
+      dispatch({
+        type: 'changeStatus',
+        payload: 'loaded'
+      })
+      const code = await handleError(addProduct, error)
+      if (code === 401) {
+        return toast.error('Unauthorized')
       }
-
-      return toast.error(serverError)
+      console.log(error)
+      return toast.error(error.response.message)
     }
   }
 
