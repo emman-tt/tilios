@@ -1,5 +1,7 @@
 import { createContext, useContext, useReducer } from 'react'
 import { api } from '../api/axios'
+import { handleError } from '../services/handleError'
+import { toast } from 'sonner'
 
 const inititalState = {
   name: '',
@@ -161,7 +163,10 @@ export const ProductListProvider = ({ children }) => {
         image: image
       })
     } catch (error) {
-      console.log(error)
+      const code = await handleError(updateProduct, error)
+      if (code === 406) {
+        return toast.error("You're not me lol")
+      }
     }
   }
 
@@ -170,7 +175,10 @@ export const ProductListProvider = ({ children }) => {
       await api.delete(`/admin/delete-product/${productId}`)
       deleteMode(false, 0)
     } catch (error) {
-      console.log(error)
+      const code = await handleError(updateProduct, error)
+      if (code === 406) {
+        return toast.error("You're not me lol")
+      }
     }
   }
 

@@ -24,8 +24,11 @@ export async function handleError (callbackfn, error, ...params) {
   if (status === 405) {
     return status
   }
+
+  if (status === 406) {
+    return 406
+  }
   console.log(serverError)
-  
 }
 
 // My system Error Status Codes meaning
